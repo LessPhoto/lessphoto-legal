@@ -108,15 +108,12 @@ function openOverlay(overlay) {
 }
 
 function setRoute(route) {
-  console.log('setRoute called with:', route);
   // 确保DOM元素已经被获取
   if (!homePage || !docPage) {
-    console.error('homePage or docPage is null or undefined');
     // 尝试重新获取DOM元素
     homePage = document.getElementById("homePage");
     docPage = document.getElementById("docPage");
     if (!homePage || !docPage) {
-      console.error('Failed to get homePage or docPage');
       return;
     }
   }
@@ -125,23 +122,13 @@ function setRoute(route) {
   
   // 更新浏览器地址栏
   if (route === "home") {
-    // 移除route参数
-    const url = new URL(window.location.href);
-    url.searchParams.delete('route');
-    window.history.replaceState({}, '', url);
-    
-    console.log('Setting route to home');
+    window.history.replaceState({}, "", window.location.pathname);
     homePage.classList.remove("hidden");
     docPage.classList.add("hidden");
     return;
   }
 
-  // 添加route参数
-  const url = new URL(window.location.href);
-  url.searchParams.set('route', route);
-  window.history.replaceState({}, '', url);
-  
-  console.log('Setting route to:', route);
+  window.history.replaceState({}, "", `#/${route}`);
   homePage.classList.add("hidden");
   docPage.classList.remove("hidden");
   renderDoc(route);
@@ -189,23 +176,34 @@ async function renderDoc(route) {
 
 async function detectLangByIP() {
   try {
-    // 模拟香港地区IP
-    // return langMap["HK"];
-    
-    // 模拟美国地区IP
-    // return langMap["US"];
-    
-    // 正常调用API
-    const res = await fetch("http://ip-api.com/json/");
+    const res = await fetch("https://ipwho.is/");
     if (!res.ok) {
-      throw new Error("ip-api request failed");
+      throw new Error("ipwho request failed");
     }
     const data = await res.json();
-    const countryCode = (data.countryCode || "").toUpperCase();
+    if (data.success === false) {
+      throw new Error("ipwho lookup failed");
+    }
+    const countryCode = (data.country_code || "").toUpperCase();
     return langMap[countryCode] || langMap.default;
   } catch (error) {
     return langMap.default;
   }
+}
+
+function getInitialRoute() {
+  const hashRoute = window.location.hash.replace(/^#\/?/, "");
+  if (hashRoute === "terms" || hashRoute === "privacy") {
+    return hashRoute;
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const queryRoute = urlParams.get("route");
+  if (queryRoute === "terms" || queryRoute === "privacy") {
+    return queryRoute;
+  }
+
+  return "home";
 }
 
 function bindEvents() {
@@ -316,8 +314,6 @@ function bindEvents() {
 }
 
 async function bootstrap() {
-    console.log('Starting bootstrap...');
-    
     // 获取DOM元素
     homePage = document.getElementById("homePage");
     docPage = document.getElementById("docPage");
@@ -331,45 +327,21 @@ async function bootstrap() {
     window.menuOverlay = menuOverlay;
     window.langOverlay = langOverlay;
     
-    // 检查元素是否存在
-    console.log('homePage:', homePage);
-    console.log('docPage:', docPage);
-    console.log('menuOverlay:', menuOverlay);
-    console.log('langOverlay:', langOverlay);
-    console.log('docMarkdown:', docMarkdown);
-    
     try {
         bindEvents();
-        console.log('Events bound');
 
         // 先隐藏所有页面，避免闪烁
         docPage.classList.add("hidden");
-        console.log('docPage hidden');
-
-        // --- 新增代码开始：读取 URL 参数 ---
-        const urlParams = new URLSearchParams(window.location.search);
-        let targetRoute = urlParams.get('route'); // 读取 ?route=xxx
-        console.log('URL route:', targetRoute);
-
-        // 如果 URL 中没有 route 参数，或者参数无效，则默认为 'home'
-        if (!targetRoute || (targetRoute !== 'home' && targetRoute !== 'terms' && targetRoute !== 'privacy')) {
-            targetRoute = 'home';
-            console.log('Defaulting to home route');
-        }
-        // --- 新增代码结束 ---
+        const targetRoute = getInitialRoute();
 
         const savedLang = localStorage.getItem("lessphoto_lang");
         const manual = localStorage.getItem("lessphoto_lang_manual") === "1";
-        console.log('Saved lang:', savedLang);
-        console.log('Manual lang:', manual);
         
         if (savedLang && manual) {
-            console.log('Using saved language:', savedLang);
             setLang(savedLang, false);
         } else {
             try {
                 const autoLang = await detectLangByIP();
-                console.log('Detected language:', autoLang);
                 setLang(autoLang, false);
                 localStorage.setItem("lessphoto_lang", autoLang);
                 localStorage.removeItem("lessphoto_lang_manual");
@@ -379,18 +351,13 @@ async function bootstrap() {
             }
         }
 
-        // --- 修改代码：使用从 URL 读取的 targetRoute ---
-        console.log('Setting route:', targetRoute);
         setRoute(targetRoute);
-        console.log('Route set, homePage hidden class:', homePage.classList.contains('hidden'));
     } catch (error) {
         console.error('Error in bootstrap:', error);
         // 即使出错，也显示首页
         homePage.classList.remove("hidden");
         docPage.classList.add("hidden");
     }
-    
-    console.log('Bootstrap completed');
 }
 
 bootstrap();
