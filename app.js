@@ -185,14 +185,48 @@ async function detectLangByIP() {
       throw new Error("ipwho lookup failed");
     }
     const countryCode = (data.country_code || "").toUpperCase();
-    return langMap[countryCode] || langMap.default;
+    return langMap[countryCode] || null;
   } catch (error) {
-    return langMap.default;
+    return null;
   }
 }
 
+function detectLangByBrowser() {
+  const languages = navigator.languages && navigator.languages.length > 0
+    ? navigator.languages
+    : [navigator.language || ""];
+
+  for (const language of languages) {
+    const normalized = language.toLowerCase();
+    if (normalized.startsWith("zh-hant") || normalized.startsWith("zh-hk") || normalized.startsWith("zh-tw")) {
+      return "zh-HK";
+    }
+    if (normalized.startsWith("zh")) {
+      return "zh-CN";
+    }
+  }
+
+  return null;
+}
+
+function getInitialLang() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const queryLang = urlParams.get("lang");
+  if (copy[queryLang]) {
+    return queryLang;
+  }
+
+  const hashQuery = window.location.hash.split("?")[1] || "";
+  const hashLang = new URLSearchParams(hashQuery).get("lang");
+  if (copy[hashLang]) {
+    return hashLang;
+  }
+
+  return null;
+}
+
 function getInitialRoute() {
-  const hashRoute = window.location.hash.replace(/^#\/?/, "");
+  const hashRoute = window.location.hash.replace(/^#\/?/, "").split("?")[0];
   if (hashRoute === "terms" || hashRoute === "privacy") {
     return hashRoute;
   }
@@ -333,22 +367,24 @@ async function bootstrap() {
         // 先隐藏所有页面，避免闪烁
         docPage.classList.add("hidden");
         const targetRoute = getInitialRoute();
+        const urlLang = getInitialLang();
 
         const savedLang = localStorage.getItem("lessphoto_lang");
         const manual = localStorage.getItem("lessphoto_lang_manual") === "1";
         
-        if (savedLang && manual) {
+        if (urlLang) {
+            setLang(urlLang, false);
+            localStorage.setItem("lessphoto_lang", urlLang);
+            localStorage.removeItem("lessphoto_lang_manual");
+        } else if (savedLang && manual) {
             setLang(savedLang, false);
         } else {
-            try {
-                const autoLang = await detectLangByIP();
-                setLang(autoLang, false);
-                localStorage.setItem("lessphoto_lang", autoLang);
-                localStorage.removeItem("lessphoto_lang_manual");
-            } catch (error) {
-                console.error('Error detecting language:', error);
-                setLang('zh-CN', false);
-            }
+            const browserLang = detectLangByBrowser();
+            const ipLang = browserLang ? null : await detectLangByIP();
+            const autoLang = browserLang || ipLang || langMap.default;
+            setLang(autoLang, false);
+            localStorage.setItem("lessphoto_lang", autoLang);
+            localStorage.removeItem("lessphoto_lang_manual");
         }
 
         setRoute(targetRoute);
