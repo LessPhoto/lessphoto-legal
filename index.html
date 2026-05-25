@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LessPhoto</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <svg width="0" height="0" aria-hidden="true" class="svg-defs">
+      <defs>
+        <symbol id="shared-home-logo" viewBox="0 0 44 44">
+          <path d="M18.4551 5.5458C19.2734 5.29346 20.3447 5.52105 22.4873 5.97647L31.8789 7.97256C34.0213 8.42794 35.0928 8.65563 35.9111 9.25576C36.6309 9.78366 37.2162 10.5065 37.583 11.3202C38 12.2454 38 13.341 38 15.5312V23.2899C38 25.4804 38 26.5761 37.583 27.3241C37.2162 27.9819 36.6309 28.4557 35.9111 28.6776C35.0928 28.93 34.0214 28.7024 31.8789 28.247L27.6338 27.3446V33.0663C27.6338 35.2567 27.6338 36.3525 27.2168 37.1005C26.85 37.7584 26.2647 38.232 25.5449 38.454C24.7266 38.7063 23.6553 38.4788 21.5127 38.0233L12.1211 36.0272C9.97863 35.5719 8.9072 35.3442 8.08887 34.744C7.36911 34.2161 6.78378 33.4934 6.41699 32.6796C6.00004 31.7544 6 30.6589 6 28.4687V20.7099C6 18.5198 6.00019 17.4247 6.41699 16.6767C6.78377 16.0187 7.36903 15.5441 8.08887 15.3222C8.9072 15.0699 9.97862 15.2974 12.1211 15.7528L16.3662 16.6542V10.9335C16.3662 8.74307 16.3662 7.64732 16.7832 6.89932C17.15 6.24145 17.7353 5.76775 18.4551 5.5458ZM27.1719 14.244C27.0292 14.2398 26.8675 14.4243 26.5439 14.7938L24.2773 17.3827C24.0177 17.6793 23.8878 17.8278 23.7236 17.9198C23.5781 18.0013 23.4128 18.0506 23.2373 18.0644C23.0392 18.0799 22.823 18.034 22.3916 17.9423L16.3945 16.6669V28.6171C16.3945 29.1662 16.3946 29.4406 16.4932 29.5702C16.5785 29.6823 16.7047 29.7529 16.8281 29.7567C16.9708 29.761 17.1325 29.5756 17.4561 29.206L19.7227 26.6171C19.9823 26.3205 20.1122 26.172 20.2764 26.08C20.4219 25.9985 20.5872 25.9492 20.7627 25.9355C20.9608 25.9199 21.177 25.9658 21.6084 26.0575L27.6055 27.3319V15.3827C27.6055 14.8336 27.6055 14.5591 27.5068 14.4296C27.4215 14.3175 27.2953 14.2479 27.1719 14.244Z" fill="black"/>
+        </symbol>
+        <symbol id="shared-menu-icon" viewBox="0 0 44 44">
+          <path d="M33 30C33.5523 30 34 30.4477 34 31C34 31.5523 33.5523 32 33 32H11C10.4477 32 10 31.5523 10 31C10 30.4477 10.4477 30 11 30H33Z" fill="black"></path>
+          <path d="M33 21C33.5523 21 34 21.4477 34 22C34 22.5523 33.5523 23 33 23H11C10.4477 23 10 22.5523 10 22C10 21.4477 10.4477 21 11 21H33Z" fill="black"></path>
+          <path d="M33 12C33.5523 12 34 12.4477 34 13C34 13.5523 33.5523 14 33 14H11C10.4477 14 10 13.5523 10 13C10 12.4477 10.4477 12 11 12H33Z" fill="black"></path>
+        </symbol>
+        <symbol id="shared-close-icon" viewBox="0 0 44 44">
+          <path d="M11.8992 12.1006C12.2897 11.7101 12.9759 11.7631 13.4315 12.2187L21.7987 20.5859L30.1659 12.2187C30.6214 11.7631 31.3076 11.7103 31.6982 12.1006C32.0887 12.4911 32.0357 13.1773 31.5801 13.6329L23.2129 22.0001L31.5808 30.368C32.0361 30.8236 32.0886 31.5092 31.6982 31.8996C31.3077 32.29 30.6222 32.2376 30.1666 31.7822L21.7987 23.4143L13.4315 31.7815C12.9759 32.2371 12.2897 32.2901 11.8992 31.8996C11.5089 31.509 11.5617 30.8228 12.0173 30.3673L20.3845 22.0001L12.0173 13.6329C11.5617 13.1773 11.5087 12.4911 11.8992 12.1006Z" fill="black"></path>
+        </symbol>
+      </defs>
+    </svg>
+
+    <div class="app-shell">
+      <main class="page page-home hidden" id="homePage">
+        <header class="top-bar">
+          <button class="icon-btn logo-btn" id="goHomeBtn" type="button" aria-label="Home">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <use href="#shared-home-logo"></use>
+            </svg>
+          </button>
+          <button class="icon-btn" id="openMenuBtn" type="button" aria-label="Open menu">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <use href="#shared-menu-icon"></use>
+            </svg>
+          </button>
+        </header>
+
+        <section class="hero">
+          <div class="app-icon-wrap">
+            <div class="app-icon">
+              <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M48.4531 82.3375C48.4531 83.8612 48.4531 84.623 48.7267 84.9823C48.9634 85.2931 49.3133 85.4873 49.6557 85.4979C50.0515 85.5101 50.5004 84.9974 51.398 83.9719L57.6836 76.7915C58.4044 75.9681 58.7648 75.5563 59.2206 75.3011C59.6244 75.075 60.0812 74.9394 60.5679 74.9013C61.1175 74.8581 61.7158 74.9853 62.9126 75.2397L79.625 78.792V94.679C79.625 100.754 79.625 103.792 78.4685 105.866C77.4513 107.691 75.8281 109.005 73.8317 109.621C71.5621 110.321 68.5909 109.689 62.6487 108.426L36.6013 102.89C30.659 101.627 27.6879 100.995 25.4183 99.3303C23.4218 97.866 21.7987 95.8616 20.7814 93.6043C19.625 91.0382 19.625 88.0007 19.625 81.9257L19.625 60.408C19.625 54.333 19.625 51.2955 20.7814 49.221C21.7987 47.3962 23.4218 46.0818 25.4183 45.4662C27.6879 44.7663 30.659 45.3979 36.6013 46.6609L48.4531 49.1801V82.3375Z" fill="#6670FF"/>
+               <path d="M79.5469 45.6346C79.5469 44.1109 79.5469 43.3491 79.2732 42.9898C79.0366 42.679 78.6867 42.4849 78.3443 42.4743C77.9484 42.462 77.4996 42.9748 76.602 44.0002L70.3164 51.1806C69.5956 52.0041 69.2352 52.4158 68.7793 52.671C68.3756 52.8971 67.9188 53.0327 67.432 53.0709C66.8825 53.114 66.2841 52.9868 65.0874 52.7324L48.375 49.1801L48.375 33.2931C48.375 27.2181 48.375 24.1805 49.5314 22.106C50.5487 20.2812 52.1718 18.9668 54.1683 18.3512C56.4379 17.6513 59.409 18.2829 65.3513 19.5459L91.3987 25.0825C97.3409 26.3455 100.312 26.9771 102.582 28.6418C104.578 30.1061 106.201 32.1105 107.219 34.3678C108.375 36.9339 108.375 39.9714 108.375 46.0465L108.375 67.5641C108.375 73.6391 108.375 76.6766 107.219 78.7511C106.201 80.5759 104.578 81.8903 102.582 82.5059C100.312 83.2058 97.3409 82.5743 91.3987 81.3112L79.5469 78.792L79.5469 45.6346Z" fill="#00C5D4"/>
+              </svg>
+            </div>
+          </div>
+
+          <h1 class="brand-name">LessPhoto</h1>
+          <h2 class="hero-title" id="heroTitle"></h2>
+          <p class="hero-desc" id="heroDesc"></p>
+          <button class="download-btn" id="downloadBtn" type="button"></button>
+        </section>
+      </main>
+
+      <main class="page page-doc hidden" id="docPage">
+        <header class="top-bar">
+          <button class="icon-btn logo-btn" id="docGoHomeBtn" type="button" aria-label="Home">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <use href="#shared-home-logo"></use>
+            </svg>
+          </button>
+          <button class="icon-btn" id="docOpenMenuBtn" type="button" aria-label="Open menu">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <use href="#shared-menu-icon"></use>
+            </svg>
+          </button>
+        </header>
+
+        <section class="doc-content">
+          <article id="docMarkdown"></article>
+        </section>
+      </main>
+
+      <div class="overlay hidden" id="menuOverlay">
+        <button class="icon-btn close-btn" id="closeMenuBtn" type="button" aria-label="Close menu">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <use href="#shared-close-icon"></use>
+          </svg>
+        </button>
+        <div class="sheet">
+          <div class="sheet-inner">
+            <nav class="menu-list">
+              <button class="menu-item active" data-route="home" id="menuHomeBtn" type="button"></button>
+              <button class="menu-item" data-route="terms" id="menuTermsBtn" type="button"></button>
+              <button class="menu-item" data-route="privacy" id="menuPrivacyBtn" type="button"></button>
+              <button class="menu-item language-item" id="openLangBtn" type="button">
+                <span id="menuLanguageLabel"></span>
+                <span class="lang-pill" id="currentLanguagePill"></span>
+              </button>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="overlay hidden" id="langOverlay">
+        <button class="icon-btn close-btn" id="closeLangBtn" type="button" aria-label="Close language menu">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <use href="#shared-close-icon"></use>
+          </svg>
+        </button>
+        <div class="sheet">
+          <div class="sheet-inner">
+            <nav class="menu-list">
+              <button class="menu-item" data-lang="en" type="button">English</button>
+              <button class="menu-item" data-lang="zh-CN" type="button">简体中文</button>
+              <button class="menu-item" data-lang="zh-HK" type="button">繁體中文</button>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./marked.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,366 @@
+:root {
+  color-scheme: light;
+}
+
+@font-face {
+  font-family: "Hi-GEOM-Bold";
+  src: url("./Hi-GEOM-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-width: 0;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #000;
+  font-family: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+html:lang(zh-HK) body,
+html:lang(zh-HK) button,
+html:lang(zh-HK) input,
+html:lang(zh-HK) textarea,
+html:lang(zh-HK) #docMarkdown {
+  font-family: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.page {
+  max-width: 960px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: #fff;
+}
+
+
+.hidden {
+  display: none !important;
+}
+
+.top-bar {
+  position: fixed;
+  height: 76px;
+  padding: 16px 24px;
+  width: 100%;
+  max-width: calc(960px);
+  margin: 0 auto;
+  display: flex;
+  background: #fff; 
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon-btn {
+  border: 0;
+  background: transparent;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.logo-svg {
+  width: 32px;
+  height: 33px;
+}
+
+.menu-svg {
+  width: 24px;
+  height: 20px;
+}
+
+.hero {
+  min-height: 100vh;
+  padding: 100px 28px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.app-icon-wrap {
+  width: 128px;
+  height: 128px;
+  border: 1.5px solid rgba(0, 0, 0, 0.06);
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-icon {
+  width: 128px;
+  height: 128px;
+}
+
+.app-main-svg {
+  width: 128px;
+  height: 128px;
+  display: block;
+}
+
+.brand-name {
+  font-family: "Hi-GEOM-Bold", "PingFang SC", sans-serif;
+  font-size: clamp(42px, 5vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  margin: 32px 0 12px;
+  font-weight: 700;
+}
+
+.hero-title {
+  font-size: clamp(28px, 3.5vw, 38px);
+  line-height: 1.2;
+  margin: 0;
+  font-weight: 600;
+}
+
+.hero-desc {
+  margin: 16px 0 0;
+  max-width: 840px;
+  font-size: clamp(16px, 1.8vw, 20px);
+  line-height: 1.45;
+  color: rgba(0, 0, 0, 0.44);
+}
+
+.download-btn {
+  margin-top: 32px;
+  width: clamp(220px, 25vw, 260px);
+  height: 64px;
+  border: 0;
+  border-radius: 80px;
+  background: #222;
+  color: #d1f5f7;
+  font-size: clamp(16px, 1.8vw, 20px);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.doc-content {
+  padding: 100px 28px 60px;
+}
+
+#docMarkdown {
+  color: #000;
+}
+
+#docMarkdown h1 {
+  font-size: 36px;
+  margin: 0 0 16px;
+}
+
+#docMarkdown h2 {
+  font-size: 24px;
+  margin: 24px 0 12px;
+}
+
+#docMarkdown p,
+#docMarkdown li {
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+#docMarkdown ul {
+  padding-left: 24px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sheet {
+  width: 100%;
+  background: #fff;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.overlay.is-open .sheet {
+  max-height: 800px;
+  transform: translateY(0);
+}
+
+.sheet-inner {
+  padding: 60px 24px 16px;
+  width: 100%;
+  max-width: calc(960px);
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  position: relative;
+}
+
+.menu-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  border: 0;
+  background: transparent;
+  padding: 16px;
+  text-align: left;
+  font-size: 22px;
+  color: #000;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.menu-item.active {
+  font-weight: 700;
+}
+
+.language-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lang-pill {
+  height: 28px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.44);
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.close-svg {
+  width: 22px;
+  height: 22px;
+}
+
+.close-btn {
+  position: fixed;
+  top: 16px;
+  right: calc(50% - 480px + 24px);
+  z-index: 11;
+  opacity: 0;
+  transform: rotate(0deg);
+  transition:
+    opacity 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 960px) {
+  .close-btn {
+    right: 24px;
+  }
+}
+
+.overlay.is-open .close-btn {
+  opacity: 1;
+  transform: rotate(180deg);
+}
+
+.overlay.is-open .menu-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+
+
+.overlay.is-open .menu-item:nth-child(2) {
+  transition-delay: 40ms;
+}
+
+.overlay.is-open .menu-item:nth-child(3) {
+  transition-delay: 75ms;
+}
+
+.overlay.is-open .menu-item:nth-child(4) {
+  transition-delay: 110ms;
+}
+
+.overlay.is-open .menu-item:nth-child(5) {
+  transition-delay: 145ms;
+}
+
+@media (max-width: 960px) {
+  .hero {
+    padding-bottom: 120px;
+  }
+
+  .hero-desc {
+    text-align: center;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    padding: 16px 24px;
+  }
+
+  .menu-item {
+    font-size: 22px;
+  }
+
+  .lang-pill {
+    font-size: 14px;
+    height: 28px;
+  }
+
+  #docMarkdown h1 {
+    font-size: 36px;
+  }
+
+  #docMarkdown h2 {
+    font-size: 24px;
+  }
+
+  #docMarkdown p,
+  #docMarkdown li {
+    font-size: 16px;
+    line-height: 1.45;
+  }
+}
