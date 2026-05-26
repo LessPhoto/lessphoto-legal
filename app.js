@@ -57,6 +57,8 @@ const state = {
   route: "home",
 };
 
+const APP_STORE_URL = "https://apps.apple.com/app/id6772085946";
+
 // 全局变量，暴露给测试脚本
 let homePage, docPage, menuOverlay, langOverlay, docMarkdown;
 window.homePage = homePage;
@@ -308,7 +310,7 @@ function bindEvents() {
   
   if (downloadBtn) {
     downloadBtn.addEventListener("click", () => {
-      window.open("https://apps.apple.com", "_blank", "noopener");
+      window.open(APP_STORE_URL, "_blank", "noopener");
     });
   }
 
