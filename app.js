@@ -10,6 +10,7 @@ const copy = {
     navHome: "Home",
     navTerms: "Terms of Use",
     navPrivacy: "Privacy Policy",
+    navSupport: "Support",
     navLanguage: "Language",
     heroTitle: "Less is More. Curate Your Photos",
     heroDesc:
@@ -21,6 +22,7 @@ const copy = {
     navHome: "首页",
     navTerms: "用户协议",
     navPrivacy: "隐私条款",
+    navSupport: "技术支持",
     navLanguage: "语言",
     heroTitle: "少即是多，精选你的照片",
     heroDesc: "LessPhoto可识别相似照片，为你保留最佳照片。一键批量清理无用截屏，瞬间释放空间。",
@@ -31,6 +33,7 @@ const copy = {
     navHome: "首頁",
     navTerms: "用戶協議",
     navPrivacy: "隱私條款",
+    navSupport: "技術支援",
     navLanguage: "語言",
     heroTitle: "少即是多，精選你的照片",
     heroDesc: "LessPhoto 可識別相似照片，為你保留最佳照片。一鍵批量清理無用截圖，瞬間釋放空間。",
@@ -49,6 +52,11 @@ const DOC_MAP = {
     en: "./docs/privacy-en.md",
     "zh-CN": "./docs/privacy-zh-CN.md",
     "zh-HK": "./docs/privacy-zh-HK.md",
+  },
+  support: {
+    en: "./docs/support-en.md",
+    "zh-CN": "./docs/support-zh-CN.md",
+    "zh-HK": "./docs/support-zh-HK.md",
   },
 };
 
@@ -147,6 +155,7 @@ function setLang(lang, persist = true) {
   document.getElementById("menuHomeBtn").textContent = t.navHome;
   document.getElementById("menuTermsBtn").textContent = t.navTerms;
   document.getElementById("menuPrivacyBtn").textContent = t.navPrivacy;
+  document.getElementById("menuSupportBtn").textContent = t.navSupport;
   document.getElementById("menuLanguageLabel").textContent = t.navLanguage;
   document.getElementById("currentLanguagePill").textContent = t.langPill;
 
@@ -229,13 +238,13 @@ function getInitialLang() {
 
 function getInitialRoute() {
   const hashRoute = window.location.hash.replace(/^#\/?/, "").split("?")[0];
-  if (hashRoute === "terms" || hashRoute === "privacy") {
+  if (hashRoute === "terms" || hashRoute === "privacy" || hashRoute === "support") {
     return hashRoute;
   }
 
   const urlParams = new URLSearchParams(window.location.search);
   const queryRoute = urlParams.get("route");
-  if (queryRoute === "terms" || queryRoute === "privacy") {
+  if (queryRoute === "terms" || queryRoute === "privacy" || queryRoute === "support") {
     return queryRoute;
   }
 
