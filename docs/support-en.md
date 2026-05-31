@@ -2,4 +2,4 @@
 
 For technical support, app issues, feedback, or feature requests, please contact:
 
-support@lessphoto.cc
+📧 Email：support@lessphoto.cc

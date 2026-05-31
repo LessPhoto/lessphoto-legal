@@ -2,4 +2,4 @@
 
 如需技術支援、問題回饋或功能建議，請聯絡：
 
-support@lessphoto.cc
+📧 Email：support@lessphoto.cc
