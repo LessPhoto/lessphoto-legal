@@ -75,6 +75,11 @@ html:lang(zh-HK) #docMarkdown {
   cursor: pointer;
 }
 
+.page-home .logo-btn {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .svg-defs {
   position: absolute;
   width: 0;
@@ -85,6 +90,12 @@ html:lang(zh-HK) #docMarkdown {
 .logo-svg {
   width: 32px;
   height: 33px;
+}
+
+.nav-logo-svg {
+  width: 36px;
+  height: 36px;
+  display: block;
 }
 
 .menu-svg {
@@ -155,7 +166,7 @@ html:lang(zh-HK) #docMarkdown {
   border: 0;
   border-radius: 80px;
   background: #222;
-  color: #d1f5f7;
+  color: #fff;
   font-size: clamp(16px, 1.8vw, 20px);
   font-weight: 700;
   cursor: pointer;
