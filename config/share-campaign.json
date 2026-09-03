@@ -2,7 +2,7 @@
   "shareCampaignEnabled": true,
   "shareCampaignVersion": 1,
   "rewardLikeThresholds": {
-    "monthly": 8,
+    "monthly": 20,
     "yearly": 50,
     "lifetime": 100
   }
