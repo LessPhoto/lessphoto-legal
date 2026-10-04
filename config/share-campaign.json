@@ -1,5 +1,5 @@
 {
-  "shareCampaignEnabled": true,
+  "shareCampaignEnabled": false,
   "shareCampaignVersion": 1,
   "rewardLikeThresholds": {
     "monthly": 8,
