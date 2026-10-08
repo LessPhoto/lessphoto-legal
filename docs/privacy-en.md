@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Effective Date: March 26, 2026**
+**Effective Date: October 8, 2026**
 
 Welcome to LessPhoto (the "app"). Protecting your personal information is very important to us. This Privacy Policy explains how we handle your information when you use the app. Please read it carefully before use.
 
@@ -12,13 +12,7 @@ LessPhoto is a local app whose core features can be used without account registr
 - **Local Information**: Your avatar, nickname, cleaning preferences, membership status, free usage count, and similar information are stored only locally on your device to provide in-app features. Such information will not be uploaded to any server.
 - **Device and Security Information**: To ensure local functions operate properly and to prevent abuse of free usage counts or abnormal operations, the app may generate and store necessary device-related identifiers, usage status, or verification information locally on your device. This information is used only for local checks and will not be uploaded to any server.
 - **Purchase Information**: In-app purchases are processed by the Apple App Store. The app reads purchase status through system capabilities provided by Apple to activate or restore membership benefits. We do not process your payment information or store purchase receipts through any server.
-
-## Storage and Transfer of Information
-
-- **Local Processing**: Your photo library content, avatar, nickname, cleaning records, membership status, and similar information are processed and stored locally on your device and will not be uploaded to any server.
-- **No Server Transfer**: The app currently does not provide an account system, cloud sync, or server storage. Therefore, it will not transfer your personal information to a server or store it across borders.
-- **System Services**: In-app purchases, purchase restoration, and related capabilities are provided by Apple and may need to be completed through the App Store or system services. Related information handling is subject to Apple's rules and privacy policy.
-- **Security Measures**: Please keep your device and system account secure. Risks caused by device loss, improper system permission settings, or third-party system services are outside the app's control.
+- **Anonymous Analytics Data**: To improve the app experience and stability, we use TelemetryDeck to collect anonymous feature usage, operating status, and error diagnostic data. This data does not include photo library content, account details, purchases, or payment information, and is not used to identify or track you.
 
 ## Sharing of Information
 
@@ -27,6 +21,7 @@ We do not sell, rent, or actively share your personal information. We will not p
 - With your explicit consent;
 - As required by laws, regulations, or competent authorities;
 - As necessary for Apple to complete system services such as in-app purchases, refunds, subscription management, or purchase restoration;
+- As necessary to provide the anonymous analytics service described above;
 - To protect the legitimate rights and interests of us, you, or others.
 
 ## Your Rights
@@ -40,7 +35,7 @@ You have the right to:
 
 ## Protection of Minors
 
-The app is not directed to children under the age of 13. Because the app does not provide an account system or server-based collection features, we do not actively collect children's personal information.
+The app is not directed to children under the age of 13. The app does not provide an account system, upload photo-library content, or actively collect children's identity information.
 
 ## Governing Law and Dispute Resolution
 
