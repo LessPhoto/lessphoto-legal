@@ -1,0 +1,16 @@
+---
+import FeatureLandingPage from "../../components/FeatureLandingPage.astro";
+import { featurePages, featureSlugs, type FeatureSlug } from "../../data/featurePages";
+
+export function getStaticPaths() {
+  return featureSlugs.map((feature) => ({ params: { feature }, props: { feature } }));
+}
+
+interface Props {
+  feature: FeatureSlug;
+}
+
+const { feature } = Astro.props;
+---
+
+<FeatureLandingPage locale="en" slug={feature} page={featurePages.en[feature]} />

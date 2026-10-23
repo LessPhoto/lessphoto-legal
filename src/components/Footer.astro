@@ -1,0 +1,35 @@
+---
+import { APP_STORE_URL, copy, legalLabels, localePath, type Locale } from "../data/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = copy[locale];
+const legal = legalLabels[locale];
+---
+
+<footer class="site-footer">
+  <div class="page-width site-footer__inner">
+    <nav class="footer-groups" aria-label={t.footerNavAria}>
+      <div class="footer-group">
+        <p>{t.footerExplore}</p>
+        <div class="footer-link-list">
+          <a href={`${localePath(locale)}#features`}>{t.navFeatures}</a>
+          <a href={localePath(locale, "guides")}>{t.navGuides}</a>
+          <a href={APP_STORE_URL} target="_blank" rel="noopener">{t.navGet}</a>
+        </div>
+      </div>
+      <div class="footer-group">
+        <p>{t.navAbout}</p>
+        <div class="footer-link-list">
+          <a href={localePath(locale, "support")}>{legal.support}</a>
+          <a href={localePath(locale, "privacy")}>{legal.privacy}</a>
+          <a href={localePath(locale, "terms")}>{legal.terms}</a>
+        </div>
+      </div>
+    </nav>
+    <p class="copyright">© {new Date().getFullYear()} LessPhoto</p>
+  </div>
+</footer>

@@ -1,0 +1,12 @@
+---
+import GuideArticlePage from "../../components/GuideArticlePage.astro";
+import { guideArticles } from "../../data/guides";
+
+export function getStaticPaths() {
+  return guideArticles.en.map((article) => ({ params: { slug: article.slug }, props: { article } }));
+}
+
+const { article } = Astro.props;
+---
+
+<GuideArticlePage locale="en" article={article} />

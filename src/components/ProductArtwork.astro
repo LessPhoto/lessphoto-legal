@@ -1,0 +1,115 @@
+---
+import type { Locale } from "../data/site";
+
+type ProductArtworkVariant = "combined" | "duplicates" | "similar" | "swipe" | "compression" | "screenshots";
+
+interface Props {
+  variant: ProductArtworkVariant;
+  locale: Locale;
+  eager?: boolean;
+  bare?: boolean;
+  leftHigh?: boolean;
+  clustered?: boolean;
+  heroSingle?: boolean;
+  heroPair?: boolean;
+}
+
+const {
+  variant,
+  locale,
+  eager = false,
+  bare = false,
+  leftHigh = false,
+  clustered = false,
+  heroSingle = false,
+  heroPair = false,
+} = Astro.props;
+
+const artwork = {
+  combined: {
+    images: ["/assets/img/duplicates-overview.jpg", "/assets/img/similar-compare.jpg"],
+    alt: {
+      en: ["LessPhoto duplicate photo overview", "LessPhoto full-frame similar photo comparison"],
+      "zh-hans": ["LessPhoto 重复照片入口", "LessPhoto 相似照片完整画幅对比"],
+      "zh-hant": ["LessPhoto 重複相片入口", "LessPhoto 相似相片完整畫幅比較"],
+    },
+  },
+  duplicates: {
+    images: ["/assets/img/duplicates-overview.jpg", "/assets/img/duplicates-merge.jpg"],
+    alt: {
+      en: ["Duplicate photos found by LessPhoto", "Merge duplicate photo groups in LessPhoto"],
+      "zh-hans": ["LessPhoto 找到的重复照片", "在 LessPhoto 中合并重复照片组"],
+      "zh-hant": ["LessPhoto 找到的重複相片", "在 LessPhoto 中合併重複相片群組"],
+    },
+  },
+  similar: {
+    images: ["/assets/img/similar-compare.jpg", "/assets/img/similar-smart-select.jpg"],
+    alt: {
+      en: ["Compare similar photos at their full aspect ratio", "Best photo and unique perspectives selected by LessPhoto"],
+      "zh-hans": ["按完整画幅对比相似照片", "LessPhoto 标记最佳照片与特色视角"],
+      "zh-hant": ["按完整畫幅比較相似相片", "LessPhoto 標記最佳相片與特色視角"],
+    },
+  },
+  swipe: {
+    images: ["/assets/img/swipe-review.jpg", "/assets/img/swipe-delete-confirmation.jpg"],
+    alt: {
+      en: ["Review an iPhone photo by month", "Review photos selected for deletion"],
+      "zh-hans": ["按月份逐张查看 iPhone 照片", "检查准备删除的照片"],
+      "zh-hant": ["按月份逐張查看 iPhone 相片", "檢查準備刪除的相片"],
+    },
+  },
+  compression: {
+    images: ["/assets/img/compression-options.jpg", "/assets/img/compression-review.jpg"],
+    alt: {
+      en: ["Choose iPhone photo compression quality", "Compare original and compressed photos"],
+      "zh-hans": ["选择 iPhone 照片压缩质量", "对比原图与压缩后的照片"],
+      "zh-hant": ["選擇 iPhone 相片壓縮品質", "比較原圖與壓縮後的相片"],
+    },
+  },
+  screenshots: {
+    images: ["/assets/img/screenshots-overview.jpg"],
+    alt: {
+      en: ["Review old iPhone screenshots together in LessPhoto"],
+      "zh-hans": ["在 LessPhoto 中按日期集中查看旧截图"],
+      "zh-hant": ["在 LessPhoto 中集中查看舊截圖"],
+    },
+  },
+} as const;
+
+const item = artwork[variant];
+---
+
+<div class:list={[
+  "product-artwork",
+  `product-artwork--${variant}`,
+  leftHigh && "product-artwork--left-high",
+  clustered && "product-artwork--clustered",
+  bare && "product-artwork--bare",
+  heroSingle && "product-artwork--hero-single",
+  heroPair && "product-artwork--hero-pair",
+]}>
+  {item.images.map((src, index) => (
+    <figure class:list={["product-artwork__shot", `product-artwork__shot--${index + 1}`]}>
+      <div class="product-artwork__screen">
+        <img
+          src={src}
+          width="603"
+          height="1311"
+          alt={item.alt[locale][index]}
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+        />
+      </div>
+      <img
+        class="product-artwork__device-frame"
+        src="/assets/video/iphone-18-pro-silver-frame.png"
+        width="1350"
+        height="2760"
+        alt=""
+        aria-hidden="true"
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+      />
+    </figure>
+  ))}
+</div>

@@ -1,0 +1,21 @@
+---
+import FeatureLandingPage from "../../../components/FeatureLandingPage.astro";
+import { featurePages, featureSlugs, type FeatureSlug } from "../../../data/featurePages";
+import type { Locale } from "../../../data/site";
+
+export function getStaticPaths() {
+  const locales: Locale[] = ["zh-hans", "zh-hant"];
+  return locales.flatMap((locale) =>
+    featureSlugs.map((feature) => ({ params: { locale, feature }, props: { locale, feature } })),
+  );
+}
+
+interface Props {
+  locale: Locale;
+  feature: FeatureSlug;
+}
+
+const { locale, feature } = Astro.props;
+---
+
+<FeatureLandingPage locale={locale} slug={feature} page={featurePages[locale][feature]} />

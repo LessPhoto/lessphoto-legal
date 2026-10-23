@@ -1,0 +1,15 @@
+---
+import GuideArticlePage from "../../../components/GuideArticlePage.astro";
+import { guideArticles } from "../../../data/guides";
+import type { Locale } from "../../../data/site";
+
+export function getStaticPaths() {
+  return (["zh-hans", "zh-hant"] as Locale[]).flatMap((locale) =>
+    guideArticles[locale].map((article) => ({ params: { locale, slug: article.slug }, props: { locale, article } })),
+  );
+}
+
+const { locale, article } = Astro.props;
+---
+
+<GuideArticlePage locale={locale} article={article} />

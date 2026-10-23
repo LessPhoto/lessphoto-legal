@@ -1,0 +1,21 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import ContentFrame from "../components/ContentFrame.astro";
+import type { LegalPage, Locale } from "../data/site";
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  path: LegalPage;
+  html: string;
+}
+
+const { title, description, locale, path, html } = Astro.props;
+---
+
+<BaseLayout title={`${title} – LessPhoto`} description={description} locale={locale} path={path}>
+  <ContentFrame locale={locale} section="legal" active={path} currentLabel={title}>
+    <article class="content-article legal-content" set:html={html} />
+  </ContentFrame>
+</BaseLayout>

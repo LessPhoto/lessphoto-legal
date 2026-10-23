@@ -1,0 +1,24 @@
+---
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { legalLabels, type LegalPage } from "../data/site";
+import { renderLegalDocument } from "../utils/legal";
+
+export function getStaticPaths() {
+  return (["terms", "privacy", "support"] as LegalPage[]).map((legal) => ({
+    params: { legal },
+    props: { legal },
+  }));
+}
+
+const { legal } = Astro.props;
+const locale = "en" as const;
+const title = legalLabels[locale][legal];
+const descriptions = {
+  terms: "Read the LessPhoto User Agreement.",
+  privacy: "Learn how LessPhoto protects your photo library and handles information.",
+  support: "Get help with LessPhoto, report an issue, or share product feedback.",
+};
+const html = await renderLegalDocument(locale, legal);
+---
+
+<LegalLayout title={title} description={descriptions[legal]} locale={locale} path={legal} html={html} />

@@ -1,0 +1,144 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AppStoreButton from "./AppStoreButton.astro";
+import AccentText from "./AccentText.astro";
+import FeatureSection from "./FeatureSection.astro";
+import { featureSlugByKey } from "../data/featurePages";
+import { copy, localePath, type Locale } from "../data/site";
+
+interface Props {
+  locale: Locale;
+  includeLegacyRedirect?: boolean;
+}
+
+const { locale, includeLegacyRedirect = false } = Astro.props;
+const t = copy[locale];
+const features = t.features as Array<{
+  key: "similar" | "swipe" | "compression" | "screenshots";
+  title: string;
+  titleAccent: string;
+  description: string;
+}>;
+---
+
+<BaseLayout
+  title={t.seoTitle}
+  description={t.seoDescription}
+  locale={locale}
+  applicationSchema
+  heroHeader
+>
+  <section class="hero-cover">
+    <div class="hero-section page-width">
+      <div class="hero-copy">
+        <h1><AccentText text={t.heroTitle} accent={t.heroTitleAccent} /></h1>
+        <p class="hero-description">{t.heroDescription}</p>
+        <div class="hero-actions">
+          <AppStoreButton label={t.heroPrimary} />
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-demo-frame">
+          <div class="hero-demo-screen">
+            <video
+              class="hero-demo-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              poster="/assets/video/lessphoto-home-demo-en-poster.jpg"
+              width="461"
+              height="1000"
+              aria-hidden="true"
+            >
+              <source src="/assets/video/lessphoto-home-demo-en.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <img
+            class="hero-demo-device-frame"
+            src="/assets/video/iphone-18-pro-silver-frame-video.png"
+            width="1350"
+            height="2760"
+            alt=""
+            aria-hidden="true"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-section page-width" id="features">
+    <div class="feature-list">
+      {features.map((feature, index) => (
+        <FeatureSection
+          feature={feature}
+          index={index}
+          artworkLabel={t.artworkLabel}
+          artworkHint={t.artworkHint}
+          locale={locale}
+          href={featureSlugByKey[feature.key] ? localePath(locale, `features/${featureSlugByKey[feature.key]}`) : undefined}
+          linkLabel={feature.key === "similar" ? t.featureDuplicateLink : featureSlugByKey[feature.key] ? t.featureLearnMore : undefined}
+          secondaryHref={feature.key === "similar" ? localePath(locale, "features/similar-photo-cleaner") : undefined}
+          secondaryLinkLabel={feature.key === "similar" ? t.featureSimilarLink : undefined}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="privacy-section">
+    <div class="page-width privacy-card">
+      <div class="privacy-symbol" aria-hidden="true">
+        <svg viewBox="0 0 48 48">
+          <path class="privacy-symbol__shield" d="M24 5 39 11v11c0 10-6.3 17.6-15 21-8.7-3.4-15-11-15-21V11L24 5Z" />
+          <path class="privacy-symbol__check" d="m17 24 5 5 10-11" />
+        </svg>
+      </div>
+      <div>
+        <h2><AccentText text={t.privacyTitle} accent={t.privacyTitleAccent} /></h2>
+        <p>{t.privacyDescription}</p>
+        <a href={localePath(locale, "privacy")}>{t.navPrivacy} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section page-width">
+    <header class="section-heading">
+      <h2>{t.faqTitle}</h2>
+    </header>
+    <div class="faq-list">
+      {t.faqs.map(([question, answer], index) => (
+        <details open={index === 0}>
+          <summary>{question}</summary>
+          <p>{answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="final-cta page-width">
+    <div class="final-cta__inner">
+      <img src="/assets/app-icon.svg" width="88" height="88" alt="" />
+      <div>
+        <h2>{t.finalTitle}</h2>
+        <p>{t.finalDescription}</p>
+      </div>
+      <AppStoreButton label={t.heroPrimary} variant="light" />
+    </div>
+  </section>
+
+  {includeLegacyRedirect && (
+    <script is:inline>
+      (() => {
+        const search = new URLSearchParams(location.search);
+        const route = location.hash.match(/^#\/(terms|privacy|support)/)?.[1]
+          || ["terms", "privacy", "support"].includes(search.get("route")) && search.get("route");
+        const hashQuery = location.hash.split("?")[1] || "";
+        const requestedLang = new URLSearchParams(hashQuery).get("lang") || search.get("lang");
+        const prefix = requestedLang === "zh-CN" ? "/zh-hans" : requestedLang === "zh-HK" ? "/zh-hant" : "";
+        if (!route && !prefix) return;
+        location.replace(route ? `${prefix}/${route}/` : `${prefix}/`);
+      })();
+    </script>
+  )}
+</BaseLayout>

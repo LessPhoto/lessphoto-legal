@@ -1,0 +1,58 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import AppStoreButton from "../components/AppStoreButton.astro";
+import ContentFrame from "../components/ContentFrame.astro";
+import type { Locale } from "../data/site";
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  path: string;
+  campaignToken?: string;
+  providerToken?: string;
+  date?: string;
+}
+
+const { title, description, locale, path, campaignToken, providerToken, date } = Astro.props;
+const buttonLabel = locale === "en" ? "Get the app" : locale === "zh-hans" ? "下载 App" : "下載 App";
+---
+
+<BaseLayout title={`${title} · LessPhoto`} description={description} locale={locale} path={path}>
+  <ContentFrame
+    locale={locale}
+    section="guides"
+    active={path}
+    currentLabel={title}
+    currentGuidePath={path}
+  >
+    <article class="content-article">
+      <header class="content-article__header guide-header">
+        <h1>{title}</h1>
+        <p class="guide-dek">{description}</p>
+        {Astro.slots.has("meta") ? <slot name="meta" /> : date && <time datetime={date}>{date}</time>}
+      </header>
+      <div class="guide-content">
+        <slot />
+      </div>
+      <aside class="guide-cta">
+        <img
+          class="guide-cta__icon"
+          src="/assets/app-icon.svg"
+          width="72"
+          height="72"
+          alt=""
+          aria-hidden="true"
+        />
+        <div class="guide-cta__copy">
+          <h2>LessPhoto</h2>
+          <p>{description}</p>
+        </div>
+        <AppStoreButton label={buttonLabel} campaignToken={campaignToken} providerToken={providerToken} />
+      </aside>
+      <div class="guide-content guide-content--after-cta">
+        <slot name="after-cta" />
+      </div>
+    </article>
+  </ContentFrame>
+</BaseLayout>

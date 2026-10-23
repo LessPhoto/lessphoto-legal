@@ -1,0 +1,65 @@
+---
+import AccentText from "./AccentText.astro";
+import ProductArtwork from "./ProductArtwork.astro";
+import type { Locale } from "../data/site";
+
+interface Props {
+  feature: {
+    key: "similar" | "swipe" | "compression" | "screenshots";
+    title: string;
+    titleAccent: string;
+    description: string;
+  };
+  index: number;
+  artworkLabel: string;
+  artworkHint: string;
+  locale: Locale;
+  href?: string;
+  linkLabel?: string;
+  secondaryHref?: string;
+  secondaryLinkLabel?: string;
+}
+
+const {
+  feature,
+  index,
+  locale,
+  href,
+  linkLabel,
+  secondaryHref,
+  secondaryLinkLabel,
+} = Astro.props;
+
+const artworkVariant = feature.key === "similar"
+  ? "combined"
+  : feature.key === "swipe"
+    ? "swipe"
+    : feature.key === "compression"
+      ? "compression"
+      : "screenshots";
+---
+
+<article class:list={["feature-row", index % 2 === 1 && "feature-row--reverse"]}>
+  <div class="feature-row__visual">
+    <ProductArtwork
+      variant={artworkVariant}
+      locale={locale}
+      leftHigh={feature.key !== "screenshots"}
+      clustered={feature.key !== "screenshots"}
+    />
+  </div>
+  <div class="feature-row__copy">
+    <h3><AccentText text={feature.title} accent={feature.titleAccent} /></h3>
+    <p>{feature.description}</p>
+    {(href && linkLabel) || (secondaryHref && secondaryLinkLabel) ? (
+      <div class="feature-row__links">
+        {href && linkLabel && (
+          <a class="feature-row__link" href={href}>{linkLabel} <span aria-hidden="true">→</span></a>
+        )}
+        {secondaryHref && secondaryLinkLabel && (
+          <a class="feature-row__link" href={secondaryHref}>{secondaryLinkLabel} <span aria-hidden="true">→</span></a>
+        )}
+      </div>
+    ) : null}
+  </div>
+</article>

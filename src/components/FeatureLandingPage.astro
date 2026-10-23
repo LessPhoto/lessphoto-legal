@@ -1,0 +1,146 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AppStoreButton from "./AppStoreButton.astro";
+import AccentText from "./AccentText.astro";
+import ProductArtwork from "./ProductArtwork.astro";
+import {
+  featureLandingUi,
+  featurePages,
+  featureSlugs,
+  type FeatureLandingContent,
+  type FeatureSlug,
+} from "../data/featurePages";
+import { localePath, type Locale } from "../data/site";
+
+interface Props {
+  locale: Locale;
+  slug: FeatureSlug;
+  page: FeatureLandingContent;
+}
+
+const { locale, slug, page } = Astro.props;
+const ui = featureLandingUi[locale];
+const path = `features/${slug}`;
+const related = featureSlugs
+  .filter((item) => item !== slug && item !== page.companion?.slug)
+  .map((item) => ({ slug: item, page: featurePages[locale][item] }));
+---
+
+<BaseLayout
+  title={page.seoTitle}
+  description={page.seoDescription}
+  locale={locale}
+  path={path}
+  applicationSchema
+  heroHeader
+>
+  <section class="hero-cover feature-landing-hero">
+    <div class="feature-landing-hero__inner page-width">
+      <div class="feature-landing-hero__copy">
+        <h1><AccentText text={page.title} accent={page.titleAccent} /></h1>
+        <p class="feature-landing-hero__description">{page.description}</p>
+        <div class="hero-actions">
+          <AppStoreButton label={ui.download} />
+        </div>
+      </div>
+      <div class="feature-landing-hero__visual">
+        <ProductArtwork
+          variant={page.variant}
+          locale={locale}
+          eager
+          bare
+          heroSingle={page.variant === "screenshots"}
+          heroPair={page.variant !== "screenshots"}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="feature-page-section page-width" id="how-it-works">
+    <header class="section-heading section-heading--center">
+      <h2>{page.stepsTitle}</h2>
+    </header>
+    <ol class="step-grid">
+      {page.steps.map(([number, title, description]) => (
+        <li>
+          <span>{number}</span>
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="feature-page-section feature-page-section--soft">
+    <div class="page-width">
+      <header class="section-heading section-heading--center">
+        <h2>{page.detailsTitle}</h2>
+      </header>
+      <div class="feature-detail-grid" data-count={page.details.length}>
+        {page.details.map((detail) => (
+          <article>
+            <h3>{detail.title}</h3>
+            <p>{detail.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {page.companion && (
+    <section class="feature-companion page-width">
+      <div class="feature-companion__copy">
+        <h2>{page.companion.title}</h2>
+        <p>{page.companion.description}</p>
+        <a href={localePath(locale, `features/${page.companion.slug}`)}>
+          {page.companion.linkLabel} <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <ProductArtwork
+        variant={page.companion.slug === "duplicate-photo-cleaner" ? "duplicates" : "similar"}
+        locale={locale}
+        clustered
+      />
+    </section>
+  )}
+
+  <section class="faq-section page-width feature-page-faq">
+    <header class="section-heading">
+      <h2>{page.faqTitle}</h2>
+    </header>
+    <div class="faq-list">
+      {page.faqs.map(([question, answer], index) => (
+        <details open={index === 0}>
+          <summary>{question}</summary>
+          <p>{answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="feature-related page-width">
+    <header class="section-heading">
+      <h2>{ui.relatedTitle}</h2>
+    </header>
+    <div class="feature-related__grid">
+      {related.map(({ slug: relatedSlug, page: relatedPage }) => (
+        <a href={localePath(locale, `features/${relatedSlug}`)}>
+          <span>{relatedPage.eyebrow}</span>
+          <strong>{relatedPage.title}</strong>
+          <small>{ui.relatedLink} <span aria-hidden="true">→</span></small>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="final-cta page-width">
+    <div class="final-cta__inner">
+      <img src="/assets/app-icon.svg" width="88" height="88" alt="" />
+      <div>
+        <h2>{page.finalTitle}</h2>
+        <p>{page.finalDescription}</p>
+      </div>
+      <AppStoreButton label={ui.download} variant="light" />
+    </div>
+  </section>
+</BaseLayout>

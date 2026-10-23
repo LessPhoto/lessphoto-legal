@@ -1,0 +1,16 @@
+{
+  "name": "LessPhoto",
+  "short_name": "LessPhoto",
+  "description": "A private photo cleaner for iPhone.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#00be96",
+  "icons": [
+    {
+      "src": "/assets/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

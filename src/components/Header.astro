@@ -1,0 +1,152 @@
+---
+import { APP_STORE_URL, copy, legalLabels, localeMeta, localePath, type Locale } from "../data/site";
+
+interface Props {
+  locale: Locale;
+  path?: string;
+  heroTheme?: boolean;
+}
+
+const { locale, path = "", heroTheme = false } = Astro.props;
+const t = copy[locale];
+const legal = legalLabels[locale];
+const languageItems: Locale[] = ["en", "zh-hans", "zh-hant"];
+---
+
+<header
+  class:list={["site-header", { "site-header--hero": heroTheme, "is-over-hero": heroTheme }]}
+  data-hero-header={heroTheme ? "" : undefined}
+>
+  <div class="site-header__inner page-width">
+    <div class="header-primary-group">
+      <a class="brand-link" href={localePath(locale)} aria-label={t.homeAria}>
+        <img src="/assets/app-icon.svg" width="40" height="40" alt="" />
+        <span>LessPhoto</span>
+      </a>
+
+      <nav class="primary-nav" aria-label={t.primaryNavAria}>
+        <a href={`${localePath(locale)}#features`} aria-current={path.startsWith("features") ? "page" : undefined}>{t.navFeatures}</a>
+        <a href={localePath(locale, "guides")} aria-current={path.startsWith("guides") ? "page" : undefined}>{t.navGuides}</a>
+      </nav>
+    </div>
+
+    <nav class="header-actions" aria-label={t.resourceNavLabel}>
+      <details class="header-menu about-menu">
+        <summary>{t.navAbout}</summary>
+        <div class="header-menu__panel">
+          <a href={localePath(locale, "terms")} aria-current={path === "terms" ? "page" : undefined}>{legal.terms}</a>
+          <a href={localePath(locale, "privacy")} aria-current={path === "privacy" ? "page" : undefined}>{legal.privacy}</a>
+          <a href={localePath(locale, "support")} aria-current={path === "support" ? "page" : undefined}>{legal.support}</a>
+        </div>
+      </details>
+      <details class="header-menu language-menu">
+        <summary aria-label={`${t.languageLabel}: ${localeMeta[locale].label}`}>
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7" />
+            <path d="M3.8 12h16.4M12 3.5c2.1 2.2 3.2 5 3.2 8.5S14.1 18.3 12 20.5M12 3.5C9.9 5.7 8.8 8.5 8.8 12s1.1 6.3 3.2 8.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.7" />
+          </svg>
+        </summary>
+        <div class="header-menu__panel">
+          {languageItems.map((item) => (
+            <a href={localePath(item, path)} aria-current={item === locale ? "page" : undefined}>
+              {localeMeta[item].label}
+            </a>
+          ))}
+        </div>
+      </details>
+      <a class="header-download" href={APP_STORE_URL} target="_blank" rel="noopener">{t.navGet}</a>
+    </nav>
+
+    <div class="mobile-header-actions">
+      <a class="header-download mobile-header-download" href={APP_STORE_URL} target="_blank" rel="noopener">{t.navGet}</a>
+      <details class="mobile-navigation">
+        <summary aria-label={t.menuLabel}>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </summary>
+        <div class="mobile-navigation__panel">
+          <nav class="mobile-navigation__primary" aria-label={t.primaryNavAria}>
+            <a href={localePath(locale)}>{t.navHome}</a>
+            <a href={`${localePath(locale)}#features`} aria-current={path.startsWith("features") ? "page" : undefined}>{t.navFeatures}</a>
+            <a href={localePath(locale, "guides")} aria-current={path.startsWith("guides") ? "page" : undefined}>{t.navGuides}</a>
+          </nav>
+          <div class="mobile-navigation__secondary">
+            <div>
+              <p>{t.navAbout}</p>
+              <a href={localePath(locale, "terms")}>{legal.terms}</a>
+              <a href={localePath(locale, "privacy")}>{legal.privacy}</a>
+              <a href={localePath(locale, "support")}>{legal.support}</a>
+            </div>
+            <div>
+              <p>{t.languageLabel}</p>
+              {languageItems.map((item) => (
+                <a href={localePath(item, path)} aria-current={item === locale ? "page" : undefined}>{localeMeta[item].label}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const header = document.querySelector(".site-header");
+    if (!(header instanceof HTMLElement)) return;
+
+    const headerMenus = Array.from(header.querySelectorAll(".header-actions details.header-menu"));
+    headerMenus.forEach((menu) => {
+      menu.addEventListener("toggle", () => {
+        if (!menu.open) return;
+        headerMenus.forEach((otherMenu) => {
+          if (otherMenu !== menu) otherMenu.open = false;
+        });
+      });
+    });
+
+    document.addEventListener("pointerdown", (event) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+
+      headerMenus.forEach((menu) => {
+        if (menu.open && !menu.contains(target)) menu.open = false;
+      });
+    });
+
+    const hero = document.querySelector(".hero-cover");
+    if (header.hasAttribute("data-hero-header") && hero instanceof HTMLElement) {
+      const updateHeaderTheme = () => {
+        const overlapsHero = hero.getBoundingClientRect().bottom > header.offsetHeight;
+        header.classList.toggle("is-over-hero", overlapsHero);
+      };
+
+      updateHeaderTheme();
+      window.addEventListener("scroll", updateHeaderTheme, { passive: true });
+      window.addEventListener("resize", updateHeaderTheme, { passive: true });
+    }
+
+    const pageDownloadButtons = document.querySelectorAll(".app-store-button");
+    if (pageDownloadButtons.length === 0) return;
+
+    const visibleButtons = new Set();
+    const updateDownloadVisibility = () => {
+      header.classList.toggle("has-visible-page-cta", visibleButtons.size > 0);
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
+          visibleButtons.add(entry.target);
+        } else {
+          visibleButtons.delete(entry.target);
+        }
+      });
+      updateDownloadVisibility();
+    }, {
+      rootMargin: `-${header.offsetHeight}px 0px 0px`,
+      threshold: [0, 0.45],
+    });
+
+    pageDownloadButtons.forEach((button) => observer.observe(button));
+  }, { once: true });
+</script>

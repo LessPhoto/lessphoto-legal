@@ -1,0 +1,37 @@
+---
+import LegalLayout from "../../layouts/LegalLayout.astro";
+import { legalLabels, type LegalPage, type Locale } from "../../data/site";
+import { renderLegalDocument } from "../../utils/legal";
+
+export function getStaticPaths() {
+  const locales: Locale[] = ["zh-hans", "zh-hant"];
+  const pages: LegalPage[] = ["terms", "privacy", "support"];
+  return locales.flatMap((locale) => pages.map((legal) => ({
+    params: { locale, legal },
+    props: { locale, legal },
+  })));
+}
+
+const { locale, legal } = Astro.props;
+const title = legalLabels[locale][legal];
+const descriptions: Record<Locale, Record<LegalPage, string>> = {
+  en: {
+    terms: "Read the LessPhoto User Agreement.",
+    privacy: "Learn how LessPhoto protects your photo library and handles information.",
+    support: "Get help with LessPhoto, report an issue, or share product feedback.",
+  },
+  "zh-hans": {
+    terms: "阅读 LessPhoto 用户协议。",
+    privacy: "了解 LessPhoto 如何保护你的照片库和处理信息。",
+    support: "获取 LessPhoto 使用帮助、反馈问题或提出建议。",
+  },
+  "zh-hant": {
+    terms: "閱讀 LessPhoto 使用者協議。",
+    privacy: "了解 LessPhoto 如何保護你的照片庫和處理資訊。",
+    support: "取得 LessPhoto 使用協助、回報問題或提出建議。",
+  },
+};
+const html = await renderLegalDocument(locale, legal);
+---
+
+<LegalLayout title={title} description={descriptions[locale][legal]} locale={locale} path={legal} html={html} />

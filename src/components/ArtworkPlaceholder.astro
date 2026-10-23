@@ -1,0 +1,24 @@
+---
+interface Props {
+  variant: "hero" | "similar" | "swipe" | "compression" | "screenshots";
+  label: string;
+  hint: string;
+}
+
+const { variant, label, hint } = Astro.props;
+---
+
+<div class:list={["artwork-placeholder", `artwork-placeholder--${variant}`]} data-artwork-slot={variant}>
+  <div class="placeholder-orb placeholder-orb--one"></div>
+  <div class="placeholder-orb placeholder-orb--two"></div>
+  <div class="placeholder-device" aria-hidden="true">
+    <div class="placeholder-device__bar"></div>
+    <div class="placeholder-device__cards">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="placeholder-label">
+    <span>{label}</span>
+    <small>{hint}</small>
+  </div>
+</div>
