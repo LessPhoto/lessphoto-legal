@@ -22,9 +22,12 @@ const articles = guideArticles[locale];
           <a href={localePath(locale, `guides/${article.slug}`)}>
             <span>{String(index + 1).padStart(2, "0")}</span>
             <div>
-              <small>{article.category} · {article.readingTime}</small>
               <h2>{article.title}</h2>
-              <p>{article.description}</p>
+              {article.description && <p>{article.description}</p>}
+              <div class="guide-topic-meta">
+                <span>{article.category}</span>
+                <time datetime={article.publishedAt}>{article.publishedAt}</time>
+              </div>
             </div>
           </a>
         ))}

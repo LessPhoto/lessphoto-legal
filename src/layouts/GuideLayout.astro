@@ -11,10 +11,11 @@ interface Props {
   path: string;
   campaignToken?: string;
   providerToken?: string;
+  category?: string;
   date?: string;
 }
 
-const { title, description, locale, path, campaignToken, providerToken, date } = Astro.props;
+const { title, description, locale, path, campaignToken, providerToken, category, date } = Astro.props;
 const buttonLabel = locale === "en" ? "Get the app" : locale === "zh-hans" ? "下载 App" : "下載 App";
 ---
 
@@ -29,8 +30,15 @@ const buttonLabel = locale === "en" ? "Get the app" : locale === "zh-hans" ? "�
     <article class="content-article">
       <header class="content-article__header guide-header">
         <h1>{title}</h1>
-        <p class="guide-dek">{description}</p>
-        {Astro.slots.has("meta") ? <slot name="meta" /> : date && <time datetime={date}>{date}</time>}
+        {description && <p class="guide-dek">{description}</p>}
+        {Astro.slots.has("meta") ? (
+          <slot name="meta" />
+        ) : (category || date) && (
+          <div class="guide-meta">
+            {category && <span>{category}</span>}
+            {date && <time datetime={date}>{date}</time>}
+          </div>
+        )}
       </header>
       <div class="guide-content">
         <slot />

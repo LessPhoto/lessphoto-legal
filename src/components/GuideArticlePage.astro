@@ -26,6 +26,7 @@ const path = `guides/${article.slug}`;
   locale={locale}
   path={path}
   campaignToken={`guide-${article.slug}-${locale}`}
+  category={article.category}
   date={article.publishedAt}
 >
   {article.kind === "calculator" && <StorageCostCalculator locale={locale} />}

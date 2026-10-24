@@ -1622,16 +1622,6 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   margin-bottom: 42px;
 }
 
-.guide-header::after {
-  width: 36px;
-  height: 4px;
-  display: block;
-  margin-top: 24px;
-  border-radius: 999px;
-  background: var(--accent);
-  content: "";
-}
-
 .guide-header h1 {
   margin-bottom: 0;
   font-size: clamp(30px, 2.8vw, 36px);
@@ -1648,12 +1638,22 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   line-height: 1.65;
 }
 
-.guide-header > time {
-  display: block;
+.guide-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 12px;
   margin-top: 14px;
-  color: var(--muted-light);
   font-size: 13px;
   font-weight: 550;
+}
+
+.guide-meta span {
+  color: var(--accent);
+}
+
+.guide-meta time {
+  color: var(--muted-light);
 }
 
 .guide-callout {
@@ -1935,8 +1935,8 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 
 .guide-topic-list > a {
   display: grid;
-  grid-template-columns: 54px 1fr;
-  gap: 22px;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 20px;
   padding: 28px;
   background: white;
   color: inherit;
@@ -1949,9 +1949,12 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 }
 
 .guide-topic-list > a > span {
-  color: var(--accent);
+  color: var(--muted-light);
   font-family: "Hi-GEOM", sans-serif;
-  font-size: 20px;
+  font-size: clamp(30px, 3vw, 36px);
+  font-weight: 500;
+  line-height: 1;
+  opacity: 0.35;
 }
 
 .guide-topic-list h2,
@@ -1960,17 +1963,9 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 }
 
 .guide-topic-list h2 {
-  margin-top: 7px;
   font-size: 24px;
   line-height: 1.35;
   letter-spacing: -0.02em;
-}
-
-.guide-topic-list small {
-  color: var(--accent);
-  font-size: 14px;
-  font-weight: 750;
-  letter-spacing: 0.01em;
 }
 
 .guide-topic-list p {
@@ -1978,6 +1973,26 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   color: var(--muted-light);
   font-size: 16px;
   line-height: 1.65;
+}
+
+.guide-topic-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 12px;
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.guide-topic-meta span {
+  color: var(--accent);
+}
+
+.guide-topic-meta time {
+  color: var(--muted-light);
+  font-weight: 500;
 }
 
 .editorial-note {
@@ -2627,9 +2642,13 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   }
 
   .guide-topic-list > a {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 14px;
     padding: 24px;
+  }
+
+  .guide-topic-list > a > span {
+    font-size: 27px;
   }
 
   .calculator-fields,
