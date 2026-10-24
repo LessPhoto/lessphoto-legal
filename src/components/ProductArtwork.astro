@@ -12,6 +12,7 @@ interface Props {
   clustered?: boolean;
   heroSingle?: boolean;
   heroPair?: boolean;
+  single?: boolean;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   clustered = false,
   heroSingle = false,
   heroPair = false,
+  single = false,
 } = Astro.props;
 
 const artwork = {
@@ -77,6 +79,7 @@ const artwork = {
 } as const;
 
 const item = artwork[variant];
+const images = single ? item.images.slice(0, 1) : item.images;
 ---
 
 <div class:list={[
@@ -87,8 +90,9 @@ const item = artwork[variant];
   bare && "product-artwork--bare",
   heroSingle && "product-artwork--hero-single",
   heroPair && "product-artwork--hero-pair",
+  single && "product-artwork--single",
 ]}>
-  {item.images.map((src, index) => (
+  {images.map((src, index) => (
     <figure class:list={["product-artwork__shot", `product-artwork__shot--${index + 1}`]}>
       <div class="product-artwork__screen">
         <img

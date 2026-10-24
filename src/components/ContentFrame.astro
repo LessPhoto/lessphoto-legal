@@ -39,7 +39,7 @@ const navigation: NavigationItem[] = section === "legal"
         ? [{ key: currentGuidePath, label: currentLabel, href: localePath(locale, currentGuidePath) }]
         : []),
     ];
-const directoryLabel = section === "guides" ? t.guideDirectoryLabel : t.navAbout;
+const directoryLabel = section === "guides" ? t.guideDirectoryLabel : t.relatedInformationLabel;
 ---
 
 <section class="content-shell page-width">
@@ -50,26 +50,31 @@ const directoryLabel = section === "guides" ? t.guideDirectoryLabel : t.navAbout
   )}
 
   <div class:list={["content-layout", { "content-layout--single": hideSidebar }]}>
+    <div class="content-main">
+      <slot />
+    </div>
+
     {!hideSidebar && (
-      <aside class="content-sidebar">
+      <aside class:list={["content-sidebar", `content-sidebar--${section}`]}>
         <p class="content-sidebar__title">{directoryLabel}</p>
         {navigation.length > 0 ? (
           <nav aria-label={directoryLabel}>
-            {navigation.map((item) => (
-              <a href={item.href} aria-current={item.key === active ? "page" : undefined}>
+            {navigation.map((item) => {
+              const isActive = item.key === active;
+              return (
+              <a href={item.href} aria-current={isActive ? "page" : undefined}>
                 <span>{item.label}</span>
-                {item.publishedAt && <time datetime={item.publishedAt}>{item.publishedAt}</time>}
+                {section === "guides" && isActive
+                  ? <small class="content-sidebar__status">{t.guideReadingLabel}</small>
+                  : item.publishedAt && <time datetime={item.publishedAt}>{item.publishedAt}</time>}
               </a>
-            ))}
+              );
+            })}
           </nav>
         ) : (
           <p class="content-sidebar__empty">{t.emptyGuideDirectoryLabel}</p>
         )}
       </aside>
     )}
-
-    <div class="content-main">
-      <slot />
-    </div>
   </div>
 </section>

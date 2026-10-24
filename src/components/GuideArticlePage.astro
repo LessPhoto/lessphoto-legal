@@ -1,8 +1,8 @@
 ---
 import GuideLayout from "../layouts/GuideLayout.astro";
 import StorageCostCalculator from "./StorageCostCalculator.astro";
-import { guideArticles, type GuideArticle } from "../data/guides";
-import { localePath, type Locale } from "../data/site";
+import type { GuideArticle } from "../data/guides";
+import type { Locale } from "../data/site";
 
 interface Props {
   locale: Locale;
@@ -10,13 +10,6 @@ interface Props {
 }
 
 const { locale, article } = Astro.props;
-const labels = {
-  en: { sources: "References", related: "Related articles" },
-  "zh-hans": { sources: "参考来源", related: "相关文章" },
-  "zh-hant": { sources: "參考來源", related: "相關文章" },
-} as const;
-const t = labels[locale];
-const related = guideArticles[locale].filter((item) => item.slug !== article.slug).slice(0, 2);
 const path = `guides/${article.slug}`;
 ---
 
@@ -42,26 +35,4 @@ const path = `guides/${article.slug}`;
     </section>
   ))}
 
-  <Fragment slot="after-cta">
-    <section class="related-guides">
-      <h2>{t.related}</h2>
-      <div>
-        {related.map((item) => (
-          <a href={localePath(locale, `guides/${item.slug}`)}>
-            <strong>{item.title}</strong>
-            <time datetime={item.publishedAt}>{item.publishedAt}</time>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <section class="guide-sources">
-      <p class="guide-sources__label">{t.sources}</p>
-      <ul>
-        {article.sources.map((source) => (
-          <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a></li>
-        ))}
-      </ul>
-    </section>
-  </Fragment>
 </GuideLayout>

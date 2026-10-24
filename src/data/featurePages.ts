@@ -51,22 +51,18 @@ export const featureSlugByKey: Partial<Record<FeatureVariant, FeatureSlug>> = {
 export const featureLandingUi: Record<Locale, {
   download: string;
   relatedTitle: string;
-  relatedLink: string;
 }> = {
   en: {
     download: "Get the app",
-    relatedTitle: "Keep organizing your photo library.",
-    relatedLink: "Explore feature",
+    relatedTitle: "More from LessPhoto",
   },
   "zh-hans": {
     download: "下载 App",
-    relatedTitle: "继续整理你的照片库。",
-    relatedLink: "了解功能",
+    relatedTitle: "LessPhoto 更多功能",
   },
   "zh-hant": {
     download: "下載 App",
-    relatedTitle: "繼續整理你的相片庫。",
-    relatedLink: "了解功能",
+    relatedTitle: "LessPhoto 更多功能",
   },
 };
 
@@ -93,9 +89,9 @@ export const featurePages: Record<Locale, Record<FeatureSlug, FeatureLandingCont
       ],
       companion: {
         slug: "similar-photo-cleaner",
-        title: "Find Similar Photos on iPhone. Keep the Best.",
-        description: "Similar photos can differ in framing, expression, focus, or orientation. LessPhoto shows the complete frame so you can decide which shot deserves to stay.",
-        linkLabel: "Compare similar photos",
+        title: "Duplicate vs. Similar Photos",
+        description: "Duplicate photos are nearly identical copies and can usually be merged directly. Similar photos are separate shots of the same scene, with differences in framing, expression, focus, or clarity, so they should be compared before cleanup.",
+        linkLabel: "Learn about similar photos",
       },
       faqTitle: "Duplicate Photo Cleaner FAQ",
       faqs: [
@@ -130,9 +126,9 @@ export const featurePages: Record<Locale, Record<FeatureSlug, FeatureLandingCont
       ],
       companion: {
         slug: "duplicate-photo-cleaner",
-        title: "Clean Up Duplicate Photos on iPhone.",
-        description: "Matching copies do not need the same careful comparison. Merge duplicates first, then review the similar shots where framing and quality can differ.",
-        linkLabel: "Clean duplicate photos",
+        title: "Duplicate vs. Similar Photos",
+        description: "Duplicate photos are nearly identical copies and can usually be merged directly. Similar photos are separate shots of the same scene, with differences in framing, expression, focus, or clarity, so they should be compared before cleanup.",
+        linkLabel: "Learn about duplicate photos",
       },
       faqTitle: "Similar Photo Cleaner FAQ",
       faqs: [
@@ -256,9 +252,9 @@ export const featurePages: Record<Locale, Record<FeatureSlug, FeatureLandingCont
       ],
       companion: {
         slug: "similar-photo-cleaner",
-        title: "查找 iPhone 相似照片，只留更好的。",
-        description: "相似照片可能在构图、表情、焦点或方向上有所不同。LessPhoto 会展示完整画幅，让你判断哪一张更值得保留。",
-        linkLabel: "对比相似照片",
+        title: "重复照片与相似照片有什么不同？",
+        description: "重复照片是内容几乎一致的副本，通常可以直接合并。相似照片是同一场景下的不同拍摄，构图、表情、焦点或清晰度可能不同，需要对比后再选择。",
+        linkLabel: "了解相似照片",
       },
       faqTitle: "重复照片清理 FAQ",
       faqs: [
@@ -293,9 +289,9 @@ export const featurePages: Record<Locale, Record<FeatureSlug, FeatureLandingCont
       ],
       companion: {
         slug: "duplicate-photo-cleaner",
-        title: "清理 iPhone 重复照片，一键合并。",
-        description: "内容匹配的副本不需要逐张仔细比较。可以先合并重复照片，再处理构图和画质可能不同的相似照片。",
-        linkLabel: "清理重复照片",
+        title: "重复照片与相似照片有什么不同？",
+        description: "重复照片是内容几乎一致的副本，通常可以直接合并。相似照片是同一场景下的不同拍摄，构图、表情、焦点或清晰度可能不同，需要对比后再选择。",
+        linkLabel: "了解重复照片",
       },
       faqTitle: "相似照片清理 FAQ",
       faqs: [
@@ -419,9 +415,9 @@ export const featurePages: Record<Locale, Record<FeatureSlug, FeatureLandingCont
       ],
       companion: {
         slug: "similar-photo-cleaner",
-        title: "尋找 iPhone 相似相片，只留更好的。",
-        description: "相似相片可能在構圖、表情、焦點或方向上有所不同。LessPhoto 會顯示完整畫幅，讓你判斷哪一張更值得保留。",
-        linkLabel: "比較相似相片",
+        title: "重複相片與相似相片有什麼不同？",
+        description: "重複相片是內容幾乎一致的副本，通常可以直接合併。相似相片是同一場景下的不同拍攝，構圖、表情、焦點或清晰度可能不同，需要比較後再選擇。",
+        linkLabel: "了解相似相片",
       },
       faqTitle: "重複相片整理 FAQ",
       faqs: [
@@ -456,9 +452,9 @@ export const featurePages: Record<Locale, Record<FeatureSlug, FeatureLandingCont
       ],
       companion: {
         slug: "duplicate-photo-cleaner",
-        title: "清理 iPhone 重複相片，一鍵合併。",
-        description: "內容相符的副本不需要逐張仔細比較。可以先合併重複相片，再處理構圖和畫質可能不同的相似相片。",
-        linkLabel: "整理重複相片",
+        title: "重複相片與相似相片有什麼不同？",
+        description: "重複相片是內容幾乎一致的副本，通常可以直接合併。相似相片是同一場景下的不同拍攝，構圖、表情、焦點或清晰度可能不同，需要比較後再選擇。",
+        linkLabel: "了解重複相片",
       },
       faqTitle: "相似相片整理 FAQ",
       faqs: [

@@ -124,10 +124,12 @@ const related = featureSlugs
     </header>
     <div class="feature-related__grid">
       {related.map(({ slug: relatedSlug, page: relatedPage }) => (
-        <a href={localePath(locale, `features/${relatedSlug}`)}>
-          <span>{relatedPage.eyebrow}</span>
-          <strong>{relatedPage.title}</strong>
-          <small>{ui.relatedLink} <span aria-hidden="true">→</span></small>
+        <a class="feature-related__card" href={localePath(locale, `features/${relatedSlug}`)}>
+          <ProductArtwork variant={relatedPage.variant} locale={locale} single />
+          <span class="feature-related__footer">
+            <strong>{relatedPage.eyebrow}</strong>
+            <span class="feature-related__arrow" aria-hidden="true">→</span>
+          </span>
         </a>
       ))}
     </div>
