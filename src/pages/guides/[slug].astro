@@ -1,9 +1,10 @@
 ---
 import GuideArticlePage from "../../components/GuideArticlePage.astro";
-import { guideArticles } from "../../data/guides";
+import { getGuideArticles } from "../../data/guides";
 
-export function getStaticPaths() {
-  return guideArticles.en.map((article) => ({ params: { slug: article.slug }, props: { article } }));
+export async function getStaticPaths() {
+  const articles = await getGuideArticles("en");
+  return articles.map((article) => ({ params: { slug: article.data.slug }, props: { article } }));
 }
 
 const { article } = Astro.props;

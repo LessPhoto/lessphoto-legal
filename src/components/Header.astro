@@ -1,5 +1,14 @@
 ---
-import { APP_STORE_URL, copy, legalLabels, localeMeta, localePath, type Locale } from "../data/site";
+import {
+  APP_STORE_URL,
+  copy,
+  languageSuggestionCopy,
+  legalLabels,
+  localeMeta,
+  localePath,
+  localeShortLabel,
+  type Locale,
+} from "../data/site";
 
 interface Props {
   locale: Locale;
@@ -11,6 +20,7 @@ const { locale, path = "", heroTheme = false } = Astro.props;
 const t = copy[locale];
 const legal = legalLabels[locale];
 const languageItems: Locale[] = ["en", "zh-hans", "zh-hant"];
+const showLanguageSuggestion = locale === "en" && path === "" && heroTheme;
 ---
 
 <header
@@ -31,7 +41,7 @@ const languageItems: Locale[] = ["en", "zh-hans", "zh-hant"];
     </div>
 
     <nav class="header-actions" aria-label={t.resourceNavLabel}>
-      <details class="header-menu about-menu">
+      <details class="header-menu about-menu" data-header-menu>
         <summary>{t.navAbout}</summary>
         <div class="header-menu__panel">
           <a href={localePath(locale, "terms")} aria-current={path === "terms" ? "page" : undefined}>{legal.terms}</a>
@@ -39,16 +49,17 @@ const languageItems: Locale[] = ["en", "zh-hans", "zh-hant"];
           <a href={localePath(locale, "support")} aria-current={path === "support" ? "page" : undefined}>{legal.support}</a>
         </div>
       </details>
-      <details class="header-menu language-menu">
+      <details class="header-menu language-menu" data-header-menu>
         <summary aria-label={`${t.languageLabel}: ${localeMeta[locale].label}`}>
           <svg aria-hidden="true" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7" />
             <path d="M3.8 12h16.4M12 3.5c2.1 2.2 3.2 5 3.2 8.5S14.1 18.3 12 20.5M12 3.5C9.9 5.7 8.8 8.5 8.8 12s1.1 6.3 3.2 8.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.7" />
           </svg>
+          <span aria-hidden="true">{localeShortLabel[locale]}</span>
         </summary>
         <div class="header-menu__panel">
           {languageItems.map((item) => (
-            <a href={localePath(item, path)} aria-current={item === locale ? "page" : undefined}>
+            <a href={localePath(item, path)} data-language-choice={item} aria-current={item === locale ? "page" : undefined}>
               {localeMeta[item].label}
             </a>
           ))}
@@ -59,7 +70,23 @@ const languageItems: Locale[] = ["en", "zh-hans", "zh-hant"];
 
     <div class="mobile-header-actions">
       <a class="header-download mobile-header-download" href={APP_STORE_URL} target="_blank" rel="noopener">{t.navGet}</a>
-      <details class="mobile-navigation">
+      <details class="header-menu language-menu mobile-language-menu" data-header-menu>
+        <summary aria-label={`${t.languageLabel}: ${localeMeta[locale].label}`}>
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7" />
+            <path d="M3.8 12h16.4M12 3.5c2.1 2.2 3.2 5 3.2 8.5S14.1 18.3 12 20.5M12 3.5C9.9 5.7 8.8 8.5 8.8 12s1.1 6.3 3.2 8.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.7" />
+          </svg>
+          <span aria-hidden="true">{localeShortLabel[locale]}</span>
+        </summary>
+        <div class="header-menu__panel">
+          {languageItems.map((item) => (
+            <a href={localePath(item, path)} data-language-choice={item} aria-current={item === locale ? "page" : undefined}>
+              {localeShortLabel[item]}
+            </a>
+          ))}
+        </div>
+      </details>
+      <details class="mobile-navigation" data-header-menu>
         <summary aria-label={t.menuLabel}>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -80,7 +107,7 @@ const languageItems: Locale[] = ["en", "zh-hans", "zh-hant"];
             <div>
               <p>{t.languageLabel}</p>
               {languageItems.map((item) => (
-                <a href={localePath(item, path)} aria-current={item === locale ? "page" : undefined}>{localeMeta[item].label}</a>
+                <a href={localePath(item, path)} data-language-choice={item} aria-current={item === locale ? "page" : undefined}>{localeMeta[item].label}</a>
               ))}
             </div>
           </div>
@@ -88,17 +115,56 @@ const languageItems: Locale[] = ["en", "zh-hans", "zh-hant"];
       </details>
     </div>
   </div>
+
 </header>
+
+{showLanguageSuggestion && (
+  <aside
+    class="language-suggestion"
+    data-language-suggestion
+    data-copy={JSON.stringify(languageSuggestionCopy)}
+    hidden
+    aria-live="polite"
+  >
+    <p>
+      <span data-language-suggestion-prompt></span>
+      <a data-language-suggestion-switch href="/"></a>
+    </p>
+    <button data-language-suggestion-close type="button">
+      <span aria-hidden="true">×</span>
+    </button>
+  </aside>
+)}
 
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
     const header = document.querySelector(".site-header");
     if (!(header instanceof HTMLElement)) return;
 
-    const headerMenus = Array.from(header.querySelectorAll(".header-actions details.header-menu"));
+    header.querySelectorAll("[data-language-choice]").forEach((link) => {
+      if (!(link instanceof HTMLAnchorElement)) return;
+      link.addEventListener("click", () => {
+        const choice = link.dataset.languageChoice;
+        if (!choice) return;
+        try {
+          localStorage.setItem("lessphoto_preferred_locale", choice);
+        } catch {
+          // The language link still works when storage is unavailable.
+        }
+      });
+    });
+
+    const languageSuggestion = document.querySelector("[data-language-suggestion]");
+    let suggestionExpired = false;
+
+    const headerMenus = Array.from(header.querySelectorAll("details[data-header-menu]"));
     headerMenus.forEach((menu) => {
       menu.addEventListener("toggle", () => {
         if (!menu.open) return;
+        if (menu.classList.contains("language-menu") && languageSuggestion instanceof HTMLElement) {
+          suggestionExpired = true;
+          languageSuggestion.hidden = true;
+        }
         headerMenus.forEach((otherMenu) => {
           if (otherMenu !== menu) otherMenu.open = false;
         });
@@ -119,11 +185,106 @@ const languageItems: Locale[] = ["en", "zh-hans", "zh-hant"];
       const updateHeaderTheme = () => {
         const overlapsHero = hero.getBoundingClientRect().bottom > header.offsetHeight;
         header.classList.toggle("is-over-hero", overlapsHero);
+        if (!overlapsHero && languageSuggestion instanceof HTMLElement) {
+          suggestionExpired = true;
+          languageSuggestion.hidden = true;
+        }
       };
 
       updateHeaderTheme();
       window.addEventListener("scroll", updateHeaderTheme, { passive: true });
       window.addEventListener("resize", updateHeaderTheme, { passive: true });
+    }
+
+    if (languageSuggestion instanceof HTMLElement && !suggestionExpired && header.classList.contains("is-over-hero")) {
+      const search = new URLSearchParams(location.search);
+      const hashQuery = location.hash.split("?")[1] || "";
+      const hasLegacyRequest = /^#\/(terms|privacy|support)/.test(location.hash)
+        || search.has("route")
+        || search.has("lang")
+        || new URLSearchParams(hashQuery).has("lang");
+
+      if (!hasLegacyRequest) {
+        const detectBrowserLocale = () => {
+          const languages = navigator.languages?.length
+            ? navigator.languages
+            : [navigator.language || ""];
+
+          for (const language of languages) {
+            const normalized = language.toLowerCase();
+            if (
+              normalized.startsWith("zh-hant")
+              || normalized.startsWith("zh-tw")
+              || normalized.startsWith("zh-hk")
+              || normalized.startsWith("zh-mo")
+            ) return "zh-hant";
+            if (
+              normalized === "zh"
+              || normalized.startsWith("zh-hans")
+              || normalized.startsWith("zh-cn")
+              || normalized.startsWith("zh-sg")
+              || normalized.startsWith("zh-")
+            ) return "zh-hans";
+            if (normalized.startsWith("en")) return "en";
+          }
+
+          return "en";
+        };
+
+        let savedLocale = "";
+        try {
+          savedLocale = localStorage.getItem("lessphoto_preferred_locale") || "";
+        } catch {
+          // Browser-language detection remains available without storage.
+        }
+
+        const targetLocale = ["en", "zh-hans", "zh-hant"].includes(savedLocale)
+          ? savedLocale
+          : detectBrowserLocale();
+
+        if (targetLocale !== "en") {
+          let localizedCopy;
+          try {
+            localizedCopy = JSON.parse(languageSuggestion.dataset.copy || "{}")[targetLocale];
+          } catch {
+            localizedCopy = undefined;
+          }
+
+          const prompt = languageSuggestion.querySelector("[data-language-suggestion-prompt]");
+          const switchLink = languageSuggestion.querySelector("[data-language-suggestion-switch]");
+          const closeButton = languageSuggestion.querySelector("[data-language-suggestion-close]");
+          if (
+            localizedCopy
+            && prompt instanceof HTMLElement
+            && switchLink instanceof HTMLAnchorElement
+            && closeButton instanceof HTMLButtonElement
+          ) {
+            languageSuggestion.setAttribute("aria-label", localizedCopy.ariaLabel);
+            prompt.textContent = localizedCopy.prompt;
+            switchLink.textContent = localizedCopy.switchLabel;
+            switchLink.href = `/${targetLocale}/`;
+            closeButton.setAttribute("aria-label", localizedCopy.closeLabel);
+
+            switchLink.addEventListener("click", () => {
+              try {
+                localStorage.setItem("lessphoto_preferred_locale", targetLocale);
+              } catch {
+                // The language link still works when storage is unavailable.
+              }
+            });
+            closeButton.addEventListener("click", () => {
+              try {
+                localStorage.setItem("lessphoto_preferred_locale", "en");
+              } catch {
+                // Closing the suggestion still works when storage is unavailable.
+              }
+              suggestionExpired = true;
+              languageSuggestion.hidden = true;
+            });
+            languageSuggestion.hidden = false;
+          }
+        }
+      }
     }
 
     const pageDownloadButtons = document.querySelectorAll(".app-store-button");

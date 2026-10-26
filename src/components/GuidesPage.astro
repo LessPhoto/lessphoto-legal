@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ContentFrame from "./ContentFrame.astro";
 import { copy, guideIndexCopy, localePath, type Locale } from "../data/site";
-import { guideArticles } from "../data/guides";
+import { getGuideArticles } from "../data/guides";
 
 interface Props {
   locale: Locale;
@@ -10,7 +10,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = guideIndexCopy[locale];
-const articles = guideArticles[locale];
+const articles = await getGuideArticles(locale);
 ---
 
 <BaseLayout title={t.seoTitle} description={t.seoDescription} locale={locale} path="guides">
@@ -19,14 +19,14 @@ const articles = guideArticles[locale];
       <h1 class="guide-index__title">{copy[locale].navGuides}</h1>
       <div class="guide-topic-list">
         {articles.map((article, index) => (
-          <a href={localePath(locale, `guides/${article.slug}`)}>
+          <a href={localePath(locale, `guides/${article.data.slug}`)}>
             <span>{String(index + 1).padStart(2, "0")}</span>
             <div>
-              <h2>{article.title}</h2>
-              {article.description && <p>{article.description}</p>}
+              <h2>{article.data.title}</h2>
+              {article.data.description && <p>{article.data.description}</p>}
               <div class="guide-topic-meta">
-                <span>{article.category}</span>
-                <time datetime={article.publishedAt}>{article.publishedAt}</time>
+                <span>{article.data.category}</span>
+                <time datetime={article.data.publishedAt}>{article.data.publishedAt}</time>
               </div>
             </div>
           </a>

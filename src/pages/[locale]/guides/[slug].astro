@@ -1,11 +1,19 @@
 ---
 import GuideArticlePage from "../../../components/GuideArticlePage.astro";
-import { guideArticles } from "../../../data/guides";
+import { getGuideArticles } from "../../../data/guides";
 import type { Locale } from "../../../data/site";
 
-export function getStaticPaths() {
-  return (["zh-hans", "zh-hant"] as Locale[]).flatMap((locale) =>
-    guideArticles[locale].map((article) => ({ params: { locale, slug: article.slug }, props: { locale, article } })),
+export async function getStaticPaths() {
+  const locales: Locale[] = ["zh-hans", "zh-hant"];
+  const localizedArticles = await Promise.all(
+    locales.map(async (locale) => ({ locale, articles: await getGuideArticles(locale) })),
+  );
+
+  return localizedArticles.flatMap(({ locale, articles }) =>
+    articles.map((article) => ({
+      params: { locale, slug: article.data.slug },
+      props: { locale, article },
+    })),
   );
 }
 

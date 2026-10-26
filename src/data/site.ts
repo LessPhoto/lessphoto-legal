@@ -13,6 +13,32 @@ export const localeMeta: Record<Locale, { label: string; htmlLang: string }> = {
   "zh-hant": { label: "繁體中文", htmlLang: "zh-Hant" },
 };
 
+export const localeShortLabel: Record<Locale, string> = {
+  en: "EN",
+  "zh-hans": "简体",
+  "zh-hant": "繁體",
+};
+
+export const languageSuggestionCopy = {
+  "zh-hans": {
+    ariaLabel: "语言建议",
+    prompt: "切换到你的常用语言？",
+    switchLabel: "简体中文",
+    closeLabel: "继续使用 English",
+  },
+  "zh-hant": {
+    ariaLabel: "語言建議",
+    prompt: "切換到你的常用語言？",
+    switchLabel: "繁體中文",
+    closeLabel: "繼續使用 English",
+  },
+} satisfies Record<Exclude<Locale, "en">, {
+  ariaLabel: string;
+  prompt: string;
+  switchLabel: string;
+  closeLabel: string;
+}>;
+
 export const localePath = (locale: Locale, path = "") => {
   const normalized = path.replace(/^\/+|\/+$/g, "");
   const prefix = locale === "en" ? "" : `/${locale}`;
@@ -49,7 +75,7 @@ export const copy = {
     heroPrimary: "Get the app",
     featureLearnMore: "Learn more",
     featureDuplicateLink: "Clean duplicate photos",
-    featureSimilarLink: "Compare similar photos",
+    featureSimilarLink: "Clean similar photos",
     features: [
       {
         key: "similar",

@@ -105,11 +105,11 @@ export const featurePages: Record<Locale, Record<FeatureSlug, FeatureLandingCont
     },
     "similar-photo-cleaner": {
       seoTitle: "iPhone Similar Photo Cleaner | LessPhoto",
-      seoDescription: "Find similar photos on iPhone. Keep the best shot and unique perspectives, then review the rest before cleanup.",
+      seoDescription: "Find and delete similar photos on iPhone. Keep the best shots, review LessPhoto’s suggestions, and confirm every cleanup.",
       eyebrow: "Similar photo cleaner for iPhone",
-      title: "Find Similar Photos on iPhone. Keep the Best.",
+      title: "Find and Delete Similar Photos on iPhone",
       titleAccent: "Similar Photos",
-      description: "LessPhoto groups bursts, retakes, and look-alike shots. It marks the best photo, keeps unique perspectives, and preselects the rest for review.",
+      description: "Find similar shots, keep the best photos, and delete the rest after reviewing LessPhoto’s suggestions.",
       variant: "similar",
       stepsTitle: "How It Works",
       steps: [

@@ -1,6 +1,6 @@
 ---
 import { copy, legalLabels, localePath, type Locale } from "../data/site";
-import { guideNavigation } from "../data/guides";
+import { getGuideNavigation } from "../data/guides";
 
 type ContentSection = "guides" | "legal";
 
@@ -22,7 +22,8 @@ const legalNavigation: NavigationItem[] = [
   { key: "privacy", label: legal.privacy, href: localePath(locale, "privacy") },
   { key: "support", label: legal.support, href: localePath(locale, "support") },
 ];
-const publishedGuideNavigation = guideNavigation[locale].map((item) => ({
+const guideNavigation = section === "guides" ? await getGuideNavigation(locale) : [];
+const publishedGuideNavigation = guideNavigation.map((item) => ({
   key: item.path,
   label: item.label,
   href: localePath(locale, item.path),

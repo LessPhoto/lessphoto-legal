@@ -1,6 +1,7 @@
 ---
 import GuideLayout from "../layouts/GuideLayout.astro";
 import StorageCostCalculator from "./StorageCostCalculator.astro";
+import { render } from "astro:content";
 import type { GuideArticle } from "../data/guides";
 import type { Locale } from "../data/site";
 
@@ -10,29 +11,20 @@ interface Props {
 }
 
 const { locale, article } = Astro.props;
-const path = `guides/${article.slug}`;
+const { Content } = await render(article);
+const path = `guides/${article.data.slug}`;
 ---
 
 <GuideLayout
-  title={article.title}
-  description={article.description}
+  title={article.data.title}
+  description={article.data.description}
   locale={locale}
   path={path}
-  campaignToken={`guide-${article.slug}-${locale}`}
-  category={article.category}
-  date={article.publishedAt}
+  campaignToken={`guide-${article.data.slug}-${locale}`}
+  category={article.data.category}
+  date={article.data.publishedAt}
 >
-  {article.kind === "calculator" && <StorageCostCalculator locale={locale} />}
-
-  {article.sections.map((section) => (
-    <section>
-      <h2>{section.heading}</h2>
-      {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-      {section.bullets && (
-        <ul>{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>
-      )}
-      {section.callout && <aside class="guide-callout">{section.callout}</aside>}
-    </section>
-  ))}
+  {article.data.kind === "calculator" && <StorageCostCalculator locale={locale} />}
+  <Content />
 
 </GuideLayout>

@@ -2,14 +2,19 @@
 interface Props {
   text: string;
   accent?: string;
+  blockAccent?: boolean;
 }
 
-const { text, accent } = Astro.props;
+const { text, accent, blockAccent = false } = Astro.props;
 const accentIndex = accent ? text.indexOf(accent) : -1;
 const before = accentIndex >= 0 ? text.slice(0, accentIndex) : text;
 const after = accentIndex >= 0 && accent ? text.slice(accentIndex + accent.length) : "";
 ---
 
 {accentIndex >= 0 && accent ? (
-  <>{before}<span class="title-accent">{accent}</span>{after}</>
+  blockAccent ? (
+    <>{before.trimEnd()}<span class="title-accent title-accent--block">{accent}{after}</span></>
+  ) : (
+    <>{before}<span class="title-accent">{accent}</span>{after}</>
+  )
 ) : text}

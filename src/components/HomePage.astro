@@ -31,7 +31,7 @@ const features = t.features as Array<{
   <section class="hero-cover">
     <div class="hero-section page-width">
       <div class="hero-copy">
-        <h1><AccentText text={t.heroTitle} accent={t.heroTitleAccent} /></h1>
+        <h1><AccentText text={t.heroTitle} accent={t.heroTitleAccent} blockAccent /></h1>
         <p class="hero-description">{t.heroDescription}</p>
         <div class="hero-actions">
           <AppStoreButton label={t.heroPrimary} />
@@ -141,4 +141,5 @@ const features = t.features as Array<{
       })();
     </script>
   )}
+
 </BaseLayout>
