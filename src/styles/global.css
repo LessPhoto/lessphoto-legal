@@ -966,30 +966,30 @@ html:lang(zh-Hant) .hero-copy h1 {
 }
 
 .feature-landing-hero__copy {
-  max-width: 670px;
+  max-width: 660px;
 }
 
 .feature-landing-hero__copy h1 {
   margin: 0;
   font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(44px, calc(4.8vw + 2px), 64px);
+  font-size: clamp(46px, calc(5.1vw + 2px), 68px);
   font-weight: var(--title-weight);
-  line-height: 1.08;
+  line-height: 1.07;
   letter-spacing: var(--title-letter-spacing);
 }
 
 html:lang(zh-Hans) .feature-landing-hero__copy h1,
 html:lang(zh-Hant) .feature-landing-hero__copy h1 {
-  font-size: clamp(44px, calc(4.6vw + 2px), 62px);
-  line-height: 1.1;
+  font-size: clamp(46px, calc(5vw + 2px), 66px);
+  line-height: 1.08;
 }
 
 .feature-landing-hero__description {
-  max-width: 630px;
-  margin: 24px 0 0;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: clamp(18px, 1.8vw, 21px);
-  line-height: 1.62;
+  max-width: 650px;
+  margin: 28px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.55;
 }
 
 .feature-landing-hero__visual .artwork-placeholder,
@@ -2530,31 +2530,25 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   }
 
   .feature-landing-hero__copy h1,
+  .hero-copy h1 {
+    font-size: clamp(42px, calc(11vw + 2px), 54px);
+  }
+
   html:lang(zh-Hans) .feature-landing-hero__copy h1,
-  html:lang(zh-Hant) .feature-landing-hero__copy h1 {
+  html:lang(zh-Hant) .feature-landing-hero__copy h1,
+  html:lang(zh-Hans) .hero-copy h1,
+  html:lang(zh-Hant) .hero-copy h1 {
     font-size: clamp(40px, calc(10vw + 2px), 50px);
   }
 
-  .feature-landing-hero__description {
+  .feature-landing-hero__description,
+  .hero-description {
     font-size: 17px;
   }
 
   .feature-landing-hero__visual .artwork-placeholder,
   .feature-landing-hero__visual .product-artwork {
     min-height: 390px;
-  }
-
-  .hero-copy h1 {
-    font-size: clamp(42px, calc(11vw + 2px), 54px);
-  }
-
-  html:lang(zh-Hans) .hero-copy h1,
-  html:lang(zh-Hant) .hero-copy h1 {
-    font-size: clamp(40px, calc(10vw + 2px), 50px);
-  }
-
-  .hero-description {
-    font-size: 17px;
   }
 
   .hero-actions {
