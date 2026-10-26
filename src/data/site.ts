@@ -1,5 +1,14 @@
 export const APP_STORE_ID = "6772085946";
 export const APP_STORE_URL = `https://apps.apple.com/app/id${APP_STORE_ID}`;
+export const APP_STORE_PROVIDER_TOKEN = "128874359";
+export const APP_STORE_CAMPAIGNS = {
+  product: "web-product",
+  blog: "web-blog",
+} as const;
+export type AppStoreCampaign = typeof APP_STORE_CAMPAIGNS[keyof typeof APP_STORE_CAMPAIGNS];
+
+export const appStoreCampaignUrl = (campaign: AppStoreCampaign) =>
+  `https://apps.apple.com/app/apple-store/id${APP_STORE_ID}?pt=${APP_STORE_PROVIDER_TOKEN}&ct=${encodeURIComponent(campaign)}&mt=8`;
 export const SITE_URL = "https://lessphoto.cc";
 
 export type Locale = "en" | "zh-hans" | "zh-hant";

@@ -2,20 +2,18 @@
 import BaseLayout from "./BaseLayout.astro";
 import AppStoreButton from "../components/AppStoreButton.astro";
 import ContentFrame from "../components/ContentFrame.astro";
-import type { Locale } from "../data/site";
+import { APP_STORE_CAMPAIGNS, type Locale } from "../data/site";
 
 interface Props {
   title: string;
   description: string;
   locale: Locale;
   path: string;
-  campaignToken?: string;
-  providerToken?: string;
   category?: string;
   date?: string;
 }
 
-const { title, description, locale, path, campaignToken, providerToken, category, date } = Astro.props;
+const { title, description, locale, path, category, date } = Astro.props;
 const buttonLabel = locale === "en" ? "Get the app" : locale === "zh-hans" ? "下载 App" : "下載 App";
 ---
 
@@ -56,7 +54,7 @@ const buttonLabel = locale === "en" ? "Get the app" : locale === "zh-hans" ? "�
           <h2>LessPhoto</h2>
           <p>{description}</p>
         </div>
-        <AppStoreButton label={buttonLabel} campaignToken={campaignToken} providerToken={providerToken} />
+        <AppStoreButton label={buttonLabel} campaignToken={APP_STORE_CAMPAIGNS.blog} />
       </aside>
     </article>
   </ContentFrame>

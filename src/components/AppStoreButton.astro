@@ -1,17 +1,22 @@
 ---
-import { APP_STORE_URL } from "../data/site";
+import {
+  APP_STORE_CAMPAIGNS,
+  appStoreCampaignUrl,
+  type AppStoreCampaign,
+} from "../data/site";
 
 interface Props {
   label: string;
   variant?: "primary" | "light";
-  campaignToken?: string;
-  providerToken?: string;
+  campaignToken?: AppStoreCampaign;
 }
 
-const { label, variant = "primary", campaignToken, providerToken } = Astro.props;
-const href = campaignToken && providerToken
-  ? `${APP_STORE_URL}?pt=${encodeURIComponent(providerToken)}&ct=${encodeURIComponent(campaignToken)}&mt=8`
-  : APP_STORE_URL;
+const {
+  label,
+  variant = "primary",
+  campaignToken = APP_STORE_CAMPAIGNS.product,
+} = Astro.props;
+const href = appStoreCampaignUrl(campaignToken);
 ---
 
 <a class:list={["app-store-button", `app-store-button--${variant}`]} href={href} target="_blank" rel="noopener">

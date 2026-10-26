@@ -1,12 +1,14 @@
 ---
 import {
-  APP_STORE_URL,
+  APP_STORE_CAMPAIGNS,
+  appStoreCampaignUrl,
   copy,
   languageSuggestionCopy,
   legalLabels,
   localeMeta,
   localePath,
   localeShortLabel,
+  type AppStoreCampaign,
   type Locale,
 } from "../data/site";
 
@@ -14,13 +16,20 @@ interface Props {
   locale: Locale;
   path?: string;
   heroTheme?: boolean;
+  campaignToken?: AppStoreCampaign;
 }
 
-const { locale, path = "", heroTheme = false } = Astro.props;
+const {
+  locale,
+  path = "",
+  heroTheme = false,
+  campaignToken = APP_STORE_CAMPAIGNS.product,
+} = Astro.props;
 const t = copy[locale];
 const legal = legalLabels[locale];
 const languageItems: Locale[] = ["en", "zh-hans", "zh-hant"];
 const showLanguageSuggestion = locale === "en" && path === "" && heroTheme;
+const appStoreHref = appStoreCampaignUrl(campaignToken);
 ---
 
 <header
@@ -65,11 +74,11 @@ const showLanguageSuggestion = locale === "en" && path === "" && heroTheme;
           ))}
         </div>
       </details>
-      <a class="header-download" href={APP_STORE_URL} target="_blank" rel="noopener">{t.navGet}</a>
+      <a class="header-download" href={appStoreHref} target="_blank" rel="noopener">{t.navGet}</a>
     </nav>
 
     <div class="mobile-header-actions">
-      <a class="header-download mobile-header-download" href={APP_STORE_URL} target="_blank" rel="noopener">{t.navGet}</a>
+      <a class="header-download mobile-header-download" href={appStoreHref} target="_blank" rel="noopener">{t.navGet}</a>
       <details class="header-menu language-menu mobile-language-menu" data-header-menu>
         <summary aria-label={`${t.languageLabel}: ${localeMeta[locale].label}`}>
           <svg aria-hidden="true" viewBox="0 0 24 24">

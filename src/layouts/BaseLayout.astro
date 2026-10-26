@@ -3,7 +3,7 @@ import SEOHead from "../components/SEOHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
-import { copy, localeMeta, type Locale } from "../data/site";
+import { APP_STORE_CAMPAIGNS, copy, localeMeta, type Locale } from "../data/site";
 
 interface Props {
   title: string;
@@ -25,6 +25,9 @@ const {
   heroHeader = false,
 } = Astro.props;
 const t = copy[locale];
+const appStoreCampaign = path === "guides" || path.startsWith("guides/")
+  ? APP_STORE_CAMPAIGNS.blog
+  : APP_STORE_CAMPAIGNS.product;
 ---
 
 <!doctype html>
@@ -41,10 +44,10 @@ const t = copy[locale];
   </head>
   <body>
     <a class="skip-link" href="#main-content">{t.skipToContent}</a>
-    <Header locale={locale} path={path} heroTheme={heroHeader} />
+    <Header locale={locale} path={path} heroTheme={heroHeader} campaignToken={appStoreCampaign} />
     <main id="main-content">
       <slot />
     </main>
-    <Footer locale={locale} />
+    <Footer locale={locale} campaignToken={appStoreCampaign} />
   </body>
 </html>
