@@ -26,8 +26,8 @@
   --blue-soft: #e7f1ff;
   --coral: #ff806f;
   --page: #ffffff;
-  --hero-deep: #0e2823;
-  --hero-deeper: #071b17;
+  --hero-deep: #0c211d;
+  --hero-deeper: #051512;
   --hero-text: #ffffff;
   --title-weight: 650;
   --title-letter-spacing: -0.02em;
@@ -399,9 +399,9 @@ summary {
   padding-top: 1px;
   color: var(--hero-text);
   background:
-    radial-gradient(circle at 79% 48%, rgba(0, 241, 193, 0.28), transparent 27%),
-    radial-gradient(circle at 84% 66%, rgba(10, 124, 255, 0.15), transparent 24%),
-    linear-gradient(132deg, var(--hero-deeper), var(--hero-deep) 58%, #10352e);
+    radial-gradient(circle at 73% 48%, rgba(0, 241, 193, 0.28), transparent 27%),
+    radial-gradient(circle at 79% 66%, rgba(10, 124, 255, 0.15), transparent 24%),
+    linear-gradient(132deg, var(--hero-deeper), var(--hero-deep) 58%, #0e2d27);
   background-color: var(--hero-deeper);
 }
 
@@ -2349,9 +2349,9 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 
   .hero-cover {
     background:
-      radial-gradient(circle at 50% 74%, rgba(0, 241, 193, 0.28), transparent 25%),
-      radial-gradient(circle at 58% 82%, rgba(10, 124, 255, 0.14), transparent 22%),
-      linear-gradient(132deg, var(--hero-deeper), var(--hero-deep) 58%, #10352e);
+      radial-gradient(circle at 48% 74%, rgba(0, 241, 193, 0.28), transparent 25%),
+      radial-gradient(circle at 52% 82%, rgba(10, 124, 255, 0.14), transparent 22%),
+      linear-gradient(132deg, var(--hero-deeper), var(--hero-deep) 58%, #0e2d27);
   }
 
   .hero-section {
