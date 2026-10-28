@@ -16,16 +16,17 @@
   --state-hover: #f7f7f7;
   --state-selected: #ededed;
   --line: rgba(5, 5, 5, 0.1);
-  --mint: #00f1be;
-  --mint-soft: #d9fff5;
-  --accent: #00be96;
-  --accent-highlight: #00be96;
-  --accent-on-dark: #00f1be;
+  --mint: #00f1c9;
+  --mint-soft: #d9fff9;
+  --accent: #00be9e;
+  --accent-highlight: #00be9e;
+  --accent-on-dark: #00f1c9;
+  --hero-accent: #00f1c1;
   --blue: #0a7cff;
   --blue-soft: #e7f1ff;
   --coral: #ff806f;
   --page: #ffffff;
-  --hero-deep: #0e2822;
+  --hero-deep: #0e2823;
   --hero-deeper: #071b17;
   --hero-text: #ffffff;
   --title-weight: 650;
@@ -398,9 +399,9 @@ summary {
   padding-top: 1px;
   color: var(--hero-text);
   background:
-    radial-gradient(circle at 79% 48%, rgba(0, 241, 190, 0.28), transparent 27%),
+    radial-gradient(circle at 79% 48%, rgba(0, 241, 193, 0.28), transparent 27%),
     radial-gradient(circle at 84% 66%, rgba(10, 124, 255, 0.15), transparent 24%),
-    linear-gradient(132deg, var(--hero-deeper), var(--hero-deep) 58%, #10352c);
+    linear-gradient(132deg, var(--hero-deeper), var(--hero-deep) 58%, #10352e);
   background-color: var(--hero-deeper);
 }
 
@@ -435,9 +436,12 @@ summary {
   display: block;
 }
 
-.hero-cover .title-accent,
 .privacy-card .title-accent {
   color: var(--accent-on-dark);
+}
+
+.hero-cover .title-accent {
+  color: var(--hero-accent);
 }
 
 .hero-copy h1,
@@ -477,7 +481,7 @@ html:lang(zh-Hant) .hero-copy h1 {
 }
 
 .hero-cover .eyebrow {
-  color: var(--accent-on-dark);
+  color: var(--hero-accent);
 }
 
 .hero-cover .hero-description {
@@ -704,7 +708,7 @@ html:lang(zh-Hant) .hero-copy h1 {
   height: 310px;
   top: -100px;
   right: -60px;
-  background: rgba(0, 241, 190, 0.3);
+  background: rgba(0, 241, 201, 0.3);
 }
 
 .placeholder-orb--two {
@@ -1293,7 +1297,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   align-items: start;
   padding: clamp(48px, 8vw, 92px);
   border-radius: var(--radius-lg);
-  background: #0f2a24;
+  background: #0f2a26;
   color: white;
 }
 
@@ -1448,7 +1452,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   align-items: center;
   padding: clamp(38px, 6vw, 68px);
   border-radius: var(--radius-lg);
-  background: linear-gradient(130deg, #d1f5ea, #74e8cb 54%, #00f1be);
+  background: linear-gradient(130deg, #d1f5ef, #74e8d5 54%, #00f1c9);
 }
 
 .final-cta__inner > img {
@@ -2345,9 +2349,9 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 
   .hero-cover {
     background:
-      radial-gradient(circle at 50% 74%, rgba(0, 241, 190, 0.28), transparent 25%),
+      radial-gradient(circle at 50% 74%, rgba(0, 241, 193, 0.28), transparent 25%),
       radial-gradient(circle at 58% 82%, rgba(10, 124, 255, 0.14), transparent 22%),
-      linear-gradient(132deg, var(--hero-deeper), var(--hero-deep) 58%, #10352c);
+      linear-gradient(132deg, var(--hero-deeper), var(--hero-deep) 58%, #10352e);
   }
 
   .hero-section {
