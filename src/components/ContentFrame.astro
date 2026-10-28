@@ -1,19 +1,19 @@
 ---
 import { copy, legalLabels, localePath, type Locale } from "../data/site";
-import { getGuideNavigation } from "../data/guides";
+import { getBlogNavigation } from "../data/blog";
 
-type ContentSection = "guides" | "legal";
+type ContentSection = "blog" | "legal";
 
 interface Props {
   locale: Locale;
   section: ContentSection;
   active: string;
   currentLabel: string;
-  currentGuidePath?: string;
+  currentBlogPath?: string;
   hideSidebar?: boolean;
 }
 
-const { locale, section, active, currentLabel, currentGuidePath, hideSidebar = false } = Astro.props;
+const { locale, section, active, currentLabel, currentBlogPath, hideSidebar = false } = Astro.props;
 const t = copy[locale];
 const legal = legalLabels[locale];
 type NavigationItem = { key: string; label: string; href: string; publishedAt?: string };
@@ -22,31 +22,31 @@ const legalNavigation: NavigationItem[] = [
   { key: "privacy", label: legal.privacy, href: localePath(locale, "privacy") },
   { key: "support", label: legal.support, href: localePath(locale, "support") },
 ];
-const guideNavigation = section === "guides" ? await getGuideNavigation(locale) : [];
-const publishedGuideNavigation = guideNavigation.map((item) => ({
+const blogNavigation = section === "blog" ? await getBlogNavigation(locale) : [];
+const publishedBlogNavigation = blogNavigation.map((item) => ({
   key: item.path,
   label: item.label,
   href: localePath(locale, item.path),
   publishedAt: item.publishedAt,
 }));
-const currentGuideIsPublished = currentGuidePath
-  ? publishedGuideNavigation.some((item) => item.key === currentGuidePath)
+const currentBlogIsPublished = currentBlogPath
+  ? publishedBlogNavigation.some((item) => item.key === currentBlogPath)
   : false;
 const navigation: NavigationItem[] = section === "legal"
   ? legalNavigation
   : [
-      ...publishedGuideNavigation,
-      ...(currentGuidePath && !currentGuideIsPublished
-        ? [{ key: currentGuidePath, label: currentLabel, href: localePath(locale, currentGuidePath) }]
+      ...publishedBlogNavigation,
+      ...(currentBlogPath && !currentBlogIsPublished
+        ? [{ key: currentBlogPath, label: currentLabel, href: localePath(locale, currentBlogPath) }]
         : []),
     ];
-const directoryLabel = section === "guides" ? t.guideDirectoryLabel : t.relatedInformationLabel;
+const directoryLabel = section === "blog" ? t.blogDirectoryLabel : t.relatedInformationLabel;
 ---
 
 <section class="content-shell page-width">
-  {section === "guides" && currentGuidePath && (
-    <a class="content-mobile-back" href={localePath(locale, "guides")}>
-      <span aria-hidden="true">←</span> {t.navGuides}
+  {section === "blog" && currentBlogPath && (
+    <a class="content-mobile-back" href={localePath(locale, "blog")}>
+      <span aria-hidden="true">←</span> {t.navBlog}
     </a>
   )}
 
@@ -65,15 +65,15 @@ const directoryLabel = section === "guides" ? t.guideDirectoryLabel : t.relatedI
               return (
               <a href={item.href} aria-current={isActive ? "page" : undefined}>
                 <span>{item.label}</span>
-                {section === "guides" && isActive
-                  ? <small class="content-sidebar__status">{t.guideReadingLabel}</small>
+                {section === "blog" && isActive
+                  ? <small class="content-sidebar__status">{t.blogReadingLabel}</small>
                   : item.publishedAt && <time datetime={item.publishedAt}>{item.publishedAt}</time>}
               </a>
               );
             })}
           </nav>
         ) : (
-          <p class="content-sidebar__empty">{t.emptyGuideDirectoryLabel}</p>
+          <p class="content-sidebar__empty">{t.emptyBlogDirectoryLabel}</p>
         )}
       </aside>
     )}

@@ -20,37 +20,37 @@ const buttonLabel = locale === "en" ? "Get the app" : locale === "zh-hans" ? "ä¸
 <BaseLayout title={`${title} Â· LessPhoto`} description={description} locale={locale} path={path}>
   <ContentFrame
     locale={locale}
-    section="guides"
+    section="blog"
     active={path}
     currentLabel={title}
-    currentGuidePath={path}
+    currentBlogPath={path}
   >
     <article class="content-article">
-      <header class="content-article__header guide-header">
+      <header class="content-article__header blog-header">
         <h1>{title}</h1>
-        {description && <p class="guide-dek">{description}</p>}
+        {description && <p class="blog-dek">{description}</p>}
         {Astro.slots.has("meta") ? (
           <slot name="meta" />
         ) : (category || date) && (
-          <div class="guide-meta">
+          <div class="blog-meta">
             {category && <span>{category}</span>}
             {date && <time datetime={date}>{date}</time>}
           </div>
         )}
       </header>
-      <div class="guide-content">
+      <div class="blog-content">
         <slot />
       </div>
-      <aside class="guide-cta">
+      <aside class="blog-cta">
         <img
-          class="guide-cta__icon"
+          class="blog-cta__icon"
           src="/assets/app-icon.svg"
           width="72"
           height="72"
           alt=""
           aria-hidden="true"
         />
-        <div class="guide-cta__copy">
+        <div class="blog-cta__copy">
           <h2>LessPhoto</h2>
           <p>{description}</p>
         </div>

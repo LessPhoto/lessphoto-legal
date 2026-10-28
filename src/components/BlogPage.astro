@@ -1,30 +1,30 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ContentFrame from "./ContentFrame.astro";
-import { copy, guideIndexCopy, localePath, type Locale } from "../data/site";
-import { getGuideArticles } from "../data/guides";
+import { copy, blogIndexCopy, localePath, type Locale } from "../data/site";
+import { getBlogArticles } from "../data/blog";
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const t = guideIndexCopy[locale];
-const articles = await getGuideArticles(locale);
+const t = blogIndexCopy[locale];
+const articles = await getBlogArticles(locale);
 ---
 
-<BaseLayout title={t.seoTitle} description={t.seoDescription} locale={locale} path="guides">
-  <ContentFrame locale={locale} section="guides" active="guides" currentLabel={copy[locale].navGuides} hideSidebar>
-    <article class="content-article guide-index">
-      <h1 class="guide-index__title">{copy[locale].navGuides}</h1>
-      <div class="guide-topic-list">
+<BaseLayout title={t.seoTitle} description={t.seoDescription} locale={locale} path="blog">
+  <ContentFrame locale={locale} section="blog" active="blog" currentLabel={copy[locale].navBlog} hideSidebar>
+    <article class="content-article blog-index">
+      <h1 class="blog-index__title">{copy[locale].navBlog}</h1>
+      <div class="blog-topic-list">
         {articles.map((article, index) => (
-          <a href={localePath(locale, `guides/${article.data.slug}`)}>
+          <a href={localePath(locale, `blog/${article.data.slug}`)}>
             <span>{String(index + 1).padStart(2, "0")}</span>
             <div>
               <h2>{article.data.title}</h2>
               {article.data.description && <p>{article.data.description}</p>}
-              <div class="guide-topic-meta">
+              <div class="blog-topic-meta">
                 <span>{article.data.category}</span>
                 <time datetime={article.data.publishedAt}>{article.data.publishedAt}</time>
               </div>

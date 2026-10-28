@@ -1,12 +1,12 @@
 ---
-import GuideArticlePage from "../../../components/GuideArticlePage.astro";
-import { getGuideArticles } from "../../../data/guides";
+import BlogArticlePage from "../../../components/BlogArticlePage.astro";
+import { getBlogArticles } from "../../../data/blog";
 import type { Locale } from "../../../data/site";
 
 export async function getStaticPaths() {
   const locales: Locale[] = ["zh-hans", "zh-hant"];
   const localizedArticles = await Promise.all(
-    locales.map(async (locale) => ({ locale, articles: await getGuideArticles(locale) })),
+    locales.map(async (locale) => ({ locale, articles: await getBlogArticles(locale) })),
   );
 
   return localizedArticles.flatMap(({ locale, articles }) =>
@@ -20,4 +20,4 @@ export async function getStaticPaths() {
 const { locale, article } = Astro.props;
 ---
 
-<GuideArticlePage locale={locale} article={article} />
+<BlogArticlePage locale={locale} article={article} />

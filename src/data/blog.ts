@@ -1,11 +1,11 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import type { Locale } from "./site";
 
-export type GuideArticle = CollectionEntry<"guides">;
+export type BlogArticle = CollectionEntry<"blog">;
 
-export async function getGuideArticles(locale: Locale) {
+export async function getBlogArticles(locale: Locale) {
   const articles = await getCollection(
-    "guides",
+    "blog",
     ({ data }) => !data.draft && data.locale === locale,
   );
 
@@ -16,15 +16,15 @@ export async function getGuideArticles(locale: Locale) {
   );
 }
 
-export async function getGuideArticle(locale: Locale, slug: string) {
-  const articles = await getGuideArticles(locale);
+export async function getBlogArticle(locale: Locale, slug: string) {
+  const articles = await getBlogArticles(locale);
   return articles.find((article) => article.data.slug === slug);
 }
 
-export async function getGuideNavigation(locale: Locale) {
-  const articles = await getGuideArticles(locale);
+export async function getBlogNavigation(locale: Locale) {
+  const articles = await getBlogArticles(locale);
   return articles.map((article) => ({
-    path: `guides/${article.data.slug}`,
+    path: `blog/${article.data.slug}`,
     label: article.data.title,
     publishedAt: article.data.publishedAt,
   }));

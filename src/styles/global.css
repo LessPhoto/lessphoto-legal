@@ -399,9 +399,9 @@ summary {
   padding-top: 1px;
   color: var(--hero-text);
   background:
-    radial-gradient(circle at 73% 48%, rgba(0, 241, 193, 0.28), transparent 27%),
-    radial-gradient(circle at 79% 66%, rgba(10, 124, 255, 0.15), transparent 24%),
-    linear-gradient(132deg, var(--hero-deeper), var(--hero-deep) 58%, #0e2d27);
+    radial-gradient(circle at 70% 48%, rgba(0, 241, 193, 0.36), transparent 24%),
+    radial-gradient(circle at 80% 64%, rgba(0, 180, 240, 0.34), transparent 20%),
+    linear-gradient(180deg, var(--hero-deeper), var(--hero-deep) 58%, #081b18);
   background-color: var(--hero-deeper);
 }
 
@@ -452,7 +452,7 @@ summary {
 .feature-related__grid strong,
 .privacy-card h2,
 .final-cta h2,
-.guide-header h1,
+.blog-header h1,
 .not-found h1 {
   margin: 0;
   font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
@@ -1608,7 +1608,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   font-weight: 400;
 }
 
-.content-sidebar--guides a {
+.content-sidebar--blog a {
   color: var(--muted-light);
   font-size: 14px;
 }
@@ -1680,7 +1680,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   letter-spacing: var(--title-letter-spacing);
 }
 
-.guide-content h2 {
+.blog-content h2 {
   margin: 44px 0 14px;
   color: var(--ink);
   font-size: 24px;
@@ -1691,37 +1691,37 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 
 .legal-content p,
 .legal-content li,
-.guide-content p,
-.guide-content li {
+.blog-content p,
+.blog-content li {
   color: var(--text);
   font-size: 16px;
   line-height: 1.75;
 }
 
 .legal-content ul,
-.guide-content ul,
-.guide-content ol {
+.blog-content ul,
+.blog-content ol {
   padding-left: 24px;
 }
 
 .legal-content a,
-.guide-content a {
+.blog-content a {
   color: #096cbe;
   text-underline-offset: 3px;
 }
 
-.guide-header {
+.blog-header {
   margin-bottom: 42px;
 }
 
-.guide-header h1 {
+.blog-header h1 {
   margin-bottom: 0;
   font-size: clamp(32px, 3vw, 40px);
   line-height: 1.22;
   letter-spacing: var(--title-letter-spacing);
 }
 
-.content-article__header.guide-header > .guide-dek {
+.content-article__header.blog-header > .blog-dek {
   max-width: 700px;
   margin: 14px 0 0;
   color: var(--muted-light);
@@ -1730,7 +1730,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   line-height: 1.65;
 }
 
-.guide-meta {
+.blog-meta {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -1740,16 +1740,16 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   font-weight: 550;
 }
 
-.guide-meta span {
+.blog-meta span {
   color: var(--accent);
 }
 
-.guide-meta time {
+.blog-meta time {
   color: var(--muted-light);
 }
 
-.guide-callout,
-.guide-content blockquote {
+.blog-callout,
+.blog-content blockquote {
   margin: 24px 0 8px;
   padding: 20px 22px;
   border-left: 3px solid var(--accent);
@@ -1760,11 +1760,11 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   line-height: 1.7;
 }
 
-.guide-content blockquote p {
+.blog-content blockquote p {
   margin: 0;
 }
 
-.guide-content img {
+.blog-content img {
   display: block;
   max-width: 100%;
   height: auto;
@@ -1900,7 +1900,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   line-height: 1.55;
 }
 
-.guide-cta {
+.blog-cta {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   grid-template-areas: "icon copy button";
@@ -1912,7 +1912,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   background: var(--soft);
 }
 
-.guide-cta__icon {
+.blog-cta__icon {
   grid-area: icon;
   width: 72px;
   height: 72px;
@@ -1920,34 +1920,34 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.13);
 }
 
-.guide-cta__copy {
+.blog-cta__copy {
   grid-area: copy;
 }
 
-.guide-cta > .app-store-button {
+.blog-cta > .app-store-button {
   grid-area: button;
 }
 
-.guide-cta h2,
-.guide-cta p {
+.blog-cta h2,
+.blog-cta p {
   margin: 0;
 }
 
-.guide-cta p {
+.blog-cta p {
   margin-top: 6px;
   color: var(--muted-light);
   font-size: 16px;
   line-height: 1.5;
 }
 
-.guide-index__title {
+.blog-index__title {
   margin: 0 0 28px;
   font-size: 26px;
   line-height: 1.25;
   letter-spacing: var(--title-letter-spacing);
 }
 
-.guide-topic-list {
+.blog-topic-list {
   display: grid;
   gap: 1px;
   overflow: hidden;
@@ -1956,7 +1956,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   background: var(--line);
 }
 
-.guide-topic-list > a {
+.blog-topic-list > a {
   display: grid;
   grid-template-columns: 56px minmax(0, 1fr);
   gap: 20px;
@@ -1967,11 +1967,11 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   transition: background 160ms ease;
 }
 
-.guide-topic-list > a:hover {
+.blog-topic-list > a:hover {
   background: var(--state-hover);
 }
 
-.guide-topic-list > a > span {
+.blog-topic-list > a > span {
   color: var(--muted-light);
   font-family: "Hi-GEOM", sans-serif;
   font-size: clamp(30px, 3vw, 36px);
@@ -1980,25 +1980,25 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   opacity: 0.35;
 }
 
-.guide-topic-list h2,
-.guide-topic-list p {
+.blog-topic-list h2,
+.blog-topic-list p {
   margin: 0;
 }
 
-.guide-topic-list h2 {
+.blog-topic-list h2 {
   font-size: 24px;
   line-height: 1.35;
   letter-spacing: var(--title-letter-spacing);
 }
 
-.guide-topic-list p {
+.blog-topic-list p {
   margin-top: 9px;
   color: var(--muted-light);
   font-size: 16px;
   line-height: 1.65;
 }
 
-.guide-topic-meta {
+.blog-topic-meta {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -2009,11 +2009,11 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   letter-spacing: 0.01em;
 }
 
-.guide-topic-meta span {
+.blog-topic-meta span {
   color: var(--accent);
 }
 
-.guide-topic-meta time {
+.blog-topic-meta time {
   color: var(--muted-light);
   font-weight: 500;
 }
@@ -2349,9 +2349,9 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 
   .hero-cover {
     background:
-      radial-gradient(circle at 48% 74%, rgba(0, 241, 193, 0.28), transparent 25%),
-      radial-gradient(circle at 52% 82%, rgba(10, 124, 255, 0.14), transparent 22%),
-      linear-gradient(132deg, var(--hero-deeper), var(--hero-deep) 58%, #0e2d27);
+      radial-gradient(circle at 45% 72%, rgba(0, 241, 193, 0.36), transparent 24%),
+      radial-gradient(circle at 55% 84%, rgba(0, 180, 240, 0.34), transparent 20%),
+      linear-gradient(180deg, var(--hero-deeper), var(--hero-deep) 58%, #081b18);
   }
 
   .hero-section {
@@ -2802,13 +2802,13 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
     font-size: 17px;
   }
 
-  .guide-topic-list > a {
+  .blog-topic-list > a {
     grid-template-columns: 42px minmax(0, 1fr);
     gap: 14px;
     padding: 24px;
   }
 
-  .guide-topic-list > a > span {
+  .blog-topic-list > a > span {
     font-size: 27px;
   }
 
@@ -2829,7 +2829,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
     padding: 26px 22px;
   }
 
-  .guide-cta {
+  .blog-cta {
     grid-template-columns: 56px minmax(0, 1fr);
     grid-template-areas:
       "icon title"
@@ -2839,27 +2839,27 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
     padding: 24px;
   }
 
-  .guide-cta__icon {
+  .blog-cta__icon {
     width: 56px;
     height: 56px;
     border-radius: 17px;
   }
 
-  .guide-cta__copy {
+  .blog-cta__copy {
     display: contents;
   }
 
-  .guide-cta h2 {
+  .blog-cta h2 {
     grid-area: title;
     align-self: center;
   }
 
-  .guide-cta p {
+  .blog-cta p {
     grid-area: description;
     margin-top: 0;
   }
 
-  .guide-cta .app-store-button {
+  .blog-cta .app-store-button {
     grid-area: button;
     width: 100%;
     min-width: 0;

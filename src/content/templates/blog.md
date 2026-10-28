@@ -1,9 +1,9 @@
 ---
-title: "Guide title"
-description: "One complete sentence describing the user problem this guide answers."
+title: "Blog article title"
+description: "One complete sentence describing the user problem this blog article answers."
 locale: "en"
-slug: "guide-slug"
-translationKey: "guide-slug"
+slug: "blog-slug"
+translationKey: "blog-slug"
 category: "How-to"
 readingTime: "5 min read"
 publishedAt: "2026-10-26"
@@ -12,7 +12,7 @@ order: 99
 draft: true
 ---
 
-This template is outside the published content collection. Copy it into a new article folder under `src/content/guides/` and create matching `en.md`, `zh-hans.md`, and `zh-hant.md` files.
+This template is outside the published content collection. Copy it into a new article folder under `src/content/blog/` and create matching `en.md`, `zh-hans.md`, and `zh-hant.md` files.
 
 ## Give the short answer first
 

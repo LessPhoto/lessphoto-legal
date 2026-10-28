@@ -1,5 +1,5 @@
 ---
-import GuidesPage from "../../../components/GuidesPage.astro";
+import BlogPage from "../../../components/BlogPage.astro";
 import type { Locale } from "../../../data/site";
 
 export function getStaticPaths() {
@@ -9,4 +9,4 @@ export function getStaticPaths() {
 const { locale } = Astro.props;
 ---
 
-<GuidesPage locale={locale} />
+<BlogPage locale={locale} />

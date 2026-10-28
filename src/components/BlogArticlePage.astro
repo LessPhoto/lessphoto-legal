@@ -1,21 +1,21 @@
 ---
-import GuideLayout from "../layouts/GuideLayout.astro";
+import BlogLayout from "../layouts/BlogLayout.astro";
 import StorageCostCalculator from "./StorageCostCalculator.astro";
 import { render } from "astro:content";
-import type { GuideArticle } from "../data/guides";
+import type { BlogArticle } from "../data/blog";
 import type { Locale } from "../data/site";
 
 interface Props {
   locale: Locale;
-  article: GuideArticle;
+  article: BlogArticle;
 }
 
 const { locale, article } = Astro.props;
 const { Content } = await render(article);
-const path = `guides/${article.data.slug}`;
+const path = `blog/${article.data.slug}`;
 ---
 
-<GuideLayout
+<BlogLayout
   title={article.data.title}
   description={article.data.description}
   locale={locale}
@@ -26,4 +26,4 @@ const path = `guides/${article.data.slug}`;
   {article.data.kind === "calculator" && <StorageCostCalculator locale={locale} />}
   <Content />
 
-</GuideLayout>
+</BlogLayout>

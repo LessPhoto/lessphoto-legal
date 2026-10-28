@@ -25,7 +25,7 @@ const {
   heroHeader = false,
 } = Astro.props;
 const t = copy[locale];
-const appStoreCampaign = path === "guides" || path.startsWith("guides/")
+const appStoreCampaign = path === "blog" || path.startsWith("blog/")
   ? APP_STORE_CAMPAIGNS.blog
   : APP_STORE_CAMPAIGNS.product;
 ---
