@@ -79,22 +79,6 @@ const appStoreHref = appStoreCampaignUrl(campaignToken);
 
     <div class="mobile-header-actions">
       <a class="header-download mobile-header-download" href={appStoreHref} target="_blank" rel="noopener">{t.navGet}</a>
-      <details class="header-menu language-menu mobile-language-menu" data-header-menu>
-        <summary aria-label={`${t.languageLabel}: ${localeMeta[locale].label}`}>
-          <svg aria-hidden="true" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7" />
-            <path d="M3.8 12h16.4M12 3.5c2.1 2.2 3.2 5 3.2 8.5S14.1 18.3 12 20.5M12 3.5C9.9 5.7 8.8 8.5 8.8 12s1.1 6.3 3.2 8.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.7" />
-          </svg>
-          <span aria-hidden="true">{localeShortLabel[locale]}</span>
-        </summary>
-        <div class="header-menu__panel">
-          {languageItems.map((item) => (
-            <a href={localePath(item, path)} data-language-choice={item} aria-current={item === locale ? "page" : undefined}>
-              {localeShortLabel[item]}
-            </a>
-          ))}
-        </div>
-      </details>
       <details class="mobile-navigation" data-header-menu>
         <summary aria-label={t.menuLabel}>
           <span aria-hidden="true"></span>

@@ -2181,30 +2181,6 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
     gap: 0;
   }
 
-  .mobile-language-menu {
-    display: block;
-    margin-left: 6px;
-  }
-
-  .mobile-language-menu > summary {
-    min-width: 68px;
-    min-height: 44px;
-    justify-content: center;
-    padding-inline: 7px;
-    font-size: 14px;
-  }
-
-  .mobile-language-menu > summary::after {
-    width: 6px;
-    height: 6px;
-    margin-left: 7px;
-  }
-
-  .mobile-language-menu .header-menu__panel {
-    top: calc(100% + 7px);
-    min-width: 112px;
-  }
-
   .language-suggestion {
     top: 64px;
     right: auto;
