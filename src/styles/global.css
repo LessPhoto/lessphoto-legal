@@ -29,7 +29,7 @@
   --hero-deep: #0c211d;
   --hero-deeper: #051512;
   --hero-text: #ffffff;
-  --title-weight: 650;
+  --title-weight: 750;
   --title-letter-spacing: -0.02em;
   --radius-lg: 36px;
   --radius-md: 24px;
@@ -1689,7 +1689,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   margin: 44px 0 14px;
   color: var(--ink);
   font-size: 24px;
-  font-weight: 650;
+  font-weight: 750;
   line-height: 1.35;
   letter-spacing: var(--title-letter-spacing);
 }
