@@ -6,8 +6,8 @@ slug: "icloud-photo-deletion"
 translationKey: "icloud-photo-deletion"
 category: "問題解答"
 readingTime: "約 4 分鐘"
-publishedAt: "2026-10-19"
-updatedAt: "2026-10-19"
+publishedAt: "2026-10-26"
+updatedAt: "2026-10-26"
 order: 3
 draft: false
 ---

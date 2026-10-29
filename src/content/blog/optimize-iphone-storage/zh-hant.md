@@ -6,8 +6,8 @@ slug: "optimize-iphone-storage"
 translationKey: "optimize-iphone-storage"
 category: "問題解答"
 readingTime: "約 4 分鐘"
-publishedAt: "2026-10-19"
-updatedAt: "2026-10-19"
+publishedAt: "2026-10-23"
+updatedAt: "2026-10-23"
 order: 4
 draft: false
 ---

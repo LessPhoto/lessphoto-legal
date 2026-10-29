@@ -6,8 +6,8 @@ slug: "similar-vs-duplicate-photos"
 translationKey: "similar-vs-duplicate-photos"
 category: "使用指南"
 readingTime: "约 5 分钟"
-publishedAt: "2026-10-19"
-updatedAt: "2026-10-19"
+publishedAt: "2026-10-20"
+updatedAt: "2026-10-20"
 order: 5
 draft: false
 ---

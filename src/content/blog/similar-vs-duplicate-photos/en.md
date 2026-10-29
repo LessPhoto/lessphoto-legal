@@ -6,8 +6,8 @@ slug: "similar-vs-duplicate-photos"
 translationKey: "similar-vs-duplicate-photos"
 category: "How-to"
 readingTime: "5 min read"
-publishedAt: "2026-10-19"
-updatedAt: "2026-10-19"
+publishedAt: "2026-10-20"
+updatedAt: "2026-10-20"
 order: 5
 draft: false
 ---
