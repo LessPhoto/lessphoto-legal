@@ -34,7 +34,7 @@ Artwork placeholders use `data-artwork-slot` attributes so final product images 
 
 ## Blog drafting
 
-Start new Chinese blog ideas in `blog/大纲/` by copying `20261029-博客文章大纲-范本.md`. These drafts are intentionally outside `src/content/`, so they are not published by Astro until they are reviewed and converted into the formal blog content structure.
+Start new Chinese blog articles in `blog/大纲/` by copying `20261029-博客文章模板.md`. Keep matching images in a same-date folder such as `blog/20261029-图片/`. These drafts are intentionally outside `src/content/`, so they are not published by Astro until they are translated and converted into the formal blog content structure.
 
 App Store campaign parameters remain optional. Once App Store Connect campaign links are available, pass their provider and campaign tokens to `AppStoreButton`.
 

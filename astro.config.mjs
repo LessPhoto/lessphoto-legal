@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
@@ -13,5 +14,5 @@ export default defineConfig({
     "/zh-hans/features/photo-video-compressor": "/zh-hans/features/photo-compressor",
     "/zh-hant/features/photo-video-compressor": "/zh-hant/features/photo-compressor",
   },
-  integrations: [sitemap()],
+  integrations: [mdx(), sitemap()],
 });

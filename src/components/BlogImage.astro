@@ -1,0 +1,16 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption: string;
+  width?: number;
+  height?: number;
+}
+
+const { src, alt, caption, width = 984, height = 476 } = Astro.props;
+---
+
+<figure class="blog-image">
+  <img src={src} width={width} height={height} alt={alt} loading="lazy" decoding="async" />
+  <figcaption>{caption}</figcaption>
+</figure>

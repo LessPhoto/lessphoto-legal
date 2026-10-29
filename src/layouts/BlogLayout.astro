@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import AppStoreButton from "../components/AppStoreButton.astro";
+import BlogCta from "../components/BlogCta.astro";
 import ContentFrame from "../components/ContentFrame.astro";
-import { APP_STORE_CAMPAIGNS, type Locale } from "../data/site";
+import type { Locale } from "../data/site";
 
 interface Props {
   title: string;
@@ -14,7 +14,6 @@ interface Props {
 }
 
 const { title, description, locale, path, category, date } = Astro.props;
-const buttonLabel = locale === "en" ? "Get the app" : locale === "zh-hans" ? "下载 App" : "下載 App";
 ---
 
 <BaseLayout title={`${title} · LessPhoto`} description={description} locale={locale} path={path}>
@@ -41,21 +40,7 @@ const buttonLabel = locale === "en" ? "Get the app" : locale === "zh-hans" ? "�
       <div class="blog-content">
         <slot />
       </div>
-      <aside class="blog-cta">
-        <img
-          class="blog-cta__icon"
-          src="/assets/app-icon.svg"
-          width="72"
-          height="72"
-          alt=""
-          aria-hidden="true"
-        />
-        <div class="blog-cta__copy">
-          <h2>LessPhoto</h2>
-          <p>{description}</p>
-        </div>
-        <AppStoreButton label={buttonLabel} campaignToken={APP_STORE_CAMPAIGNS.blog} />
-      </aside>
+      <BlogCta locale={locale} />
     </article>
   </ContentFrame>
 </BaseLayout>

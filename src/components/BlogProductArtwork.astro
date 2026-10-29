@@ -1,0 +1,18 @@
+---
+import ProductArtwork from "./ProductArtwork.astro";
+import type { Locale } from "../data/site";
+
+interface Props {
+  locale: Locale;
+  caption: string;
+}
+
+const { locale, caption } = Astro.props;
+---
+
+<figure class="blog-product-artwork-block">
+  <div class="blog-product-artwork-shell">
+    <ProductArtwork variant="combined" locale={locale} leftHigh clustered />
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>

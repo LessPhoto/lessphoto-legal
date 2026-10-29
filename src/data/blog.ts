@@ -10,8 +10,8 @@ export async function getBlogArticles(locale: Locale) {
   );
 
   return articles.sort((left, right) =>
-    left.data.order - right.data.order
-    || right.data.publishedAt.localeCompare(left.data.publishedAt)
+    right.data.publishedAt.localeCompare(left.data.publishedAt)
+    || left.data.order - right.data.order
     || left.data.title.localeCompare(right.data.title),
   );
 }

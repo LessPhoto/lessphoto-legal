@@ -1764,12 +1764,111 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   margin: 0;
 }
 
-.blog-content img {
+.blog-content > img {
   display: block;
   max-width: 100%;
   height: auto;
   margin: 32px auto;
   border-radius: 18px;
+}
+
+.blog-content > img + p {
+  margin: -20px auto 28px;
+  color: var(--muted-light);
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.blog-content > img + p em {
+  font-style: normal;
+}
+
+.blog-image {
+  margin: 32px 0 28px;
+}
+
+.blog-image img {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  border-radius: 18px;
+}
+
+.blog-image figcaption {
+  margin: 10px auto 0;
+  color: var(--muted-light);
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.blog-product-artwork-shell {
+  margin: 32px 0 28px;
+  overflow: hidden;
+  border: 1px solid rgba(5, 5, 5, 0.07);
+  border-radius: 18px;
+  background: linear-gradient(155deg, #f5f6f7 0%, #e7eaed 100%);
+  box-shadow: var(--shadow-soft);
+}
+
+.blog-product-artwork-block {
+  margin: 32px 0 28px;
+}
+
+.blog-product-artwork-block .blog-product-artwork-shell {
+  margin: 0;
+}
+
+.blog-product-artwork-shell > .product-artwork {
+  width: min(100%, 680px);
+  margin-inline: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.blog-product-artwork-block figcaption {
+  margin: 10px auto 0;
+  color: var(--muted-light);
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.blog-content table {
+  width: 100%;
+  margin: 24px 0 32px;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.blog-content th,
+.blog-content td {
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.blog-content th {
+  background: var(--soft);
+  color: var(--ink);
+  font-weight: 650;
+}
+
+@media (max-width: 640px) {
+  .blog-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .blog-product-artwork-block figcaption {
+    font-size: 14px;
+  }
 }
 
 .storage-calculator {
@@ -1935,8 +2034,9 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 
 .blog-cta p {
   margin-top: 6px;
-  color: var(--muted-light);
-  font-size: 16px;
+  color: var(--accent-highlight);
+  font-size: 17px;
+  font-weight: 650;
   line-height: 1.5;
 }
 
