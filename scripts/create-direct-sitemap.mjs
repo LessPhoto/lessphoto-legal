@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, unlink, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const generatedSitemapPath = resolve("dist/sitemap-0.xml");
@@ -14,4 +14,10 @@ const directSitemap = generatedSitemap.replace(
 );
 
 await writeFile(directSitemapPath, directSitemap, "utf8");
-console.log("Created dist/sitemap.xml from dist/sitemap-0.xml");
+
+// Keep only the direct sitemap as the public entry point. The two Astro
+// intermediate files are build-time inputs and are not published.
+await unlink(generatedSitemapPath);
+await unlink(resolve("dist/sitemap-index.xml"));
+
+console.log("Created dist/sitemap.xml and removed intermediate sitemap files");
