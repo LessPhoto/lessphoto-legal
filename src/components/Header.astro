@@ -17,6 +17,7 @@ interface Props {
   path?: string;
   heroTheme?: boolean;
   darkTheme?: boolean;
+  frostedToolTheme?: boolean;
   campaignToken?: AppStoreCampaign;
 }
 
@@ -25,6 +26,7 @@ const {
   path = "",
   heroTheme = false,
   darkTheme = false,
+  frostedToolTheme = false,
   campaignToken = APP_STORE_CAMPAIGNS.product,
 } = Astro.props;
 const t = copy[locale];
@@ -35,7 +37,7 @@ const appStoreHref = appStoreCampaignUrl(campaignToken);
 ---
 
 <header
-  class:list={["site-header", { "site-header--hero": heroTheme, "is-over-hero": heroTheme, "site-header--dark": darkTheme }]}
+  class:list={["site-header", { "site-header--hero": heroTheme, "is-over-hero": heroTheme, "site-header--dark": darkTheme, "site-header--frosted-tool": frostedToolTheme }]}
   data-hero-header={heroTheme ? "" : undefined}
 >
   <div class="site-header__inner page-width">

@@ -7,6 +7,8 @@ export const webpConverterCopy: Record<Locale, {
   title: string;
   pageTitle: string;
   description: string;
+  seoSectionTitle: string;
+  seoSectionDescription: string;
   dropTitle: string;
   dropHint: string;
   manualUpload: string;
@@ -55,16 +57,19 @@ export const webpConverterCopy: Record<Locale, {
     waiting: string;
     converted: string;
     failed: string;
+    maxFilesReached: string;
     summary: string;
   };
 }> = {
   en: {
-    seoTitle: "WebP Converter: PNG, JPG & WebP Images | LessPhoto",
-    seoDescription: "Convert PNG, JPG, and WebP images in your browser. Drag and drop files, process them in batches, and download the results locally.",
+    seoTitle: "WebP Converter & Image Compressor | PNG, JPG & WebP | LessPhoto",
+    seoDescription: "Convert and compress images in batches. Convert PNG, JPG, and WebP files in your browser with adjustable WebP quality. Your files stay on your device.",
     eyebrow: "LessPhoto Tools",
     title: "Convert images in your browser.",
     pageTitle: "WebP Converter",
-    description: "Convert PNG and JPG images to WebP, or turn WebP files back into PNG or JPG. Your files stay on your device.",
+    description: "Batch convert PNG, JPG, and WebP images with adjustable WebP quality.",
+    seoSectionTitle: "Batch WebP conversion",
+    seoSectionDescription: "Convert PNG, JPG, and WebP images in one batch, with adjustable WebP quality.",
     dropTitle: "Drop images here",
     dropHint: "PNG, JPG, JPEG, and WebP · batch processing supported",
     manualUpload: "Choose files",
@@ -78,9 +83,9 @@ export const webpConverterCopy: Record<Locale, {
     outputJpg: "JPG",
     formatHint: "New uploads use the current format. Existing tasks stay unchanged.",
     quality: "Quality",
-    qualityReset: "Reset to 80%",
+    qualityReset: "Reset",
     reconvert: "Reconvert",
-    qualityLossless: "PNG is lossless",
+    qualityLossless: "Lossless",
     convert: "Convert images",
     clear: "Clear all",
     clearList: "Clear list",
@@ -113,16 +118,19 @@ export const webpConverterCopy: Record<Locale, {
       waiting: "Waiting",
       converted: "{count} files converted.",
       failed: "{name} could not be converted.",
+      maxFilesReached: "Limit reached: 20 images per batch. Clear the list before adding more.",
       summary: "{completed}/{total} completed · {saved}",
     },
   },
   "zh-hans": {
-    seoTitle: "WebP 图片转换器：PNG、JPG 与 WebP 相互转换｜LessPhoto",
-    seoDescription: "在浏览器中转换 PNG、JPG 和 WebP 图片。支持拖拽、批量处理和本地下载，图片不会上传。",
+    seoTitle: "WebP 转换器与压缩工具：PNG、JPG、WebP 批量转换｜LessPhoto",
+    seoDescription: "在线批量转换 PNG、JPG 和 WebP 图片，也可调整 WebP 质量。图片在浏览器本地处理，不会上传。",
     eyebrow: "LessPhoto 工具",
     title: "在浏览器中转换图片。",
     pageTitle: "WebP转换",
-    description: "将 PNG、JPG 图片转换为 WebP，也可以将 WebP 转回 PNG 或 JPG。图片只在你的设备上处理。",
+    description: "支持批量转换 PNG、JPG 和 WebP 图片，并可调整 WebP 质量。",
+    seoSectionTitle: "批量转换 WebP 图片",
+    seoSectionDescription: "批量转换 PNG、JPG 和 WebP 图片，并调整 WebP 质量。",
       dropTitle: "把图片拖到这里",
     dropHint: "支持 PNG、JPG、JPEG 和 WebP · 支持批量处理",
     manualUpload: "手动上传",
@@ -136,9 +144,9 @@ export const webpConverterCopy: Record<Locale, {
     outputJpg: "JPG",
     formatHint: "新上传的图片使用当前格式，已有任务保持不变。",
     quality: "图片质量",
-    qualityReset: "重置为 80%",
+    qualityReset: "重置",
     reconvert: "重新转换",
-    qualityLossless: "PNG 为无损格式",
+    qualityLossless: "无损",
     convert: "开始转换",
     clear: "清空全部",
     clearList: "清空列表",
@@ -171,16 +179,19 @@ export const webpConverterCopy: Record<Locale, {
       waiting: "等待中",
       converted: "已转换 {count} 张图片。",
       failed: "{name} 转换失败。",
+      maxFilesReached: "已达到 20 张上限，请清空列表后再继续。",
       summary: "{completed}/{total} 已完成 · {saved}",
     },
   },
   "zh-hant": {
-    seoTitle: "WebP 圖片轉換器：PNG、JPG 與 WebP 互相轉換｜LessPhoto",
-    seoDescription: "在瀏覽器中轉換 PNG、JPG 和 WebP 圖片。支援拖放、批量處理和本機下載，圖片不會上傳。",
+    seoTitle: "WebP 轉換器與壓縮工具：PNG、JPG、WebP 批量轉換｜LessPhoto",
+    seoDescription: "在線批量轉換 PNG、JPG 和 WebP 圖片，也可調整 WebP 品質。圖片在瀏覽器本機處理，不會上傳。",
     eyebrow: "LessPhoto 工具",
     title: "在瀏覽器中轉換圖片。",
     pageTitle: "WebP轉換",
-    description: "將 PNG、JPG 圖片轉換為 WebP，也可以將 WebP 轉回 PNG 或 JPG。圖片只在你的裝置上處理。",
+    description: "支援批量轉換 PNG、JPG 和 WebP 圖片，並可調整 WebP 品質。",
+    seoSectionTitle: "批量轉換 WebP 圖片",
+    seoSectionDescription: "批量轉換 PNG、JPG 和 WebP 圖片，並調整 WebP 品質。",
       dropTitle: "把圖片拖到這裡",
     dropHint: "支援 PNG、JPG、JPEG 和 WebP · 支援批量處理",
     manualUpload: "手動上傳",
@@ -194,9 +205,9 @@ export const webpConverterCopy: Record<Locale, {
     outputJpg: "JPG",
     formatHint: "新上傳的圖片使用目前格式，已有任務保持不變。",
     quality: "圖片品質",
-    qualityReset: "重設為 80%",
+    qualityReset: "重設",
     reconvert: "重新轉換",
-    qualityLossless: "PNG 為無損格式",
+    qualityLossless: "無損",
     convert: "開始轉換",
     clear: "清空全部",
     clearList: "清空列表",
@@ -229,6 +240,7 @@ export const webpConverterCopy: Record<Locale, {
       waiting: "等待中",
       converted: "已轉換 {count} 張圖片。",
       failed: "{name} 轉換失敗。",
+      maxFilesReached: "已達到 20 張上限，請清空列表後再繼續。",
       summary: "{completed}/{total} 已完成 · {saved}",
     },
   },

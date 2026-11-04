@@ -15,6 +15,8 @@ interface Props {
   heroHeader?: boolean;
   toolMode?: boolean;
   darkHeader?: boolean;
+  frostedToolHeader?: boolean;
+  darkPage?: boolean;
   hideFooter?: boolean;
 }
 
@@ -28,6 +30,8 @@ const {
   heroHeader = false,
   toolMode = false,
   darkHeader = false,
+  frostedToolHeader = false,
+  darkPage = false,
   hideFooter = false,
 } = Astro.props;
 const t = copy[locale];
@@ -37,7 +41,7 @@ const appStoreCampaign = path === "blog" || path.startsWith("blog/")
 ---
 
 <!doctype html>
-<html lang={localeMeta[locale].htmlLang}>
+<html lang={localeMeta[locale].htmlLang} class:list={{ "dark-page-html": darkPage }}>
   <head>
     <SEOHead
       title={title}
@@ -48,9 +52,9 @@ const appStoreCampaign = path === "blog" || path.startsWith("blog/")
       applicationSchema={applicationSchema}
     />
   </head>
-  <body class:list={{ "tool-mode-body": toolMode }}>
+  <body class:list={{ "tool-mode-body": toolMode, "dark-page-body": darkPage }}>
     <a class="skip-link" href="#main-content">{t.skipToContent}</a>
-    {!toolMode && <Header locale={locale} path={path} heroTheme={heroHeader} darkTheme={darkHeader} campaignToken={appStoreCampaign} />}
+    {!toolMode && <Header locale={locale} path={path} heroTheme={heroHeader} darkTheme={darkHeader} frostedToolTheme={frostedToolHeader} campaignToken={appStoreCampaign} />}
     <main id="main-content">
       <slot />
     </main>

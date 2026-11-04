@@ -12,10 +12,11 @@ const t = webpConverterCopy[locale];
 const path = "tools/webp-converter";
 ---
 
-<BaseLayout title={t.seoTitle} description={t.seoDescription} locale={locale} path={path} darkHeader hideFooter>
+<BaseLayout title={t.seoTitle} description={t.seoDescription} locale={locale} path={path} darkHeader frostedToolHeader darkPage hideFooter>
   <div class="webp-tool-page">
     <section class="webp-tool-title page-width">
       <h1>{t.pageTitle}</h1>
+      <p>{t.description}</p>
     </section>
 
     <div class="webp-tool-workspace page-width">
@@ -23,7 +24,7 @@ const path = "tools/webp-converter";
         class="webp-converter webp-tool-panel"
         data-webp-converter
         data-messages={JSON.stringify(t.messages)}
-        data-png-note={t.qualityLossless}
+        data-png-quality-label={t.qualityLossless}
         data-download-label={t.download}
         data-failed-label={t.failed}
         data-upload-drop-title={t.dropTitle}
@@ -54,7 +55,7 @@ const path = "tools/webp-converter";
 
           <div class="webp-tool-task-surface" data-task-surface data-drag-label={t.dropTitle}>
             <ul class="webp-file-list" data-file-list hidden></ul>
-            <div class="tool-drop-zone webp-upload-zone" data-upload-zone role="button" tabindex="0" aria-label={t.addImages}>
+            <div class="tool-drop-zone webp-upload-zone" data-upload-zone>
               <div class="webp-upload-copy">
                 <strong data-upload-title>{t.dropTitle}</strong>
                 <small data-upload-hint>{t.dropHint}</small>
@@ -67,7 +68,11 @@ const path = "tools/webp-converter";
           </div>
 
           <div class="webp-summary-bar" data-summary-bar>
-            <span data-summary>0/0 {t.completed} · 0 B</span>
+            <span class="webp-summary-text" data-summary aria-live="polite">
+              <span data-summary-progress>0/0 {t.completed}</span>
+              <span class="webp-summary-text__separator" data-summary-separator aria-hidden="true">·</span>
+              <span data-summary-saved>0 B</span>
+            </span>
             <button class="tool-download-all" data-download-all type="button" disabled>
               <img src="/assets/webp-converter/download-disabled.svg" alt="" aria-hidden="true" />
               <span>{t.downloadAll}</span>
@@ -102,7 +107,7 @@ const path = "tools/webp-converter";
             <h2>{t.quality}</h2>
             <label class="tool-field tool-quality-field">
               <div class="tool-field__label-row">
-                <span><output data-quality-value>80</output>%</span>
+                <span><output data-quality-value>80</output><span data-quality-unit>%</span></span>
                 <button class="tool-quality-reset" data-quality-reset type="button">{t.qualityReset}</button>
               </div>
               <div class="webp-quality-slider">
@@ -111,11 +116,10 @@ const path = "tools/webp-converter";
                 </div>
                 <input data-quality type="range" min="0" max="100" step="1" value="80" />
               </div>
-              <small data-quality-note></small>
             </label>
           </div>
 
-          <button class="tool-primary-button webp-reconvert-button" data-reconvert type="button" disabled>
+          <button class="tool-primary-button webp-reconvert-button" data-reconvert type="button" disabled hidden>
             <img src="/assets/webp-converter/reconvert-disabled.svg" alt="" aria-hidden="true" />
             <span>{t.reconvert}</span>
           </button>
@@ -123,6 +127,24 @@ const path = "tools/webp-converter";
         </aside>
       </div>
     </div>
+
+    <section class="webp-tool-seo page-width" aria-labelledby="webp-tool-seo-title">
+      <h2 class="webp-visually-hidden" id="webp-tool-seo-title">{t.seoSectionTitle}</h2>
+      <div class="webp-tool-seo-grid">
+        <article class="webp-tool-seo-card">
+          <h3>{t.seoSectionTitle}</h3>
+          <p>{t.seoSectionDescription}</p>
+        </article>
+        <article class="webp-tool-seo-card">
+          <h3>{t.inputFormats}</h3>
+          <p>{t.inputFormatsDescription}</p>
+        </article>
+        <article class="webp-tool-seo-card">
+          <h3>{t.privacyTitle}</h3>
+          <p>{t.privacyDescription}</p>
+        </article>
+      </div>
+    </section>
 
   </div>
 </BaseLayout>
@@ -151,8 +173,8 @@ const path = "tools/webp-converter";
     const formatOptions = converter.querySelectorAll<HTMLButtonElement>("[data-format-option]");
     const quality = converter.querySelector<HTMLInputElement>("[data-quality]");
     const qualityValue = converter.querySelector<HTMLOutputElement>("[data-quality-value]");
+    const qualityUnit = converter.querySelector<HTMLElement>("[data-quality-unit]");
     const qualityReset = converter.querySelector<HTMLButtonElement>("[data-quality-reset]");
-    const qualityNote = converter.querySelector<HTMLElement>("[data-quality-note]");
     const qualitySlider = converter.querySelector<HTMLElement>(".webp-quality-slider");
     const convertButton = converter.querySelector<HTMLButtonElement>("[data-convert]");
     const clearButton = converter.querySelector<HTMLButtonElement>("[data-clear]");
@@ -161,13 +183,15 @@ const path = "tools/webp-converter";
     const fileList = converter.querySelector<HTMLUListElement>("[data-file-list]");
     const summaryBar = converter.querySelector<HTMLElement>("[data-summary-bar]");
     const summary = converter.querySelector<HTMLElement>("[data-summary]");
+    const summaryProgress = converter.querySelector<HTMLElement>("[data-summary-progress]");
+    const summarySaved = converter.querySelector<HTMLElement>("[data-summary-saved]");
     const resultsSection = converter.querySelector<HTMLElement>("[data-results-section]");
     const resultsContainer = converter.querySelector<HTMLElement>("[data-results]");
     const downloadAllButton = converter.querySelector<HTMLButtonElement>("[data-download-all]");
 
     if (
-      !fileInput || !uploadZone || !taskSurface || !browseButton || !browseLink || !browseLabel || !uploadTitle || !uploadHint || !outputFormat || !quality || !qualityValue || !qualityNote || !qualityReset || !qualitySlider ||
-      !convertButton || !clearButton || !reconvertButton || !status || !fileList || !summaryBar || !summary || !resultsSection || !resultsContainer || !downloadAllButton
+      !fileInput || !uploadZone || !taskSurface || !browseButton || !browseLink || !browseLabel || !uploadTitle || !uploadHint || !outputFormat || !quality || !qualityValue || !qualityUnit || !qualityReset || !qualitySlider ||
+      !convertButton || !clearButton || !reconvertButton || !status || !fileList || !summaryBar || !summary || !summaryProgress || !summarySaved || !resultsSection || !resultsContainer || !downloadAllButton
     ) return;
 
     const messages = JSON.parse(converter.dataset.messages || "{}") as Record<string, string>;
@@ -182,6 +206,13 @@ const path = "tools/webp-converter";
     let conversionScheduled = false;
     let conversionTimer: number | undefined;
     let reconvertAll = true;
+    const MAX_FILES = 20;
+    const CONVERSION_DEBOUNCE_MS = 180;
+    const MIN_PROGRESS_DURATION_MS = 500;
+    let limitReached = false;
+    const visualProcessing = new Map<File, { id: number; startedAt: number }>();
+    const completionAnimations = new Map<File, { id: number; startedAt: number }>();
+    let visualRunId = 0;
     const previewUrls = new Map<File, string>();
     const formatMessage = (template: string, values: Record<string, string | number>) =>
       template.replace(/\{(\w+)\}/g, (_, key: string) => String(values[key] ?? ""));
@@ -231,11 +262,22 @@ const path = "tools/webp-converter";
         return total + result.file.size - result.blob.size;
       }, 0);
       const savedText = savedBytes > 0 ? `−${formatBytes(savedBytes)}` : formatBytes(Math.max(0, savedBytes));
-      summary.textContent = formatMessage(messages.summary || "{completed}/{total} completed · {saved}", {
+      const summaryTemplate = messages.summary || "{completed}/{total} completed · {saved}";
+      const separatorIndex = summaryTemplate.indexOf("·");
+      const summaryValues = {
         completed: completedCount,
         total: selectedFiles.length,
         saved: savedText,
-      });
+      };
+      const summaryText = formatMessage(summaryTemplate, summaryValues);
+      summary.setAttribute("aria-label", summaryText);
+      if (separatorIndex >= 0) {
+        summaryProgress.textContent = formatMessage(summaryTemplate.slice(0, separatorIndex).trim(), summaryValues);
+        summarySaved.textContent = formatMessage(summaryTemplate.slice(separatorIndex + 1).trim(), summaryValues);
+      } else {
+        summaryProgress.textContent = summaryText;
+        summarySaved.textContent = "";
+      }
       summaryBar.hidden = false;
     };
 
@@ -260,15 +302,18 @@ const path = "tools/webp-converter";
         selectedFiles.forEach((file, index) => {
           const item = document.createElement("li");
           const result = results.find((candidate) => candidate.file === file);
-          const isProcessing = processingIndex === index;
-          const stateName = result?.blob ? "done" : result?.error ? "error" : isProcessing ? "processing" : "waiting";
-          item.className = `webp-file-list__item${result?.blob ? "" : " webp-file-list__item--pending"}`;
+          const isProcessing = processingIndex === index || visualProcessing.has(file);
+          const resultIsReady = !!result && !isProcessing;
+          const visualState = visualProcessing.get(file);
+          const completionState = completionAnimations.get(file);
+          const stateName = result?.blob && resultIsReady ? "done" : result?.error && resultIsReady ? "error" : isProcessing ? "processing" : "waiting";
+          item.className = `webp-file-list__item${result?.blob && resultIsReady ? "" : " webp-file-list__item--pending"}${completionState ? " webp-file-list__item--completing" : ""}`;
           const state = document.createElement("span");
           state.className = "tool-task-state";
           state.dataset.state = stateName;
-          state.textContent = result?.blob
+          state.textContent = result?.blob && resultIsReady
             ? messages.done || "Done"
-            : result?.error
+            : result?.error && resultIsReady
               ? failedLabel
               : isProcessing
                 ? messages.processingShort || messages.processing || "Processing…"
@@ -282,10 +327,16 @@ const path = "tools/webp-converter";
           progressFill.className = "tool-task-progress__fill";
           const progressText = document.createElement("span");
           progressText.className = "tool-task-progress__text";
-          const progressValue = result?.blob ? 100 : isProcessing ? 65 : 0;
+          const progressValue = result?.blob && resultIsReady ? 100 : isProcessing ? 80 : 0;
           progress.style.setProperty("--progress", `${progressValue}%`);
+          if (visualState) {
+            progress.style.setProperty("--webp-progress-animation-delay", `-${Math.max(0, performance.now() - visualState.startedAt)}ms`);
+          }
+          if (completionState) {
+            progress.style.setProperty("--webp-completion-animation-delay", `-${Math.max(0, performance.now() - completionState.startedAt)}ms`);
+          }
           progress.dataset.state = stateName;
-          progressText.textContent = result?.blob ? "100%" : isProcessing ? "…" : "0%";
+          progressText.textContent = result?.blob && resultIsReady ? "100%" : isProcessing ? "…" : "0%";
           progressTrack.append(progressFill);
           progress.append(progressTrack, progressText);
 
@@ -330,14 +381,13 @@ const path = "tools/webp-converter";
           const progressRow = document.createElement("div");
           progressRow.className = "webp-file-list__progress-row";
           progressRow.append(progress);
-          if (result?.blob) resultInfo.append(resultSummary);
-          else resultInfo.hidden = true;
+          if (result?.blob && resultIsReady) resultInfo.append(resultSummary);
 
           const rowActions = document.createElement("div");
           rowActions.className = "webp-file-list__actions";
-          if (!result?.blob) rowActions.append(progressRow);
+          if (!result?.blob || !resultIsReady) rowActions.append(progressRow);
           const resultFormat = result?.format || taskSettings.get(file)?.format || outputFormat.value;
-          if (result?.blob && result.url) {
+          if (result?.blob && resultIsReady && result.url) {
             const download = document.createElement("a");
             download.className = `secondary-button tool-result-download tool-format-action tool-format-action--${resultFormat}`;
             download.dataset.outputFormat = resultFormat;
@@ -357,8 +407,11 @@ const path = "tools/webp-converter";
             if (removedResult?.url) URL.revokeObjectURL(removedResult.url);
             releasePreview(file);
             taskSettings.delete(file);
+            visualProcessing.delete(file);
+            completionAnimations.delete(file);
             results = results.filter((candidate) => candidate.file !== file);
             selectedFiles = selectedFiles.filter((_, fileIndex) => fileIndex !== index);
+            limitReached = false;
             if (processingIndex === index) processingIndex = -1;
             else if (processingIndex > index) processingIndex -= 1;
             renderFiles();
@@ -368,16 +421,20 @@ const path = "tools/webp-converter";
           item.append(thumb, content, resultInfo, rowActions);
           fileList.append(item);
         });
+        fileList.append(uploadZone);
+      } else {
+        taskSurface.append(uploadZone);
       }
 
       convertButton.disabled = selectedFiles.length === 0 || isConverting;
       clearButton.disabled = isConverting || selectedFiles.length === 0;
-      reconvertButton.disabled = isConverting || selectedFiles.length === 0;
+      const hasFinishedResult = results.some((result) => selectedFiles.includes(result.file));
+      const canReconvert = !isConverting && hasFinishedResult;
+      reconvertButton.disabled = !canReconvert;
+      reconvertButton.hidden = !canReconvert;
       browseLink.disabled = isConverting;
       const reconvertIcon = reconvertButton.querySelector<HTMLImageElement>("img");
-      if (reconvertIcon) reconvertIcon.src = !reconvertButton.disabled
-        ? "/assets/webp-converter/reconvert-active.svg"
-        : "/assets/webp-converter/reconvert-disabled.svg";
+      if (reconvertIcon && canReconvert) reconvertIcon.src = "/assets/webp-converter/reconvert-active.svg";
       renderSummary();
     };
 
@@ -389,11 +446,12 @@ const path = "tools/webp-converter";
         conversionTimer = undefined;
         conversionScheduled = false;
         if (selectedFiles.length > 0 && !isConverting) convertButton.click();
-      }, 500);
+      }, CONVERSION_DEBOUNCE_MS);
     };
 
     const addFiles = (fileListToAdd: FileList | File[]) => {
       const skipped: string[] = [];
+      let hitFileLimit = false;
       const existing = new Set(selectedFiles.map((file) => `${file.name}:${file.size}:${file.lastModified}`));
       Array.from(fileListToAdd).forEach((file) => {
         const extension = extensionFor(file.name);
@@ -401,14 +459,20 @@ const path = "tools/webp-converter";
         if (!supportedExtensions.has(extension)) {
           skipped.push(file.name);
         } else if (!existing.has(key)) {
+          if (selectedFiles.length >= MAX_FILES) {
+            hitFileLimit = true;
+            return;
+          }
           selectedFiles.push(file);
           taskSettings.set(file, { format: outputFormat.value, quality: Number(quality.value) / 100 });
           existing.add(key);
         }
       });
-
+      limitReached = hitFileLimit;
       renderFiles();
-      if (skipped.length > 0) {
+      if (hitFileLimit) {
+        setStatus(formatMessage(messages.maxFilesReached || "Limit reached: {count} images per batch. Clear the list before adding more.", { count: MAX_FILES }), "warning");
+      } else if (skipped.length > 0) {
         setStatus(formatMessage(messages.unsupportedFile || "{name} is not supported.", { name: skipped[0] }), "warning");
       } else if (selectedFiles.length > 0 && !isConverting) {
         setStatus(formatMessage(messages.filesAdded || "{count} files ready", { count: selectedFiles.length }), "success");
@@ -479,6 +543,8 @@ const path = "tools/webp-converter";
       revokeResults();
       results = [];
       processingIndex = -1;
+      visualProcessing.clear();
+      completionAnimations.clear();
       renderFiles();
       renderResults();
     };
@@ -487,8 +553,9 @@ const path = "tools/webp-converter";
       const isPng = outputFormat.value === "png";
       quality.disabled = isPng;
       qualityReset.disabled = isPng;
-      qualityValue.textContent = isPng ? "—" : quality.value;
-      qualityNote.textContent = isPng ? (converter.dataset.pngNote || "") : "";
+      qualityValue.textContent = isPng ? (converter.dataset.pngQualityLabel || "") : quality.value;
+      qualityUnit.hidden = isPng;
+      qualitySlider.classList.toggle("is-lossless", isPng);
       formatOptions.forEach((button) => {
         button.classList.toggle("is-active", button.dataset.formatOption === outputFormat.value);
       });
@@ -499,16 +566,6 @@ const path = "tools/webp-converter";
       fileInput.click();
     });
     browseLink.addEventListener("click", () => fileInput.click());
-    uploadZone.addEventListener("click", (event) => {
-      if (event.target instanceof Element && event.target.closest("button")) return;
-      fileInput.click();
-    });
-    uploadZone.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        fileInput.click();
-      }
-    });
     let dragDepth = 0;
     taskSurface.addEventListener("dragenter", (event) => {
       event.preventDefault();
@@ -562,7 +619,10 @@ const path = "tools/webp-converter";
       previewUrls.forEach((url) => URL.revokeObjectURL(url));
       previewUrls.clear();
       selectedFiles = [];
+      limitReached = false;
       results = [];
+      visualProcessing.clear();
+      completionAnimations.clear();
       taskSettings.clear();
       processingIndex = -1;
       if (conversionTimer !== undefined) window.clearTimeout(conversionTimer);
@@ -606,28 +666,49 @@ const path = "tools/webp-converter";
         const file = selectedFiles[index];
         const settings = taskSettings.get(file) || { format: outputFormat.value, quality: Number(quality.value) / 100 };
         processingIndex = index;
+        const currentVisualRunId = ++visualRunId;
+        visualProcessing.set(file, { id: currentVisualRunId, startedAt: performance.now() });
         renderFiles();
         const completedCount = results.filter((result) => selectedFiles.includes(result.file)).length;
         setStatus(formatMessage(messages.processing || "Processing…", { current: completedCount + 1, total: selectedFiles.length }));
         const taskStartedAt = performance.now();
         try {
           const blob = await convertFile(file, settings.format, settings.quality);
-          const remainingAnimation = Math.max(0, 1000 - (performance.now() - taskStartedAt));
-          if (remainingAnimation > 0) await new Promise((resolve) => window.setTimeout(resolve, remainingAnimation));
           results.push({ file, blob, format: settings.format, url: URL.createObjectURL(blob) });
         } catch {
-          const remainingAnimation = Math.max(0, 1000 - (performance.now() - taskStartedAt));
-          if (remainingAnimation > 0) await new Promise((resolve) => window.setTimeout(resolve, remainingAnimation));
           results.push({ file, error: true });
         }
         processingIndex = -1;
         renderFiles();
         renderResults();
+        const remainingAnimation = Math.max(0, MIN_PROGRESS_DURATION_MS - (performance.now() - taskStartedAt));
+        window.setTimeout(() => {
+          if (visualProcessing.get(file)?.id !== currentVisualRunId) return;
+          visualProcessing.delete(file);
+          const completionAnimationId = ++visualRunId;
+          completionAnimations.set(file, { id: completionAnimationId, startedAt: performance.now() });
+          if (selectedFiles.includes(file)) {
+            renderFiles();
+            renderResults();
+          }
+          window.setTimeout(() => {
+            if (completionAnimations.get(file)?.id !== completionAnimationId) return;
+            completionAnimations.delete(file);
+            if (selectedFiles.includes(file)) {
+              renderFiles();
+              renderResults();
+            }
+          }, 180);
+        }, remainingAnimation);
       }
 
       results = results.filter((result) => selectedFiles.includes(result.file));
       const convertedCount = results.filter((result) => result.blob).length;
-      setStatus(formatMessage(messages.converted || "{count} files converted.", { count: convertedCount }), convertedCount ? "success" : "error");
+      if (limitReached) {
+        setStatus(formatMessage(messages.maxFilesReached || "Limit reached: {count} images per batch. Clear the list before adding more.", { count: MAX_FILES }), "warning");
+      } else {
+        setStatus(formatMessage(messages.converted || "{count} files converted.", { count: convertedCount }), convertedCount ? "success" : "error");
+      }
       isConverting = false;
       updateQualityState();
       renderFiles();
