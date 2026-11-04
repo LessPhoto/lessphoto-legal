@@ -13,6 +13,9 @@ interface Props {
   noindex?: boolean;
   applicationSchema?: boolean;
   heroHeader?: boolean;
+  toolMode?: boolean;
+  darkHeader?: boolean;
+  hideFooter?: boolean;
 }
 
 const {
@@ -23,6 +26,9 @@ const {
   noindex = false,
   applicationSchema = false,
   heroHeader = false,
+  toolMode = false,
+  darkHeader = false,
+  hideFooter = false,
 } = Astro.props;
 const t = copy[locale];
 const appStoreCampaign = path === "blog" || path.startsWith("blog/")
@@ -42,12 +48,12 @@ const appStoreCampaign = path === "blog" || path.startsWith("blog/")
       applicationSchema={applicationSchema}
     />
   </head>
-  <body>
+  <body class:list={{ "tool-mode-body": toolMode }}>
     <a class="skip-link" href="#main-content">{t.skipToContent}</a>
-    <Header locale={locale} path={path} heroTheme={heroHeader} campaignToken={appStoreCampaign} />
+    {!toolMode && <Header locale={locale} path={path} heroTheme={heroHeader} darkTheme={darkHeader} campaignToken={appStoreCampaign} />}
     <main id="main-content">
       <slot />
     </main>
-    <Footer locale={locale} campaignToken={appStoreCampaign} />
+    {!toolMode && !hideFooter && <Footer locale={locale} campaignToken={appStoreCampaign} />}
   </body>
 </html>
