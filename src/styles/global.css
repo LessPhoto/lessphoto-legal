@@ -3554,6 +3554,15 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   background: rgba(255, 255, 255, 0.9);
 }
 
+.site-header--frosted-tool .brand-link:hover,
+.site-header--frosted-tool .primary-nav a:hover,
+.site-header--frosted-tool .header-menu summary:hover,
+.site-header--frosted-tool .header-text-link:hover,
+.site-header--frosted-tool .mobile-navigation__primary a:hover,
+.site-header--frosted-tool .mobile-navigation__secondary a:hover {
+  color: var(--mint);
+}
+
 .webp-tool-page {
   --webp-blue: #0084f0;
   --webp-navy: rgba(0, 0, 0, 0.92);
@@ -5427,6 +5436,10 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   font-size: 32px;
   line-height: 1.1;
   letter-spacing: -0.03em;
+}
+
+.webp-tool-title__format {
+  color: #69dcff;
 }
 
 .webp-tool-title p {

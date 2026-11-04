@@ -15,7 +15,7 @@ const path = "tools/webp-converter";
 <BaseLayout title={t.seoTitle} description={t.seoDescription} locale={locale} path={path} darkHeader frostedToolHeader darkPage hideFooter>
   <div class="webp-tool-page">
     <section class="webp-tool-title page-width">
-      <h1>{t.pageTitle}</h1>
+      <h1><span class="webp-tool-title__format">WebP</span>{t.pageTitle.replace(/^WebP/, "")}</h1>
       <p>{t.description}</p>
     </section>
 
