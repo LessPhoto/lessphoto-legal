@@ -59,6 +59,9 @@ export const webpConverterCopy: Record<Locale, {
     failed: string;
     maxFilesReached: string;
     summary: string;
+    packaging: string;
+    packaged: string;
+    packageFailed: string;
   };
 }> = {
   en: {
@@ -120,6 +123,9 @@ export const webpConverterCopy: Record<Locale, {
       failed: "{name} could not be converted.",
       maxFilesReached: "Limit reached: 20 images per batch. Clear the list before adding more.",
       summary: "{completed}/{total} completed · {saved}",
+      packaging: "Packaging files…",
+      packaged: "{count} files packaged.",
+      packageFailed: "Could not create the ZIP file.",
     },
   },
   "zh-hans": {
@@ -181,6 +187,9 @@ export const webpConverterCopy: Record<Locale, {
       failed: "{name} 转换失败。",
       maxFilesReached: "已达到 20 张上限，请清空列表后再继续。",
       summary: "{completed}/{total} 已完成 · {saved}",
+      packaging: "正在打包文件……",
+      packaged: "已将 {count} 张图片打包。",
+      packageFailed: "无法创建压缩包。",
     },
   },
   "zh-hant": {
@@ -242,6 +251,9 @@ export const webpConverterCopy: Record<Locale, {
       failed: "{name} 轉換失敗。",
       maxFilesReached: "已達到 20 張上限，請清空列表後再繼續。",
       summary: "{completed}/{total} 已完成 · {saved}",
+      packaging: "正在打包檔案……",
+      packaged: "已將 {count} 張圖片打包。",
+      packageFailed: "無法建立壓縮檔。",
     },
   },
 };

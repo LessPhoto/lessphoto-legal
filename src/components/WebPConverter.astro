@@ -150,6 +150,8 @@ const path = "tools/webp-converter";
 </BaseLayout>
 
 <script>
+  import { zipSync } from "fflate";
+
   type ResultItem = {
     file: File;
     blob?: Blob;
@@ -203,6 +205,7 @@ const path = "tools/webp-converter";
     const taskSettings = new Map<File, { format: string; quality: number }>();
     let processingIndex = -1;
     let isConverting = false;
+    let isPackaging = false;
     let conversionScheduled = false;
     let conversionTimer: number | undefined;
     let reconvertAll = true;
@@ -231,6 +234,22 @@ const path = "tools/webp-converter";
 
     const extensionFor = (name: string) => name.split(".").pop()?.toLowerCase() || "";
     const formatLabel = (format: string) => format === "jpeg" ? "JPG" : format.toUpperCase();
+    const outputExtensionFor = (format: string) => format === "jpeg" ? "jpg" : format;
+    const outputNameFor = (file: File, format: string) =>
+      file.name.replace(/\.[^.]+$/, "") + `.${outputExtensionFor(format)}`;
+    const uniqueNameFor = (name: string, usedNames: Set<string>) => {
+      const extensionIndex = name.lastIndexOf(".");
+      const stem = extensionIndex > 0 ? name.slice(0, extensionIndex) : name;
+      const extension = extensionIndex > 0 ? name.slice(extensionIndex) : "";
+      let candidate = name;
+      let suffix = 2;
+      while (usedNames.has(candidate.toLowerCase())) {
+        candidate = `${stem} (${suffix})${extension}`;
+        suffix += 1;
+      }
+      usedNames.add(candidate.toLowerCase());
+      return candidate;
+    };
     const previewUrlFor = (file: File) => {
       const existing = previewUrls.get(file);
       if (existing) return existing;
@@ -392,7 +411,7 @@ const path = "tools/webp-converter";
             download.className = `secondary-button tool-result-download tool-format-action tool-format-action--${resultFormat}`;
             download.dataset.outputFormat = resultFormat;
             download.href = result.url;
-            download.download = file.name.replace(/\.[^.]+$/, "") + `.${resultFormat === "jpeg" ? "jpg" : resultFormat}`;
+            download.download = outputNameFor(file, resultFormat);
             download.innerHTML = `<span class="tool-format-download-icon" aria-hidden="true"></span><span>${formatLabel(resultFormat)}</span>`;
             download.setAttribute("aria-label", `${downloadLabel} ${file.name}`);
             rowActions.append(download);
@@ -402,7 +421,9 @@ const path = "tools/webp-converter";
           remove.className = "tool-remove-file";
           remove.innerHTML = `<img src="/assets/webp-converter/remove-processing.svg" alt="" aria-hidden="true" />`;
           remove.setAttribute("aria-label", `Remove ${file.name}`);
+          remove.disabled = isPackaging;
           remove.addEventListener("click", () => {
+            if (isPackaging) return;
             const removedResult = results.find((candidate) => candidate.file === file);
             if (removedResult?.url) URL.revokeObjectURL(removedResult.url);
             releasePreview(file);
@@ -427,12 +448,12 @@ const path = "tools/webp-converter";
       }
 
       convertButton.disabled = selectedFiles.length === 0 || isConverting;
-      clearButton.disabled = isConverting || selectedFiles.length === 0;
+      clearButton.disabled = isConverting || isPackaging || selectedFiles.length === 0;
       const hasFinishedResult = results.some((result) => selectedFiles.includes(result.file));
       const canReconvert = !isConverting && hasFinishedResult;
       reconvertButton.disabled = !canReconvert;
       reconvertButton.hidden = !canReconvert;
-      browseLink.disabled = isConverting;
+      browseLink.disabled = isConverting || isPackaging;
       const reconvertIcon = reconvertButton.querySelector<HTMLImageElement>("img");
       if (reconvertIcon && canReconvert) reconvertIcon.src = "/assets/webp-converter/reconvert-active.svg";
       renderSummary();
@@ -530,7 +551,7 @@ const path = "tools/webp-converter";
     const renderResults = () => {
       resultsContainer.replaceChildren();
       resultsSection.hidden = results.length === 0;
-      const canDownload = !isConverting && results.some((result) => result.blob);
+      const canDownload = !isConverting && !isPackaging && results.some((result) => result.blob);
       downloadAllButton.disabled = !canDownload;
       const downloadIcon = downloadAllButton.querySelector<HTMLImageElement>("img");
       if (downloadIcon) downloadIcon.src = canDownload
@@ -715,16 +736,42 @@ const path = "tools/webp-converter";
       renderResults();
       if (selectedFiles.some((file) => !results.some((result) => result.file === file))) scheduleConversion(reconvertAll);
     });
-    downloadAllButton.addEventListener("click", () => {
-      results.filter((result) => result.blob && result.url).forEach((result, index) => {
-        window.setTimeout(() => {
-          const link = document.createElement("a");
-          link.href = result.url || "";
+    downloadAllButton.addEventListener("click", async () => {
+      const downloadableResults = results.filter((result) => result.blob && selectedFiles.includes(result.file));
+      if (downloadableResults.length === 0 || isConverting) return;
+
+      isPackaging = true;
+      downloadAllButton.disabled = true;
+      renderFiles();
+      renderResults();
+      setStatus(messages.packaging || "Packaging files…");
+      try {
+        const usedNames = new Set<string>();
+        const zipEntries: Record<string, Uint8Array> = {};
+        for (const result of downloadableResults) {
           const resultFormat = result.format || outputFormat.value;
-          link.download = result.file.name.replace(/\.[^.]+$/, "") + `.${resultFormat === "jpeg" ? "jpg" : resultFormat}`;
-          link.click();
-        }, index * 120);
-      });
+          const fileName = uniqueNameFor(outputNameFor(result.file, resultFormat), usedNames);
+          zipEntries[fileName] = new Uint8Array(await result.blob!.arrayBuffer());
+        }
+
+        const zipData = zipSync(zipEntries, { level: 6 });
+        const zipBlob = new Blob([zipData], { type: "application/zip" });
+        const zipUrl = URL.createObjectURL(zipBlob);
+        const link = document.createElement("a");
+        link.href = zipUrl;
+        link.download = "lessphoto-webp-images.zip";
+        document.body.append(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(zipUrl), 1000);
+        setStatus(formatMessage(messages.packaged || "{count} files packaged.", { count: downloadableResults.length }), "success");
+      } catch {
+        setStatus(messages.packageFailed || "Could not create the ZIP file.", "error");
+      } finally {
+        isPackaging = false;
+        renderFiles();
+        renderResults();
+      }
     });
 
     updateQualityState();
