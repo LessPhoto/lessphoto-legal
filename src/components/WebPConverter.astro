@@ -1,5 +1,5 @@
 ---
-import { appStoreCampaignUrl, type Locale } from "../data/site";
+import { APP_STORE_CAMPAIGNS, appStoreCampaignUrl, type Locale } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { heicConverterCopy, webpConverterCopy } from "../data/tools";
 import LessPhotoPromo from "./LessPhotoPromo.astro";
@@ -15,7 +15,7 @@ const isHeic = variant === "heic";
 const t = isHeic ? heicConverterCopy[locale] : webpConverterCopy[locale];
 const path = isHeic ? "tools/heic-converter" : "tools/webp-converter";
 const formatName = isHeic ? "HEIC" : "WebP";
-const lessPhotoAppUrl = appStoreCampaignUrl("web-product");
+const lessPhotoAppUrl = appStoreCampaignUrl(APP_STORE_CAMPAIGNS.tool);
 const theme = isHeic
   ? {
       primary: "#fe6a2b",

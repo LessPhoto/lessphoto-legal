@@ -4,6 +4,7 @@ export const APP_STORE_PROVIDER_TOKEN = "128874359";
 export const APP_STORE_CAMPAIGNS = {
   product: "web-product",
   blog: "web-blog",
+  tool: "web-tool",
 } as const;
 export type AppStoreCampaign = typeof APP_STORE_CAMPAIGNS[keyof typeof APP_STORE_CAMPAIGNS];
 

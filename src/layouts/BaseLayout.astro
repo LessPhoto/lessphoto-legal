@@ -37,6 +37,8 @@ const {
 const t = copy[locale];
 const appStoreCampaign = path === "blog" || path.startsWith("blog/")
   ? APP_STORE_CAMPAIGNS.blog
+  : path.startsWith("tools/")
+    ? APP_STORE_CAMPAIGNS.tool
   : APP_STORE_CAMPAIGNS.product;
 ---
 
