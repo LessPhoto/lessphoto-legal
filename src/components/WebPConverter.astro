@@ -85,6 +85,7 @@ const themeStyle = Object.entries({
         data-upload-continue-label={t.continueAdding}
         data-upload-format-label={t.formatSupportShort}
           data-dimensions-label={t.dimensionsLabel}
+        data-scale-min-label={t.scaleMinLabel}
       >
         <input
           data-file-input
@@ -165,7 +166,10 @@ const themeStyle = Object.entries({
               </div>
               <div class="webp-range-slider" data-range-slider="quality">
                 <div class="webp-range-slider__track" aria-hidden="true">
-                  <span class="webp-range-slider__default-marker"></span>
+                  <span class="webp-range-slider__fill"></span>
+                  <span class="webp-range-slider__default-marker-area">
+                    <span class="webp-range-slider__default-marker"></span>
+                  </span>
                 </div>
                 <input data-quality type="range" min="0" max="100" step="1" value="80" />
               </div>
@@ -177,12 +181,15 @@ const themeStyle = Object.entries({
               <h2>{t.scale}</h2>
               <label class="tool-field tool-scale-field">
                 <div class="tool-field__label-row">
-                  <span><output data-scale-value>1</output><span data-scale-unit>x</span></span>
+                  <span><output data-scale-value>1</output><span data-scale-unit>x</span><span class="webp-scale-min-label" data-scale-min-label aria-hidden="true"></span></span>
                   <button class="tool-quality-reset" data-scale-reset type="button">{t.scaleReset}</button>
                 </div>
                 <div class="webp-range-slider" data-range-slider="scale">
                   <div class="webp-range-slider__track" aria-hidden="true">
-                    <span class="webp-range-slider__default-marker"></span>
+                    <span class="webp-range-slider__fill"></span>
+                    <span class="webp-range-slider__default-marker-area">
+                      <span class="webp-range-slider__default-marker"></span>
+                    </span>
                   </div>
                   <input data-scale type="range" min="0.2" max="1" step="0.1" value="1" />
                 </div>
@@ -251,6 +258,7 @@ const themeStyle = Object.entries({
     const scaleValue = converter.querySelector<HTMLOutputElement>("[data-scale-value]");
     const scaleReset = converter.querySelector<HTMLButtonElement>("[data-scale-reset]");
     const scaleSlider = converter.querySelector<HTMLElement>('[data-range-slider="scale"]');
+    const scaleMinLabel = converter.querySelector<HTMLElement>(".webp-scale-min-label");
     const dimensionsPreview = converter.querySelector<HTMLElement>("[data-dimensions-preview]");
     const convertButton = converter.querySelector<HTMLButtonElement>("[data-convert]");
     const clearButton = converter.querySelector<HTMLButtonElement>("[data-clear]");
@@ -271,7 +279,7 @@ const themeStyle = Object.entries({
     ) return;
 
     const hasScale = converter.dataset.hasScale === "true";
-    if (hasScale && (!scale || !scaleValue || !scaleReset || !scaleSlider || !dimensionsPreview)) return;
+    if (hasScale && (!scale || !scaleValue || !scaleReset || !scaleSlider || !scaleMinLabel || !dimensionsPreview)) return;
 
     const messages = JSON.parse(converter.dataset.messages || "{}") as Record<string, string>;
     const downloadLabel = converter.dataset.downloadLabel || "Download";
@@ -769,8 +777,15 @@ const themeStyle = Object.entries({
       addFiles(fileInput.files || []);
       fileInput.value = "";
     });
+    const updateRangeFill = (slider: HTMLElement, ratio: number) => {
+      const radius = parseFloat(getComputedStyle(slider).getPropertyValue("--range-thumb-radius")) || 9;
+      const movableWidth = Math.max(0, slider.clientWidth - radius * 2);
+      slider.style.setProperty("--range-fill-width", `${radius + movableWidth * Math.max(0, Math.min(1, ratio))}px`);
+    };
     const updateQualitySlider = () => {
-      qualitySlider.style.setProperty("--range-percent", `${quality.value}%`);
+      const ratio = Number(quality.value) / 100;
+      qualitySlider.style.setProperty("--range-percent", `${ratio * 100}%`);
+      updateRangeFill(qualitySlider, ratio);
       qualityValue.textContent = quality.value;
     };
     quality.addEventListener("input", () => {
@@ -783,13 +798,21 @@ const themeStyle = Object.entries({
       quality.dispatchEvent(new Event("input", { bubbles: true }));
     });
     const updateScaleSlider = () => {
-      if (!hasScale || !scale || !scaleValue || !scaleSlider) return;
+      if (!hasScale || !scale || !scaleValue || !scaleSlider || !scaleMinLabel) return;
       const value = Number(scale.value);
       scaleValue.textContent = value === 1 ? "1" : value.toFixed(1);
-      scaleSlider.style.setProperty("--range-percent", `${((value - 0.2) / 0.8) * 100}%`);
+      scaleMinLabel.textContent = converter.dataset.scaleMinLabel || "(min)";
+      scaleMinLabel.style.visibility = value <= 0.2 ? "visible" : "hidden";
+      const ratio = (value - 0.2) / 0.8;
+      scaleSlider.style.setProperty("--range-percent", `${ratio * 100}%`);
+      updateRangeFill(scaleSlider, ratio);
       renderDimensionsPreview();
     };
     scale?.addEventListener("input", updateScaleSlider);
+    window.addEventListener("resize", () => {
+      updateQualitySlider();
+      updateScaleSlider();
+    });
     scaleReset?.addEventListener("click", () => {
       if (!scale) return;
       scale.value = "1";

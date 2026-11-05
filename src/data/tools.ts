@@ -28,6 +28,7 @@ export const webpConverterCopy: Record<Locale, {
   qualityReset: string;
   scale: string;
   scaleReset: string;
+  scaleMinLabel: string;
   dimensionsLabel: string;
   reconvert: string;
   qualityLossless: string;
@@ -105,6 +106,7 @@ export const webpConverterCopy: Record<Locale, {
     qualityReset: "Reset",
     scale: "Scale",
     scaleReset: "Reset",
+    scaleMinLabel: "(min)",
     dimensionsLabel: "Output size",
     reconvert: "Reconvert",
     qualityLossless: "Lossless",
@@ -182,6 +184,7 @@ export const webpConverterCopy: Record<Locale, {
     qualityReset: "重置",
     scale: "缩放比例",
     scaleReset: "重置",
+    scaleMinLabel: "（最小）",
     dimensionsLabel: "输出尺寸",
     reconvert: "重新转换",
     qualityLossless: "无损",
@@ -259,6 +262,7 @@ export const webpConverterCopy: Record<Locale, {
     qualityReset: "重設",
     scale: "縮放比例",
     scaleReset: "重設",
+    scaleMinLabel: "（最小）",
     dimensionsLabel: "輸出尺寸",
     reconvert: "重新轉換",
     qualityLossless: "無損",
