@@ -1,28 +1,80 @@
 ---
-import { type Locale } from "../data/site";
+import { appStoreCampaignUrl, type Locale } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { webpConverterCopy } from "../data/tools";
+import { heicConverterCopy, webpConverterCopy } from "../data/tools";
+import LessPhotoPromo from "./LessPhotoPromo.astro";
+import ConverterTaskList from "./converter/ConverterTaskList.astro";
 
 interface Props {
   locale: Locale;
+  variant?: "webp" | "heic";
 }
 
-const { locale } = Astro.props;
-const t = webpConverterCopy[locale];
-const path = "tools/webp-converter";
+const { locale, variant = "webp" } = Astro.props;
+const isHeic = variant === "heic";
+const t = isHeic ? heicConverterCopy[locale] : webpConverterCopy[locale];
+const path = isHeic ? "tools/heic-converter" : "tools/webp-converter";
+const formatName = isHeic ? "HEIC" : "WebP";
+const lessPhotoAppUrl = appStoreCampaignUrl("web-product");
+const theme = isHeic
+  ? {
+      primary: "#fe6a2b",
+      title: "#ff8605",
+      hover: "#ec5b20",
+      soft: "rgba(254, 106, 43, 0.16)",
+      drop: "rgba(107, 120, 175, 0.08)",
+      dropLine: "rgba(107, 120, 175, 0.12)",
+      dropActive: "rgba(107, 120, 175, 0.18)",
+      dragLabel: "rgba(107, 120, 175, 0.92)",
+      buttonText: "white",
+    }
+  : {
+      primary: "#216fff",
+      title: "#69dcff",
+      hover: "#1d63e6",
+      soft: "rgba(33, 111, 255, 0.2)",
+      drop: "rgba(33, 111, 255, 0.08)",
+      dropLine: "rgba(33, 111, 255, 0.12)",
+      dropActive: "#d6e4ff",
+      dragLabel: "rgba(0, 132, 240, 0.92)",
+      buttonText: "white",
+    };
+const themeStyle = Object.entries({
+  "--webp-blue": theme.primary,
+  "--webp-title-format": theme.title,
+  "--webp-blue-hover": theme.hover,
+  "--webp-accent-soft": theme.soft,
+  "--webp-drop-bg": theme.drop,
+  "--webp-drop-line": theme.dropLine,
+  "--webp-drop-active": theme.dropActive,
+  "--webp-drag-label-bg": theme.dragLabel,
+  "--webp-button-text": theme.buttonText,
+}).map(([property, value]) => `${property}:${value}`).join(";");
 ---
 
 <BaseLayout title={t.seoTitle} description={t.seoDescription} locale={locale} path={path} darkHeader frostedToolHeader darkPage hideFooter>
-  <div class="webp-tool-page">
+  <div class:list={["webp-tool-page", isHeic && "heic-tool-page"]} style={themeStyle}>
     <section class="webp-tool-title page-width">
-      <h1><span class="webp-tool-title__format">WebP</span>{t.pageTitle.replace(/^WebP/, "")}</h1>
-      <p>{t.description}</p>
+      <div class="webp-tool-title__row">
+        <div class="webp-tool-title__copy">
+          <h1><span class="webp-tool-title__format">{formatName}</span>{t.pageTitle.replace(new RegExp(`^${formatName}`, "i"), "")}</h1>
+          <p>{t.description}</p>
+        </div>
+        <a class="webp-tool-inline-promo" href={lessPhotoAppUrl} target="_blank" rel="noopener">
+          <span>{t.inlinePromo}</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
     </section>
 
     <div class="webp-tool-workspace page-width">
       <div
         class="webp-converter webp-tool-panel"
         data-webp-converter
+        data-image-converter
+        data-converter-kind={variant}
+        data-has-scale={isHeic ? "true" : "false"}
+        data-supported-extensions={JSON.stringify(t.supportedExtensions)}
         data-messages={JSON.stringify(t.messages)}
         data-png-quality-label={t.qualityLossless}
         data-download-label={t.download}
@@ -32,11 +84,12 @@ const path = "tools/webp-converter";
         data-upload-manual-label={t.manualUpload}
         data-upload-continue-label={t.continueAdding}
         data-upload-format-label={t.formatSupportShort}
+          data-dimensions-label={t.dimensionsLabel}
       >
         <input
           data-file-input
           type="file"
-          accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
+          accept={t.inputAccept}
           multiple
           hidden
         />
@@ -46,7 +99,7 @@ const path = "tools/webp-converter";
             <h2>{t.taskList}</h2>
             <div class="webp-task-header__actions">
               <button class="webp-text-action" data-browse-link type="button">
-                <img src="/assets/webp-converter/upload-link.svg" alt="" aria-hidden="true" />
+                <span class="webp-upload-link-icon" aria-hidden="true"></span>
                 <span>{t.manualUpload}</span>
               </button>
               <button class="webp-text-action" data-clear type="button" disabled>{t.clearList}</button>
@@ -54,7 +107,7 @@ const path = "tools/webp-converter";
           </div>
 
           <div class="webp-tool-task-surface" data-task-surface data-drag-label={t.dropTitle}>
-            <ul class="webp-file-list" data-file-list hidden></ul>
+            <ConverterTaskList />
             <div class="tool-drop-zone webp-upload-zone" data-upload-zone>
               <div class="webp-upload-copy">
                 <strong data-upload-title>{t.dropTitle}</strong>
@@ -92,14 +145,14 @@ const path = "tools/webp-converter";
           <div class="webp-setting">
             <h2>{t.outputFormat}</h2>
             <div class="webp-format-options" role="group" aria-label={t.outputFormat}>
-              <button type="button" data-format-option="webp" class="is-active">{t.outputWebp}</button>
-              <button type="button" data-format-option="png">{t.outputPng}</button>
-              <button type="button" data-format-option="jpeg">{t.outputJpg}</button>
+              {t.outputFormats.map((format, index) => (
+                <button type="button" data-format-option={format.value} class:list={[index === 0 && "is-active"]}>{format.label}</button>
+              ))}
             </div>
             <select data-output-format hidden aria-hidden="true">
-              <option value="webp" selected>{t.outputWebp}</option>
-              <option value="png">{t.outputPng}</option>
-              <option value="jpeg">{t.outputJpg}</option>
+              {t.outputFormats.map((format, index) => (
+                <option value={format.value} selected={index === 0}>{format.label}</option>
+              ))}
             </select>
           </div>
 
@@ -110,17 +163,36 @@ const path = "tools/webp-converter";
                 <span><output data-quality-value>80</output><span data-quality-unit>%</span></span>
                 <button class="tool-quality-reset" data-quality-reset type="button">{t.qualityReset}</button>
               </div>
-              <div class="webp-quality-slider">
-                <div class="webp-quality-slider__track" aria-hidden="true">
-                  <span class="webp-quality-slider__default-marker"></span>
+              <div class="webp-range-slider" data-range-slider="quality">
+                <div class="webp-range-slider__track" aria-hidden="true">
+                  <span class="webp-range-slider__default-marker"></span>
                 </div>
                 <input data-quality type="range" min="0" max="100" step="1" value="80" />
               </div>
             </label>
           </div>
 
+          {isHeic && (
+            <div class="webp-setting heic-scale-setting">
+              <h2>{t.scale}</h2>
+              <label class="tool-field tool-scale-field">
+                <div class="tool-field__label-row">
+                  <span><output data-scale-value>1</output><span data-scale-unit>x</span></span>
+                  <button class="tool-quality-reset" data-scale-reset type="button">{t.scaleReset}</button>
+                </div>
+                <div class="webp-range-slider" data-range-slider="scale">
+                  <div class="webp-range-slider__track" aria-hidden="true">
+                    <span class="webp-range-slider__default-marker"></span>
+                  </div>
+                  <input data-scale type="range" min="0.2" max="1" step="0.1" value="1" />
+                </div>
+                <p class="heic-dimensions-preview" data-dimensions-preview hidden></p>
+              </label>
+            </div>
+          )}
+
           <button class="tool-primary-button webp-reconvert-button" data-reconvert type="button" disabled hidden>
-            <img src="/assets/webp-converter/reconvert-disabled.svg" alt="" aria-hidden="true" />
+            <span class="webp-reconvert-icon" aria-hidden="true"></span>
             <span>{t.reconvert}</span>
           </button>
           <button data-convert type="button" hidden aria-hidden="true">{t.convert}</button>
@@ -146,21 +218,18 @@ const path = "tools/webp-converter";
       </div>
     </section>
 
+    <LessPhotoPromo title={t.ctaTitle} description={t.ctaDescription} buttonLabel={t.ctaButton} />
+
   </div>
 </BaseLayout>
 
 <script>
   import { zipSync } from "fflate";
+  import { renderConverterTaskItems, type ConverterTaskResult } from "./converter/task-list";
 
-  type ResultItem = {
-    file: File;
-    blob?: Blob;
-    url?: string;
-    error?: boolean;
-    format?: string;
-  };
+  type ResultItem = ConverterTaskResult;
 
-  const converters = document.querySelectorAll<HTMLElement>("[data-webp-converter]");
+  const converters = document.querySelectorAll<HTMLElement>("[data-image-converter]");
 
   converters.forEach((converter) => {
     const fileInput = converter.querySelector<HTMLInputElement>("[data-file-input]");
@@ -177,7 +246,12 @@ const path = "tools/webp-converter";
     const qualityValue = converter.querySelector<HTMLOutputElement>("[data-quality-value]");
     const qualityUnit = converter.querySelector<HTMLElement>("[data-quality-unit]");
     const qualityReset = converter.querySelector<HTMLButtonElement>("[data-quality-reset]");
-    const qualitySlider = converter.querySelector<HTMLElement>(".webp-quality-slider");
+    const qualitySlider = converter.querySelector<HTMLElement>('[data-range-slider="quality"]');
+    const scale = converter.querySelector<HTMLInputElement>("[data-scale]");
+    const scaleValue = converter.querySelector<HTMLOutputElement>("[data-scale-value]");
+    const scaleReset = converter.querySelector<HTMLButtonElement>("[data-scale-reset]");
+    const scaleSlider = converter.querySelector<HTMLElement>('[data-range-slider="scale"]');
+    const dimensionsPreview = converter.querySelector<HTMLElement>("[data-dimensions-preview]");
     const convertButton = converter.querySelector<HTMLButtonElement>("[data-convert]");
     const clearButton = converter.querySelector<HTMLButtonElement>("[data-clear]");
     const reconvertButton = converter.querySelector<HTMLButtonElement>("[data-reconvert]");
@@ -196,13 +270,16 @@ const path = "tools/webp-converter";
       !convertButton || !clearButton || !reconvertButton || !status || !fileList || !summaryBar || !summary || !summaryProgress || !summarySaved || !resultsSection || !resultsContainer || !downloadAllButton
     ) return;
 
+    const hasScale = converter.dataset.hasScale === "true";
+    if (hasScale && (!scale || !scaleValue || !scaleReset || !scaleSlider || !dimensionsPreview)) return;
+
     const messages = JSON.parse(converter.dataset.messages || "{}") as Record<string, string>;
     const downloadLabel = converter.dataset.downloadLabel || "Download";
     const failedLabel = converter.dataset.failedLabel || "Could not convert";
-    const supportedExtensions = new Set(["png", "jpg", "jpeg", "webp"]);
+    const supportedExtensions = new Set(JSON.parse(converter.dataset.supportedExtensions || "[]") as string[]);
     let selectedFiles: File[] = [];
     let results: ResultItem[] = [];
-    const taskSettings = new Map<File, { format: string; quality: number }>();
+    const taskSettings = new Map<File, { format: string; quality: number; scale: number }>();
     let processingIndex = -1;
     let isConverting = false;
     let isPackaging = false;
@@ -217,8 +294,75 @@ const path = "tools/webp-converter";
     const completionAnimations = new Map<File, { id: number; startedAt: number }>();
     let visualRunId = 0;
     const previewUrls = new Map<File, string>();
+    const dimensions = new Map<File, { width: number; height: number }>();
+    type DecodedImage = {
+      width: number;
+      height: number;
+      image?: HTMLImageElement;
+      imageBitmap?: ImageBitmap;
+      imageData?: ImageData;
+    };
+    const decodedImages = new Map<File, DecodedImage>();
+    const decodedImagePromises = new Map<File, Promise<DecodedImage>>();
+    type CodecDecodeResponse =
+      | { id: number; ok: true; width: number; height: number; data: ArrayBuffer }
+      | { id: number; ok: false; error: string };
+    let codecWorker: Worker | undefined;
+    let codecRequestId = 0;
+    const codecRequests = new Map<number, { resolve: (decoded: DecodedImage) => void; reject: (error: Error) => void }>();
+    const getCodecWorker = () => {
+      if (codecWorker) return codecWorker;
+      codecWorker = new Worker(new URL("./converter/image-codec.worker.ts", import.meta.url), { type: "module" });
+      codecWorker.addEventListener("message", (event: MessageEvent<CodecDecodeResponse>) => {
+        const response = event.data;
+        const request = codecRequests.get(response.id);
+        if (!request) return;
+        codecRequests.delete(response.id);
+        if (response.ok) {
+          request.resolve({
+            width: response.width,
+            height: response.height,
+            imageData: new ImageData(new Uint8ClampedArray(response.data), response.width, response.height),
+          });
+        }
+        else request.reject(new Error(response.error));
+      });
+      codecWorker.addEventListener("error", () => {
+        codecRequests.forEach(({ reject }) => reject(new Error("Image codec worker failed")));
+        codecRequests.clear();
+        codecWorker = undefined;
+      });
+      return codecWorker;
+    };
+    const decodeWithCodecWorker = async (file: File, format: "heic" | "heif" | "avif") => {
+      const buffer = await file.arrayBuffer();
+      return new Promise<DecodedImage>((resolve, reject) => {
+        const id = ++codecRequestId;
+        codecRequests.set(id, { resolve, reject });
+        try {
+          getCodecWorker().postMessage({ id, format, buffer }, [buffer]);
+        } catch (error) {
+          codecRequests.delete(id);
+          reject(error instanceof Error ? error : new Error(String(error)));
+        }
+      });
+    };
     const formatMessage = (template: string, values: Record<string, string | number>) =>
       template.replace(/\{(\w+)\}/g, (_, key: string) => String(values[key] ?? ""));
+    const currentScale = () => hasScale && scale ? Number(scale.value) : 1;
+    const formatDimensions = (width: number, height: number, factor: number) =>
+      `${Math.max(1, Math.round(width * factor))}×${Math.max(1, Math.round(height * factor))}`;
+    const renderDimensionsPreview = () => {
+      if (!hasScale || !scale || !dimensionsPreview) return;
+      const entries = selectedFiles
+        .map((file) => dimensions.get(file))
+        .filter((value): value is { width: number; height: number } => !!value);
+      const shouldShow = selectedFiles.length > 0 && currentScale() !== 1 && entries.length > 0;
+      dimensionsPreview.hidden = !shouldShow;
+      if (shouldShow) dimensionsPreview.textContent = entries
+        .map((value) => formatDimensions(value.width, value.height, currentScale()))
+        .join(" · ");
+    };
 
     const formatBytes = (bytes: number) => {
       if (bytes < 1024) return `${bytes} B`;
@@ -261,6 +405,11 @@ const path = "tools/webp-converter";
       const url = previewUrls.get(file);
       if (url) URL.revokeObjectURL(url);
       previewUrls.delete(file);
+    };
+    const releaseDecodedImage = (file: File) => {
+      decodedImages.get(file)?.imageBitmap?.close();
+      decodedImages.delete(file);
+      decodedImagePromises.delete(file);
     };
 
     const setStatus = (message: string, kind = "") => {
@@ -316,117 +465,32 @@ const path = "tools/webp-converter";
       browseLabel.textContent = hasFiles ? "+" : manualLabel;
       browseButton.setAttribute("aria-label", manualLabel);
       browseButton.classList.toggle("webp-upload-plus", hasFiles);
-      fileList.replaceChildren();
       if (hasFiles) {
-        selectedFiles.forEach((file, index) => {
-          const item = document.createElement("li");
-          const result = results.find((candidate) => candidate.file === file);
-          const isProcessing = processingIndex === index || visualProcessing.has(file);
-          const resultIsReady = !!result && !isProcessing;
-          const visualState = visualProcessing.get(file);
-          const completionState = completionAnimations.get(file);
-          const stateName = result?.blob && resultIsReady ? "done" : result?.error && resultIsReady ? "error" : isProcessing ? "processing" : "waiting";
-          item.className = `webp-file-list__item${result?.blob && resultIsReady ? "" : " webp-file-list__item--pending"}${completionState ? " webp-file-list__item--completing" : ""}`;
-          const state = document.createElement("span");
-          state.className = "tool-task-state";
-          state.dataset.state = stateName;
-          state.textContent = result?.blob && resultIsReady
-            ? messages.done || "Done"
-            : result?.error && resultIsReady
-              ? failedLabel
-              : isProcessing
-                ? messages.processingShort || messages.processing || "Processing…"
-                : messages.waiting || "Waiting";
-
-          const progress = document.createElement("span");
-          progress.className = "tool-task-progress";
-          const progressTrack = document.createElement("span");
-          progressTrack.className = "tool-task-progress__track";
-          const progressFill = document.createElement("span");
-          progressFill.className = "tool-task-progress__fill";
-          const progressText = document.createElement("span");
-          progressText.className = "tool-task-progress__text";
-          const progressValue = result?.blob && resultIsReady ? 100 : isProcessing ? 80 : 0;
-          progress.style.setProperty("--progress", `${progressValue}%`);
-          if (visualState) {
-            progress.style.setProperty("--webp-progress-animation-delay", `-${Math.max(0, performance.now() - visualState.startedAt)}ms`);
-          }
-          if (completionState) {
-            progress.style.setProperty("--webp-completion-animation-delay", `-${Math.max(0, performance.now() - completionState.startedAt)}ms`);
-          }
-          progress.dataset.state = stateName;
-          progressText.textContent = result?.blob && resultIsReady ? "100%" : isProcessing ? "…" : "0%";
-          progressTrack.append(progressFill);
-          progress.append(progressTrack, progressText);
-
-          const thumb = document.createElement("span");
-          thumb.className = "tool-task-thumb";
-          const thumbImage = document.createElement("img");
-          thumbImage.src = result?.url || previewUrlFor(file);
-          thumbImage.alt = "";
-          thumb.append(thumbImage);
-
-          const content = document.createElement("div");
-          content.className = "webp-file-list__content";
-          const name = document.createElement("span");
-          name.className = "webp-file-list__name";
-          name.textContent = file.name;
-          const inputMeta = document.createElement("div");
-          inputMeta.className = "webp-file-list__meta";
-          const inputFormat = document.createElement("span");
-          const inputExtension = extensionFor(file.name);
-          inputFormat.className = `tool-format-badge tool-format-badge--input tool-format-badge--${inputExtension}`;
-          inputFormat.textContent = formatLabel(inputExtension);
-          const inputSize = document.createElement("small");
-          inputSize.textContent = formatBytes(file.size);
-          inputMeta.append(inputFormat, inputSize);
-          content.append(name, inputMeta);
-
-          const resultInfo = document.createElement("div");
-          resultInfo.className = "webp-file-list__result";
-          const resultSummary = document.createElement("div");
-          resultSummary.className = "webp-file-list__result-summary";
-          const savings = document.createElement("strong");
-          savings.className = "webp-file-list__savings";
-          if (result?.blob) {
-            const change = Math.round((1 - result.blob.size / file.size) * 100);
-            savings.textContent = `${change >= 0 ? "−" : "+"}${Math.abs(change)}%`;
-          } else {
-            savings.textContent = isProcessing ? "…" : "—";
-          }
-          const outputSize = document.createElement("small");
-          outputSize.textContent = result?.blob ? formatBytes(result.blob.size) : "—";
-          resultSummary.append(savings, outputSize);
-          const progressRow = document.createElement("div");
-          progressRow.className = "webp-file-list__progress-row";
-          progressRow.append(progress);
-          if (result?.blob && resultIsReady) resultInfo.append(resultSummary);
-
-          const rowActions = document.createElement("div");
-          rowActions.className = "webp-file-list__actions";
-          if (!result?.blob || !resultIsReady) rowActions.append(progressRow);
-          const resultFormat = result?.format || taskSettings.get(file)?.format || outputFormat.value;
-          if (result?.blob && resultIsReady && result.url) {
-            const download = document.createElement("a");
-            download.className = `secondary-button tool-result-download tool-format-action tool-format-action--${resultFormat}`;
-            download.dataset.outputFormat = resultFormat;
-            download.href = result.url;
-            download.download = outputNameFor(file, resultFormat);
-            download.innerHTML = `<span class="tool-format-download-icon" aria-hidden="true"></span><span>${formatLabel(resultFormat)}</span>`;
-            download.setAttribute("aria-label", `${downloadLabel} ${file.name}`);
-            rowActions.append(download);
-          }
-          const remove = document.createElement("button");
-          remove.type = "button";
-          remove.className = "tool-remove-file";
-          remove.innerHTML = `<img src="/assets/webp-converter/remove-processing.svg" alt="" aria-hidden="true" />`;
-          remove.setAttribute("aria-label", `Remove ${file.name}`);
-          remove.disabled = isPackaging;
-          remove.addEventListener("click", () => {
+        renderConverterTaskItems({
+          container: fileList,
+          selectedFiles,
+          results,
+          processingIndex,
+          visualProcessing,
+          completionAnimations,
+          messages,
+          failedLabel,
+          downloadLabel,
+          outputFormat: outputFormat.value,
+          taskSettings,
+          isPackaging,
+          previewUrlFor,
+          extensionFor,
+          formatBytes,
+          formatLabel,
+          outputNameFor,
+          onRemove: (file, index) => {
             if (isPackaging) return;
             const removedResult = results.find((candidate) => candidate.file === file);
             if (removedResult?.url) URL.revokeObjectURL(removedResult.url);
             releasePreview(file);
+            releaseDecodedImage(file);
+            dimensions.delete(file);
             taskSettings.delete(file);
             visualProcessing.delete(file);
             completionAnimations.delete(file);
@@ -437,13 +501,11 @@ const path = "tools/webp-converter";
             else if (processingIndex > index) processingIndex -= 1;
             renderFiles();
             renderResults();
-          });
-          rowActions.append(remove);
-          item.append(thumb, content, resultInfo, rowActions);
-          fileList.append(item);
+          },
         });
         fileList.append(uploadZone);
       } else {
+        fileList.replaceChildren();
         taskSurface.append(uploadZone);
       }
 
@@ -454,8 +516,7 @@ const path = "tools/webp-converter";
       reconvertButton.disabled = !canReconvert;
       reconvertButton.hidden = !canReconvert;
       browseLink.disabled = isConverting || isPackaging;
-      const reconvertIcon = reconvertButton.querySelector<HTMLImageElement>("img");
-      if (reconvertIcon && canReconvert) reconvertIcon.src = "/assets/webp-converter/reconvert-active.svg";
+      renderDimensionsPreview();
       renderSummary();
     };
 
@@ -485,7 +546,7 @@ const path = "tools/webp-converter";
             return;
           }
           selectedFiles.push(file);
-          taskSettings.set(file, { format: outputFormat.value, quality: Number(quality.value) / 100 });
+          taskSettings.set(file, { format: outputFormat.value, quality: Number(quality.value) / 100, scale: currentScale() });
           existing.add(key);
         }
       });
@@ -501,7 +562,7 @@ const path = "tools/webp-converter";
       scheduleConversion();
     };
 
-    const loadImage = (file: File) => new Promise<HTMLImageElement>((resolve, reject) => {
+    const loadImage = (file: Blob) => new Promise<HTMLImageElement>((resolve, reject) => {
       const url = URL.createObjectURL(file);
       const image = new Image();
       image.decoding = "async";
@@ -516,6 +577,38 @@ const path = "tools/webp-converter";
       image.src = url;
     });
 
+    const decodeImage = (file: File): Promise<DecodedImage> => {
+      const cached = decodedImages.get(file);
+      if (cached) return Promise.resolve(cached);
+      const pending = decodedImagePromises.get(file);
+      if (pending) return pending;
+
+      const promise = (async () => {
+        const extension = extensionFor(file.name);
+        let decoded: DecodedImage;
+        if (extension === "heic" || extension === "heif" || extension === "avif") {
+          decoded = await decodeWithCodecWorker(file, extension);
+        } else {
+          const image = await loadImage(file);
+          decoded = { width: image.naturalWidth, height: image.naturalHeight, image };
+        }
+        if (!selectedFiles.includes(file)) {
+          decoded.imageBitmap?.close();
+        } else {
+          decodedImages.set(file, decoded);
+          dimensions.set(file, { width: decoded.width, height: decoded.height });
+        }
+        return decoded;
+      })();
+
+      decodedImagePromises.set(file, promise);
+      void promise.then(
+        () => decodedImagePromises.delete(file),
+        () => decodedImagePromises.delete(file),
+      );
+      return promise;
+    };
+
     const canvasToBlob = (canvas: HTMLCanvasElement, mime: string, qualityValueForBlob: number) =>
       new Promise<Blob>((resolve, reject) => {
         const callback = (blob: Blob | null) => blob ? resolve(blob) : reject(new Error("Image could not be encoded"));
@@ -523,24 +616,89 @@ const path = "tools/webp-converter";
         else canvas.toBlob(callback, mime, qualityValueForBlob);
       });
 
-    const convertFile = async (file: File, formatValue: string, qualityForRun: number) => {
-      const image = await loadImage(file);
+    const drawDecodedImage = (decoded: DecodedImage, width: number, height: number, fillJpeg = false) => {
       const canvas = document.createElement("canvas");
-      canvas.width = image.naturalWidth;
-      canvas.height = image.naturalHeight;
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error("Canvas is not available");
+      if (fillJpeg) {
+        context.fillStyle = "#ffffff";
+        context.fillRect(0, 0, width, height);
+      }
+      if (decoded.imageData) {
+        const sourceCanvas = document.createElement("canvas");
+        sourceCanvas.width = decoded.width;
+        sourceCanvas.height = decoded.height;
+        sourceCanvas.getContext("2d")?.putImageData(decoded.imageData, 0, 0);
+        context.drawImage(sourceCanvas, 0, 0, width, height);
+      } else if (decoded.imageBitmap) {
+        context.drawImage(decoded.imageBitmap, 0, 0, width, height);
+      } else if (decoded.image) {
+        context.drawImage(decoded.image, 0, 0, width, height);
+      }
+      return canvas;
+    };
+
+    const encodeBmp = (imageData: ImageData) => {
+      const { width, height, data } = imageData;
+      const rowSize = width * 4;
+      const pixelOffset = 54;
+      const buffer = new ArrayBuffer(pixelOffset + rowSize * height);
+      const view = new DataView(buffer);
+      view.setUint16(0, 0x4d42, true);
+      view.setUint32(2, buffer.byteLength, true);
+      view.setUint32(10, pixelOffset, true);
+      view.setUint32(14, 40, true);
+      view.setInt32(18, width, true);
+      view.setInt32(22, height, true);
+      view.setUint16(26, 1, true);
+      view.setUint16(28, 32, true);
+      view.setUint32(34, rowSize * height, true);
+      for (let y = 0; y < height; y += 1) {
+        const sourceY = height - y - 1;
+        for (let x = 0; x < width; x += 1) {
+          const sourceIndex = (sourceY * width + x) * 4;
+          const targetIndex = pixelOffset + y * rowSize + x * 4;
+          view.setUint8(targetIndex, data[sourceIndex + 2]);
+          view.setUint8(targetIndex + 1, data[sourceIndex + 1]);
+          view.setUint8(targetIndex + 2, data[sourceIndex]);
+          view.setUint8(targetIndex + 3, data[sourceIndex + 3]);
+        }
+      }
+      return new Blob([buffer], { type: "image/bmp" });
+    };
+
+    const convertFile = async (file: File, formatValue: string, qualityForRun: number, scaleForRun: number) => {
+      const extension = extensionFor(file.name);
+      if (formatValue === "heic" && (extension === "heic" || extension === "heif") && scaleForRun === 1) {
+        return file.slice(0, file.size, file.type || "image/heic");
+      }
+
+      const decoded = await decodeImage(file);
+      dimensions.set(file, { width: decoded.width, height: decoded.height });
+      renderDimensionsPreview();
+      const outputWidth = Math.max(1, Math.round(decoded.width * scaleForRun));
+      const outputHeight = Math.max(1, Math.round(decoded.height * scaleForRun));
+      const canvas = drawDecodedImage(decoded, outputWidth, outputHeight, formatValue === "jpeg");
       const context = canvas.getContext("2d");
       if (!context) throw new Error("Canvas is not available");
 
-      const mime = formatValue === "png"
-        ? "image/png"
-        : formatValue === "jpeg"
-          ? "image/jpeg"
-          : "image/webp";
-      if (mime === "image/jpeg") {
-        context.fillStyle = "#ffffff";
-        context.fillRect(0, 0, canvas.width, canvas.height);
+      if (formatValue === "bmp") return encodeBmp(context.getImageData(0, 0, outputWidth, outputHeight));
+      if (formatValue === "avif") {
+        const { encode } = await import("@jsquash/avif");
+        const buffer = await encode(context.getImageData(0, 0, outputWidth, outputHeight), {
+          quality: Math.round(qualityForRun * 100),
+        });
+        return new Blob([buffer], { type: "image/avif" });
       }
-      context.drawImage(image, 0, 0);
+      if (formatValue === "heic") {
+        const nativeBlob = await canvasToBlob(canvas, "image/heic", qualityForRun).catch(() => null);
+        if (nativeBlob?.type === "image/heic") return nativeBlob;
+        throw new Error("HEIC output is not available in this browser");
+      }
+
+      const mime = formatValue === "png" ? "image/png" : formatValue === "jpeg" ? "image/jpeg" : "image/webp";
       const blob = await canvasToBlob(canvas, mime, qualityForRun);
       if (mime === "image/webp" && blob.type !== "image/webp") {
         throw new Error("WebP is not supported by this browser");
@@ -571,12 +729,12 @@ const path = "tools/webp-converter";
     };
 
     const updateQualityState = () => {
-      const isPng = outputFormat.value === "png";
-      quality.disabled = isPng;
-      qualityReset.disabled = isPng;
-      qualityValue.textContent = isPng ? (converter.dataset.pngQualityLabel || "") : quality.value;
-      qualityUnit.hidden = isPng;
-      qualitySlider.classList.toggle("is-lossless", isPng);
+      const isLossless = outputFormat.value === "png" || outputFormat.value === "bmp";
+      quality.disabled = isLossless;
+      qualityReset.disabled = isLossless;
+      qualityValue.textContent = isLossless ? (converter.dataset.pngQualityLabel || "") : quality.value;
+      qualityUnit.hidden = isLossless;
+      qualitySlider.classList.toggle("is-lossless", isLossless);
       formatOptions.forEach((button) => {
         button.classList.toggle("is-active", button.dataset.formatOption === outputFormat.value);
       });
@@ -612,7 +770,7 @@ const path = "tools/webp-converter";
       fileInput.value = "";
     });
     const updateQualitySlider = () => {
-      qualitySlider.style.setProperty("--quality-percent", `${quality.value}%`);
+      qualitySlider.style.setProperty("--range-percent", `${quality.value}%`);
       qualityValue.textContent = quality.value;
     };
     quality.addEventListener("input", () => {
@@ -624,13 +782,26 @@ const path = "tools/webp-converter";
       quality.value = "80";
       quality.dispatchEvent(new Event("input", { bubbles: true }));
     });
+    const updateScaleSlider = () => {
+      if (!hasScale || !scale || !scaleValue || !scaleSlider) return;
+      const value = Number(scale.value);
+      scaleValue.textContent = value === 1 ? "1" : value.toFixed(1);
+      scaleSlider.style.setProperty("--range-percent", `${((value - 0.2) / 0.8) * 100}%`);
+      renderDimensionsPreview();
+    };
+    scale?.addEventListener("input", updateScaleSlider);
+    scaleReset?.addEventListener("click", () => {
+      if (!scale) return;
+      scale.value = "1";
+      updateScaleSlider();
+    });
     outputFormat.addEventListener("change", () => {
       updateQualityState();
     });
     formatOptions.forEach((button) => {
       button.addEventListener("click", () => {
         const value = button.dataset.formatOption;
-        if (!value || isConverting) return;
+        if (!value || isConverting || isPackaging) return;
         outputFormat.value = value;
         outputFormat.dispatchEvent(new Event("change", { bubbles: true }));
       });
@@ -639,9 +810,11 @@ const path = "tools/webp-converter";
       revokeResults();
       previewUrls.forEach((url) => URL.revokeObjectURL(url));
       previewUrls.clear();
+      selectedFiles.forEach(releaseDecodedImage);
       selectedFiles = [];
       limitReached = false;
       results = [];
+      dimensions.clear();
       visualProcessing.clear();
       completionAnimations.clear();
       taskSettings.clear();
@@ -657,7 +830,7 @@ const path = "tools/webp-converter";
     reconvertButton.addEventListener("click", () => {
       if (selectedFiles.length === 0 || isConverting) return;
       selectedFiles.forEach((file) => {
-        taskSettings.set(file, { format: outputFormat.value, quality: Number(quality.value) / 100 });
+      taskSettings.set(file, { format: outputFormat.value, quality: Number(quality.value) / 100, scale: currentScale() });
       });
       invalidateResults();
       scheduleConversion(true);
@@ -685,7 +858,7 @@ const path = "tools/webp-converter";
         const index = selectedFiles.findIndex((file) => !results.some((result) => result.file === file));
         if (index < 0) break;
         const file = selectedFiles[index];
-        const settings = taskSettings.get(file) || { format: outputFormat.value, quality: Number(quality.value) / 100 };
+        const settings = taskSettings.get(file) || { format: outputFormat.value, quality: Number(quality.value) / 100, scale: currentScale() };
         processingIndex = index;
         const currentVisualRunId = ++visualRunId;
         visualProcessing.set(file, { id: currentVisualRunId, startedAt: performance.now() });
@@ -694,9 +867,10 @@ const path = "tools/webp-converter";
         setStatus(formatMessage(messages.processing || "Processing…", { current: completedCount + 1, total: selectedFiles.length }));
         const taskStartedAt = performance.now();
         try {
-          const blob = await convertFile(file, settings.format, settings.quality);
+          const blob = await convertFile(file, settings.format, settings.quality, settings.scale);
           results.push({ file, blob, format: settings.format, url: URL.createObjectURL(blob) });
-        } catch {
+        } catch (error) {
+          console.error(`Conversion failed for ${file.name}`, error);
           results.push({ file, error: true });
         }
         processingIndex = -1;
@@ -746,6 +920,19 @@ const path = "tools/webp-converter";
       renderResults();
       setStatus(messages.packaging || "Packaging files…");
       try {
+        if (downloadableResults.length === 1) {
+          const result = downloadableResults[0];
+          const resultFormat = result.format || outputFormat.value;
+          const link = document.createElement("a");
+          link.href = result.url!;
+          link.download = outputNameFor(result.file, resultFormat);
+          document.body.append(link);
+          link.click();
+          link.remove();
+          setStatus(formatMessage(messages.downloaded || "Downloaded {count} file.", { count: 1 }), "success");
+          return;
+        }
+
         const usedNames = new Set<string>();
         const zipEntries: Record<string, Uint8Array> = {};
         for (const result of downloadableResults) {
@@ -759,7 +946,7 @@ const path = "tools/webp-converter";
         const zipUrl = URL.createObjectURL(zipBlob);
         const link = document.createElement("a");
         link.href = zipUrl;
-        link.download = "lessphoto-webp-images.zip";
+        link.download = "lessphoto-images.zip";
         document.body.append(link);
         link.click();
         link.remove();
@@ -776,6 +963,7 @@ const path = "tools/webp-converter";
 
     updateQualityState();
     updateQualitySlider();
+    updateScaleSlider();
     renderFiles();
   });
 </script>

@@ -63,6 +63,10 @@ export const copy = {
     navFeatures: "Features",
     navBlog: "Blog",
     navTools: "Tools",
+    toolsMenu: [
+      { key: "webp", name: "WebP Converter", description: "Batch convert and compress WebP images.", path: "tools/webp-converter" },
+      { key: "heic", name: "HEIC Converter", description: "Convert iPhone photos to compatible formats.", path: "tools/heic-converter" },
+    ],
     navAbout: "About",
     relatedInformationLabel: "Related information",
     navPrivacy: "Privacy Policy",
@@ -141,6 +145,10 @@ export const copy = {
     navFeatures: "功能介绍",
     navBlog: "博客",
     navTools: "工具",
+    toolsMenu: [
+      { key: "webp", name: "WebP 转换器", description: "批量转换和压缩 WebP 图片。", path: "tools/webp-converter" },
+      { key: "heic", name: "HEIC 转换器", description: "将 iPhone 照片转换为兼容格式。", path: "tools/heic-converter" },
+    ],
     navAbout: "关于",
     relatedInformationLabel: "相关信息",
     navPrivacy: "隐私政策",
@@ -188,6 +196,10 @@ export const copy = {
     navFeatures: "功能介紹",
     navBlog: "部落格",
     navTools: "工具",
+    toolsMenu: [
+      { key: "webp", name: "WebP 轉換器", description: "批量轉換和壓縮 WebP 圖片。", path: "tools/webp-converter" },
+      { key: "heic", name: "HEIC 轉換器", description: "將 iPhone 相片轉換為相容格式。", path: "tools/heic-converter" },
+    ],
     navAbout: "關於",
     relatedInformationLabel: "相關資訊",
     navPrivacy: "隱私政策",

@@ -20,9 +20,15 @@ export const webpConverterCopy: Record<Locale, {
   outputWebp: string;
   outputPng: string;
   outputJpg: string;
+  outputFormats: Array<{ value: string; label: string }>;
+  inputAccept: string;
+  supportedExtensions: string[];
   formatHint: string;
   quality: string;
   qualityReset: string;
+  scale: string;
+  scaleReset: string;
+  dimensionsLabel: string;
   reconvert: string;
   qualityLossless: string;
   convert: string;
@@ -48,6 +54,7 @@ export const webpConverterCopy: Record<Locale, {
   ctaTitle: string;
   ctaDescription: string;
   ctaButton: string;
+  inlinePromo: string;
   messages: {
     filesAdded: string;
     unsupportedFile: string;
@@ -60,8 +67,10 @@ export const webpConverterCopy: Record<Locale, {
     maxFilesReached: string;
     summary: string;
     packaging: string;
+    downloaded: string;
     packaged: string;
     packageFailed: string;
+    outputUnavailable: string;
   };
 }> = {
   en: {
@@ -84,9 +93,19 @@ export const webpConverterCopy: Record<Locale, {
     outputWebp: "WebP",
     outputPng: "PNG",
     outputJpg: "JPG",
+    outputFormats: [
+      { value: "webp", label: "WebP" },
+      { value: "png", label: "PNG" },
+      { value: "jpeg", label: "JPG" },
+    ],
+    inputAccept: ".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp",
+    supportedExtensions: ["png", "jpg", "jpeg", "webp"],
     formatHint: "New uploads use the current format. Existing tasks stay unchanged.",
     quality: "Quality",
     qualityReset: "Reset",
+    scale: "Scale",
+    scaleReset: "Reset",
+    dimensionsLabel: "Output size",
     reconvert: "Reconvert",
     qualityLossless: "Lossless",
     convert: "Convert images",
@@ -109,9 +128,10 @@ export const webpConverterCopy: Record<Locale, {
     privacyDescription: "Images are decoded and converted in your browser. They are not uploaded to LessPhoto or sent to a server.",
     backToLessPhoto: "Back to LessPhoto",
     appFooter: "LessPhoto photo cleaner",
-    ctaTitle: "Need to clean up your iPhone photo library?",
-    ctaDescription: "LessPhoto finds duplicate, similar, large, and old screenshot photos directly on your iPhone.",
+    ctaTitle: "Free up a little more iPhone space",
+    ctaDescription: "LessPhoto quietly helps you remove duplicate photos directly on your iPhone and make room for the photos you want to keep.",
     ctaButton: "Get LessPhoto",
+    inlinePromo: "Make room on iPhone?\nTry LessPhoto to clean duplicates",
     messages: {
       filesAdded: "{count} files ready",
       unsupportedFile: "{name} is not supported. GIF and other formats were skipped.",
@@ -124,8 +144,10 @@ export const webpConverterCopy: Record<Locale, {
       maxFilesReached: "Limit reached: 20 images per batch. Clear the list before adding more.",
       summary: "{completed}/{total} completed · {saved}",
       packaging: "Packaging files…",
+      downloaded: "Downloaded {count} file.",
       packaged: "{count} files packaged.",
       packageFailed: "Could not create the ZIP file.",
+      outputUnavailable: "{name} output is not available in this browser.",
     },
   },
   "zh-hans": {
@@ -148,9 +170,19 @@ export const webpConverterCopy: Record<Locale, {
     outputWebp: "WebP",
     outputPng: "PNG",
     outputJpg: "JPG",
+    outputFormats: [
+      { value: "webp", label: "WebP" },
+      { value: "png", label: "PNG" },
+      { value: "jpeg", label: "JPG" },
+    ],
+    inputAccept: ".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp",
+    supportedExtensions: ["png", "jpg", "jpeg", "webp"],
     formatHint: "新上传的图片使用当前格式，已有任务保持不变。",
     quality: "图片质量",
     qualityReset: "重置",
+    scale: "缩放比例",
+    scaleReset: "重置",
+    dimensionsLabel: "输出尺寸",
     reconvert: "重新转换",
     qualityLossless: "无损",
     convert: "开始转换",
@@ -173,9 +205,10 @@ export const webpConverterCopy: Record<Locale, {
     privacyDescription: "图片会在你的浏览器中读取和转换，不会上传到 LessPhoto 或其他服务器。",
     backToLessPhoto: "返回 LessPhoto",
     appFooter: "LessPhoto 照片清理",
-    ctaTitle: "想清理整部 iPhone 相册？",
-    ctaDescription: "LessPhoto 可以直接在 iPhone 上查找重复、相似、大图和旧截图。",
+    ctaTitle: "给 iPhone 腾点空间",
+    ctaDescription: "LessPhoto 可以直接在 iPhone 上清理重复照片，为想保留的照片腾出更多空间。",
     ctaButton: "下载 LessPhoto",
+    inlinePromo: "给 iPhone 腾点空间？\n试试 LessPhoto 清理重复照片",
     messages: {
       filesAdded: "已准备 {count} 张图片",
       unsupportedFile: "不支持 {name}，GIF 和其他格式已跳过。",
@@ -188,8 +221,10 @@ export const webpConverterCopy: Record<Locale, {
       maxFilesReached: "已达到 20 张上限，请清空列表后再继续。",
       summary: "{completed}/{total} 已完成 · {saved}",
       packaging: "正在打包文件……",
+      downloaded: "已下载 {count} 张图片。",
       packaged: "已将 {count} 张图片打包。",
       packageFailed: "无法创建压缩包。",
+      outputUnavailable: "当前浏览器无法输出{name}。",
     },
   },
   "zh-hant": {
@@ -212,9 +247,19 @@ export const webpConverterCopy: Record<Locale, {
     outputWebp: "WebP",
     outputPng: "PNG",
     outputJpg: "JPG",
+    outputFormats: [
+      { value: "webp", label: "WebP" },
+      { value: "png", label: "PNG" },
+      { value: "jpeg", label: "JPG" },
+    ],
+    inputAccept: ".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp",
+    supportedExtensions: ["png", "jpg", "jpeg", "webp"],
     formatHint: "新上傳的圖片使用目前格式，已有任務保持不變。",
     quality: "圖片品質",
     qualityReset: "重設",
+    scale: "縮放比例",
+    scaleReset: "重設",
+    dimensionsLabel: "輸出尺寸",
     reconvert: "重新轉換",
     qualityLossless: "無損",
     convert: "開始轉換",
@@ -237,9 +282,10 @@ export const webpConverterCopy: Record<Locale, {
     privacyDescription: "圖片會在你的瀏覽器中讀取和轉換，不會上傳到 LessPhoto 或其他伺服器。",
     backToLessPhoto: "返回 LessPhoto",
     appFooter: "LessPhoto 相片清理",
-    ctaTitle: "想整理整部 iPhone 相片圖庫？",
-    ctaDescription: "LessPhoto 可以直接在 iPhone 上找出重複、相似、大圖和舊截圖。",
+    ctaTitle: "為 iPhone 騰出更多空間",
+    ctaDescription: "LessPhoto 可以直接在 iPhone 上清理重複相片，為想保留的相片騰出更多空間。",
     ctaButton: "下載 LessPhoto",
+    inlinePromo: "想為 iPhone 騰出空間？\n試試 LessPhoto 清理重複相片",
     messages: {
       filesAdded: "已準備 {count} 張圖片",
       unsupportedFile: "不支援 {name}，GIF 和其他格式已跳過。",
@@ -252,8 +298,106 @@ export const webpConverterCopy: Record<Locale, {
       maxFilesReached: "已達到 20 張上限，請清空列表後再繼續。",
       summary: "{completed}/{total} 已完成 · {saved}",
       packaging: "正在打包檔案……",
+      downloaded: "已下載 {count} 張圖片。",
       packaged: "已將 {count} 張圖片打包。",
       packageFailed: "無法建立壓縮檔。",
+      outputUnavailable: "目前瀏覽器無法輸出{name}。",
+    },
+  },
+};
+
+export const heicConverterCopy: Record<Locale, typeof webpConverterCopy[Locale]> = {
+  en: {
+    ...webpConverterCopy.en,
+    seoTitle: "HEIC Converter Online | HEIF to JPG, PNG, AVIF & BMP | LessPhoto",
+    seoDescription: "Convert HEIC and HEIF photos to JPG, JPEG, PNG, AVIF, or BMP online. Batch convert iPhone photos locally in your browser with adjustable quality and scale.",
+    pageTitle: "HEIC Image Converter",
+    description: "Batch convert HEIC, HEIF, JPG, JPEG, PNG, AVIF, and BMP images with adjustable quality and size.",
+    seoSectionTitle: "Batch HEIC and image conversion",
+    seoSectionDescription: "Convert HEIC, HEIF, JPG, JPEG, PNG, AVIF, and BMP images in your browser, with adjustable output quality and scale.",
+    dropHint: "HEIC, HEIF, JPG, JPEG, PNG, AVIF, and BMP · batch processing supported",
+    formatSupportShort: "HEIC, HEIF, JPG, JPEG, PNG, AVIF, BMP",
+    outputFormats: [
+      { value: "jpeg", label: "JPG" },
+      { value: "png", label: "PNG" },
+      { value: "avif", label: "AVIF" },
+      { value: "bmp", label: "BMP" },
+      { value: "heic", label: "HEIC" },
+    ],
+    inputAccept: ".heic,.heif,.jpg,.jpeg,.png,.avif,.bmp,image/heic,image/heif,image/jpeg,image/png,image/avif,image/bmp",
+    supportedExtensions: ["heic", "heif", "jpg", "jpeg", "png", "avif", "bmp"],
+    formatHint: "New uploads use the current output format. Existing tasks stay unchanged.",
+    scale: "Scale",
+    dimensionsLabel: "Output size",
+    inputFormatsDescription: "Convert HEIC, HEIF, JPG, JPEG, PNG, AVIF, and BMP images online. It is especially useful for converting iPhone photos to formats that work across more devices and apps.",
+    ctaTitle: "Clean up iPhone photos without exporting them",
+    ctaDescription: "LessPhoto works directly on your iPhone to regularly remove duplicate photos and free up storage—no computer needed.",
+    inlinePromo: "Low on iPhone storage?\nLessPhoto cleans duplicates — no export",
+    messages: {
+      ...webpConverterCopy.en.messages,
+      outputUnavailable: "{name} output is not available in this browser.",
+    },
+  },
+  "zh-hans": {
+    ...webpConverterCopy["zh-hans"],
+    seoTitle: "HEIC转换器：HEIF转JPG、PNG、AVIF、BMP｜在线批量转换｜LessPhoto",
+    seoDescription: "在线批量转换 HEIC、HEIF、JPG、JPEG、PNG、AVIF 和 BMP 图片，支持将 iPhone 相册中的 HEIC 转为 JPG、PNG 等常用格式，图片在浏览器本地处理。",
+    pageTitle: "HEIC图片转换器",
+    description: "批量转换 HEIC、HEIF、JPG、JPEG、PNG、AVIF 和 BMP 图片，并调整质量与缩放比例。",
+    seoSectionTitle: "批量转换 HEIC 和常用图片",
+    seoSectionDescription: "在浏览器中批量转换 HEIC、HEIF、JPG、JPEG、PNG、AVIF 和 BMP 图片，并调整输出质量与尺寸。",
+    dropHint: "支持 HEIC、HEIF、JPG、JPEG、PNG、AVIF 和 BMP · 支持批量处理",
+    formatSupportShort: "HEIC、HEIF、JPG、JPEG、PNG、AVIF、BMP",
+    outputFormats: [
+      { value: "jpeg", label: "JPG" },
+      { value: "png", label: "PNG" },
+      { value: "avif", label: "AVIF" },
+      { value: "bmp", label: "BMP" },
+      { value: "heic", label: "HEIC" },
+    ],
+    inputAccept: ".heic,.heif,.jpg,.jpeg,.png,.avif,.bmp,image/heic,image/heif,image/jpeg,image/png,image/avif,image/bmp",
+    supportedExtensions: ["heic", "heif", "jpg", "jpeg", "png", "avif", "bmp"],
+    formatHint: "新上传的图片使用当前输出格式，已有任务保持不变。",
+    scale: "缩放比例",
+    dimensionsLabel: "输出尺寸",
+    inputFormatsDescription: "支持在线转换 HEIC、HEIF、JPG、JPEG、PNG、AVIF 和 BMP 图片，适合将 iPhone 相册中的 HEIC 转为更多设备和应用都能打开的常用格式。",
+    ctaTitle: "无需导出到电脑，直接清理 iPhone 相册",
+    ctaDescription: "LessPhoto 直接在 iPhone 上定期清理重复照片，帮你释放相册空间，无需导出到电脑。",
+    inlinePromo: "iPhone 空间不足？\nLessPhoto 无需导出，清理重复照片。",
+    messages: {
+      ...webpConverterCopy["zh-hans"].messages,
+      outputUnavailable: "当前浏览器无法输出{name}。",
+    },
+  },
+  "zh-hant": {
+    ...webpConverterCopy["zh-hant"],
+    seoTitle: "HEIC轉換器：HEIF轉JPG、PNG、AVIF、BMP｜線上批量轉換｜LessPhoto",
+    seoDescription: "在線批量轉換 HEIC、HEIF、JPG、JPEG、PNG、AVIF 和 BMP 圖片，支援將 iPhone 相簿中的 HEIC 轉為 JPG、PNG 等常用格式，圖片在瀏覽器本機處理。",
+    pageTitle: "HEIC圖片轉換器",
+    description: "批量轉換 HEIC、HEIF、JPG、JPEG、PNG、AVIF 和 BMP 圖片，並調整品質與縮放比例。",
+    seoSectionTitle: "批量轉換 HEIC 與常用圖片",
+    seoSectionDescription: "在瀏覽器中批量轉換 HEIC、HEIF、JPG、JPEG、PNG、AVIF 和 BMP 圖片，並調整輸出品質與尺寸。",
+    dropHint: "支援 HEIC、HEIF、JPG、JPEG、PNG、AVIF 和 BMP · 支援批量處理",
+    formatSupportShort: "HEIC、HEIF、JPG、JPEG、PNG、AVIF、BMP",
+    outputFormats: [
+      { value: "jpeg", label: "JPG" },
+      { value: "png", label: "PNG" },
+      { value: "avif", label: "AVIF" },
+      { value: "bmp", label: "BMP" },
+      { value: "heic", label: "HEIC" },
+    ],
+    inputAccept: ".heic,.heif,.jpg,.jpeg,.png,.avif,.bmp,image/heic,image/heif,image/jpeg,image/png,image/avif,image/bmp",
+    supportedExtensions: ["heic", "heif", "jpg", "jpeg", "png", "avif", "bmp"],
+    formatHint: "新上傳的圖片使用目前輸出格式，已有任務保持不變。",
+    scale: "縮放比例",
+    dimensionsLabel: "輸出尺寸",
+    inputFormatsDescription: "支援在線轉換 HEIC、HEIF、JPG、JPEG、PNG、AVIF 和 BMP 圖片，適合將 iPhone 相簿中的 HEIC 轉為更多裝置和應用程式都能開啟的常用格式。",
+    ctaTitle: "無需匯出到電腦，直接清理 iPhone 相簿",
+    ctaDescription: "LessPhoto 直接在 iPhone 上定期清理重複相片，幫你釋放相簿空間，無需匯出到電腦。",
+    inlinePromo: "iPhone 空間不足？\nLessPhoto 無需匯出，清理重複相片。",
+    messages: {
+      ...webpConverterCopy["zh-hant"].messages,
+      outputUnavailable: "目前瀏覽器無法輸出{name}。",
     },
   },
 };

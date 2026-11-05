@@ -50,7 +50,20 @@ const appStoreHref = appStoreCampaignUrl(campaignToken);
       <nav class="primary-nav" aria-label={t.primaryNavAria}>
         <a href={`${localePath(locale)}#features`} aria-current={path.startsWith("features") ? "page" : undefined}>{t.navFeatures}</a>
         <a href={localePath(locale, "blog")} aria-current={path.startsWith("blog") ? "page" : undefined}>{t.navBlog}</a>
-        <a href={localePath(locale, "tools/webp-converter")} aria-current={path.startsWith("tools") ? "page" : undefined}>{t.navTools}</a>
+        <details class="header-menu tools-menu" data-header-menu>
+          <summary>{t.navTools}</summary>
+          <div class="header-menu__panel tools-menu__panel">
+            {t.toolsMenu.map((tool) => (
+              <a class="tools-menu__item" href={localePath(locale, tool.path)}>
+                <span class:list={["tools-menu__icon", `tools-menu__icon--${tool.key}`]} aria-hidden="true">{tool.key === "webp" ? "W" : "H"}</span>
+                <span class="tools-menu__copy">
+                  <strong>{tool.name}</strong>
+                  <small>{tool.description}</small>
+                </span>
+              </a>
+            ))}
+          </div>
+        </details>
       </nav>
     </div>
 
@@ -94,7 +107,20 @@ const appStoreHref = appStoreCampaignUrl(campaignToken);
             <a href={localePath(locale)}>{t.navHome}</a>
             <a href={`${localePath(locale)}#features`} aria-current={path.startsWith("features") ? "page" : undefined}>{t.navFeatures}</a>
             <a href={localePath(locale, "blog")} aria-current={path.startsWith("blog") ? "page" : undefined}>{t.navBlog}</a>
-            <a href={localePath(locale, "tools/webp-converter")} aria-current={path.startsWith("tools") ? "page" : undefined}>{t.navTools}</a>
+            <div class="mobile-tools-menu">
+              <p>{t.navTools}</p>
+              <div class="mobile-tools-menu__grid">
+                {t.toolsMenu.map((tool) => (
+                  <a class="tools-menu__item" href={localePath(locale, tool.path)}>
+                    <span class:list={["tools-menu__icon", `tools-menu__icon--${tool.key}`]} aria-hidden="true">{tool.key === "webp" ? "W" : "H"}</span>
+                    <span class="tools-menu__copy">
+                      <strong>{tool.name}</strong>
+                      <small>{tool.description}</small>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
           </nav>
           <div class="mobile-navigation__secondary">
             <div>

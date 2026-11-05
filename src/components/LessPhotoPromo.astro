@@ -1,0 +1,23 @@
+---
+import AppStoreButton from "./AppStoreButton.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  buttonLabel: string;
+}
+
+const { title, description, buttonLabel } = Astro.props;
+---
+
+<section class="tool-lessphoto-promo page-width" aria-labelledby="lessphoto-promo-title">
+  <div class="tool-lessphoto-promo__identity">
+    <img class="tool-lessphoto-promo__icon" src="/assets/app-icon.svg" alt="LessPhoto" width="72" height="72" />
+    <div class="tool-lessphoto-promo__copy">
+      <p class="tool-lessphoto-promo__eyebrow">LessPhoto</p>
+      <h2 id="lessphoto-promo-title">{title}</h2>
+      <p>{description}</p>
+    </div>
+  </div>
+  <AppStoreButton label={buttonLabel} variant="light" campaignToken="web-product" />
+</section>
