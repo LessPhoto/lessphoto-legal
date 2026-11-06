@@ -161,7 +161,7 @@ const themeStyle = Object.entries({
             <h2>{t.quality}</h2>
             <label class="tool-field tool-quality-field">
               <div class="tool-field__label-row">
-                <span><output data-quality-value>80</output><span data-quality-unit>%</span></span>
+                <span><output data-quality-value>75</output><span data-quality-unit>%</span></span>
                 <button class="tool-quality-reset" data-quality-reset type="button">{t.qualityReset}</button>
               </div>
               <div class="webp-range-slider" data-range-slider="quality">
@@ -171,7 +171,7 @@ const themeStyle = Object.entries({
                     <span class="webp-range-slider__default-marker"></span>
                   </span>
                 </div>
-                <input data-quality type="range" min="0" max="100" step="1" value="80" />
+                <input data-quality type="range" min="0" max="100" step="1" value="75" />
               </div>
             </label>
           </div>
@@ -790,11 +790,11 @@ const themeStyle = Object.entries({
     };
     quality.addEventListener("input", () => {
       const value = Number(quality.value);
-      if (Math.abs(value - 80) <= 3) quality.value = "80";
+      if (Math.abs(value - 75) <= 3) quality.value = "75";
       updateQualitySlider();
     });
     qualityReset.addEventListener("click", () => {
-      quality.value = "80";
+      quality.value = "75";
       quality.dispatchEvent(new Event("input", { bubbles: true }));
     });
     const updateScaleSlider = () => {

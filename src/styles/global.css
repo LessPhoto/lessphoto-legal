@@ -6658,8 +6658,8 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 }
 
 [data-range-slider="quality"] {
-  --range-default-position: 80%;
-  --range-percent: 80%;
+  --range-default-position: 75%;
+  --range-percent: 75%;
 }
 
 .heic-dimensions-preview {
