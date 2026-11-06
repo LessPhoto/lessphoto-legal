@@ -4,7 +4,7 @@ description: "了解相片會從哪些裝置消失、會在「最近刪除」保
 locale: "zh-hant"
 slug: "icloud-photo-deletion"
 translationKey: "icloud-photo-deletion"
-category: "問題解答"
+category: "使用經驗"
 readingTime: "約 4 分鐘"
 publishedAt: "2026-10-26"
 updatedAt: "2026-10-26"

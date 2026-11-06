@@ -4,7 +4,7 @@ description: "Learn where the full-resolution originals stay, what remains on th
 locale: "en"
 slug: "optimize-iphone-storage"
 translationKey: "optimize-iphone-storage"
-category: "Q&A"
+category: "Tips & Insights"
 readingTime: "4 min read"
 publishedAt: "2026-10-23"
 updatedAt: "2026-10-23"

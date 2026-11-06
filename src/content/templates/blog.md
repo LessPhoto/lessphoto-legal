@@ -4,7 +4,7 @@ description: "One complete sentence describing the user problem this blog articl
 locale: "en"
 slug: "blog-slug"
 translationKey: "blog-slug"
-category: "How-to"
+category: "Tips & Insights"
 readingTime: "5 min read"
 publishedAt: "2026-10-26"
 updatedAt: "2026-10-26"

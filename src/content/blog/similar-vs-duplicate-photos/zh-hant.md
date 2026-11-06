@@ -4,7 +4,7 @@ description: "重複項目通常可以先處理；相似相片則需要比較表
 locale: "zh-hant"
 slug: "similar-vs-duplicate-photos"
 translationKey: "similar-vs-duplicate-photos"
-category: "使用指南"
+category: "使用經驗"
 readingTime: "約 5 分鐘"
 publishedAt: "2026-10-20"
 updatedAt: "2026-10-20"

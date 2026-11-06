@@ -4,7 +4,7 @@ description: "了解完整解像度原檔保存在哪裡、手機中留下甚麼
 locale: "zh-hant"
 slug: "optimize-iphone-storage"
 translationKey: "optimize-iphone-storage"
-category: "問題解答"
+category: "使用經驗"
 readingTime: "約 4 分鐘"
 publishedAt: "2026-10-23"
 updatedAt: "2026-10-23"

@@ -4,7 +4,7 @@ description: "See the difference between exact duplicates and visually similar s
 locale: "en"
 slug: "similar-vs-duplicate-photos"
 translationKey: "similar-vs-duplicate-photos"
-category: "How-to"
+category: "Tips & Insights"
 readingTime: "5 min read"
 publishedAt: "2026-10-20"
 updatedAt: "2026-10-20"

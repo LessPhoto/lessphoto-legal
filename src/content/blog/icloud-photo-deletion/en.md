@@ -4,7 +4,7 @@ description: "Understand where a deleted photo goes, which devices are affected,
 locale: "en"
 slug: "icloud-photo-deletion"
 translationKey: "icloud-photo-deletion"
-category: "Q&A"
+category: "Tips & Insights"
 readingTime: "4 min read"
 publishedAt: "2026-10-26"
 updatedAt: "2026-10-26"

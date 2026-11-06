@@ -54,7 +54,6 @@ export const webpConverterCopy: Record<Locale, {
   appFooter: string;
   ctaTitle: string;
   ctaDescription: string;
-  ctaButton: string;
   inlinePromo: string;
   messages: {
     filesAdded: string;
@@ -132,7 +131,6 @@ export const webpConverterCopy: Record<Locale, {
     appFooter: "LessPhoto photo cleaner",
     ctaTitle: "Free up a little more iPhone space",
     ctaDescription: "LessPhoto quietly helps you remove duplicate photos directly on your iPhone and make room for the photos you want to keep.",
-    ctaButton: "Get the app",
     inlinePromo: "Make room on iPhone?\nTry LessPhoto to clean duplicates",
     messages: {
       filesAdded: "{count} files ready",
@@ -210,7 +208,6 @@ export const webpConverterCopy: Record<Locale, {
     appFooter: "LessPhoto 照片清理",
     ctaTitle: "给 iPhone 腾点空间",
     ctaDescription: "LessPhoto 可以直接在 iPhone 上清理重复照片，为想保留的照片腾出更多空间。",
-    ctaButton: "Get the app",
     inlinePromo: "给 iPhone 腾点空间？\n试试 LessPhoto 清理重复照片",
     messages: {
       filesAdded: "已准备 {count} 张图片",
@@ -288,7 +285,6 @@ export const webpConverterCopy: Record<Locale, {
     appFooter: "LessPhoto 相片清理",
     ctaTitle: "為 iPhone 騰出更多空間",
     ctaDescription: "LessPhoto 可以直接在 iPhone 上清理重複相片，為想保留的相片騰出更多空間。",
-    ctaButton: "Get the app",
     inlinePromo: "想為 iPhone 騰出空間？\n試試 LessPhoto 清理重複相片",
     messages: {
       filesAdded: "已準備 {count} 張圖片",

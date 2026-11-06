@@ -4,7 +4,7 @@ description: "重复项目通常可以先处理；相似照片则需要比较表
 locale: "zh-hans"
 slug: "similar-vs-duplicate-photos"
 translationKey: "similar-vs-duplicate-photos"
-category: "使用指南"
+category: "使用经验"
 readingTime: "约 5 分钟"
 publishedAt: "2026-10-20"
 updatedAt: "2026-10-20"

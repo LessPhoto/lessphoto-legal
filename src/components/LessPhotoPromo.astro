@@ -1,14 +1,14 @@
 ---
 import AppStoreButton from "./AppStoreButton.astro";
-import { APP_STORE_CAMPAIGNS } from "../data/site";
+import { APP_STORE_CAMPAIGNS, copy, type Locale } from "../data/site";
 
 interface Props {
+  locale: Locale;
   title: string;
   description: string;
-  buttonLabel: string;
 }
 
-const { title, description, buttonLabel } = Astro.props;
+const { locale, title, description } = Astro.props;
 ---
 
 <section class="tool-lessphoto-promo page-width" aria-labelledby="lessphoto-promo-title">
@@ -20,5 +20,5 @@ const { title, description, buttonLabel } = Astro.props;
       <p>{description}</p>
     </div>
   </div>
-  <AppStoreButton label={buttonLabel} variant="light" campaignToken={APP_STORE_CAMPAIGNS.tool} />
+  <AppStoreButton label={copy[locale].navGet} variant="light" campaignToken={APP_STORE_CAMPAIGNS.tool} />
 </section>

@@ -4,7 +4,7 @@ description: "了解全分辨率原片保存在哪里、手机中留下什么，
 locale: "zh-hans"
 slug: "optimize-iphone-storage"
 translationKey: "optimize-iphone-storage"
-category: "问题解答"
+category: "使用经验"
 readingTime: "约 4 分钟"
 publishedAt: "2026-10-23"
 updatedAt: "2026-10-23"

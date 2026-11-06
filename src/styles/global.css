@@ -60,6 +60,10 @@ body.dark-page-body {
   background: #08142c;
 }
 
+body.dark-page-body:has(.heic-tool-page) {
+  background: #060512;
+}
+
 a {
   color: inherit;
 }
@@ -1941,12 +1945,29 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   line-height: 1.55;
 }
 
+.blog-content .blog-table-scroll {
+  max-width: 100%;
+  margin: 24px 0 32px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.blog-content .blog-table-scroll table {
+  min-width: 0;
+  margin: 0;
+  table-layout: fixed;
+}
+
 .blog-content th,
 .blog-content td {
   padding: 11px 14px;
   border-bottom: 1px solid rgba(10, 124, 255, 0.18);
   text-align: left;
   vertical-align: top;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .blog-content th + th,
@@ -2414,14 +2435,41 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 
 @media (max-width: 640px) {
   .blog-content table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+    white-space: normal;
+  }
+
+  .blog-content .blog-table-scroll th:first-child,
+  .blog-content .blog-table-scroll td:first-child {
+    white-space: normal;
   }
 
   .blog-product-artwork-block figcaption {
     font-size: 14px;
   }
+}
+
+@media (max-width: 900px) {
+  .blog-content .blog-table-scroll table {
+    font-size: 14px;
+  }
+
+  .blog-content .blog-table-scroll th,
+  .blog-content .blog-table-scroll td {
+    padding: 10px 11px;
+  }
+}
+
+@media (max-width: 640px) {
+  .blog-content .blog-table-scroll table {
+    min-width: 560px;
+    font-size: 11px;
+  }
+
+  .blog-content .blog-table-scroll th,
+  .blog-content .blog-table-scroll td {
+    padding: 8px 10px;
+  }
+
 }
 
 .storage-calculator {
@@ -2974,6 +3022,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   .mobile-navigation__primary .tools-menu__copy small {
     margin-top: 3px;
     font-size: 13px;
+    font-weight: 400;
     line-height: 1.35;
   }
 
@@ -3685,7 +3734,7 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 
 .site-header--frosted-tool {
   border-bottom-color: rgba(255, 255, 255, 0.12);
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.5);
   -webkit-backdrop-filter: saturate(140%) blur(18px);
   backdrop-filter: saturate(140%) blur(18px);
 }
@@ -3698,6 +3747,11 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
 
 .site-header--frosted-tool .header-download:hover {
   background: rgba(255, 255, 255, 0.9);
+}
+
+.site-header--dark .mobile-navigation > summary span,
+.site-header--frosted-tool .mobile-navigation > summary span {
+  background: white;
 }
 
 .site-header--frosted-tool .brand-link:hover,
