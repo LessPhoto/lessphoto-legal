@@ -25,7 +25,7 @@ The generated website is written to `dist/`.
 - `src/data/site.ts`: localized website copy and route helpers
 - `src/content/blog/<slug>/<locale>.md`: published blog articles, grouped with their translations and local images
 - `src/content/templates/blog.md`: unpublished Markdown blog template
-- `blog/大纲/`: shallow Chinese-first blog writing area; draft filenames use `YYYYMMDD-name.md`
+- `blog前期协作稿/`: Chinese-first blog collaboration drafts; draft filenames use `YYYYMMDD-name.md`
 - `src/content.config.ts`: blog metadata schema and content collection configuration
 - `docs/`: current legal and support source documents
 - `public/config/`: remote JSON configuration consumed by the iOS app
@@ -34,7 +34,7 @@ Artwork placeholders use `data-artwork-slot` attributes so final product images 
 
 ## Blog drafting
 
-Start new Chinese blog articles in `blog/大纲/` by copying `20261029-博客文章模板.md`. Keep matching images in a same-date folder such as `blog/20261029-图片/`. These drafts are intentionally outside `src/content/`, so they are not published by Astro until they are translated and converted into the formal blog content structure.
+Start new Chinese blog articles in `blog前期协作稿/` by copying `YYYYMMDD-博客文章模板.md`. Keep matching images in the corresponding quarterly folder, such as `blog前期协作稿/2026Q4/20261029-图片/`. These drafts are intentionally outside `src/content/`, so they are not published by Astro until they are translated and converted into the formal blog content structure.
 
 App Store campaign parameters remain optional. Once App Store Connect campaign links are available, pass their provider and campaign tokens to `AppStoreButton`.
 

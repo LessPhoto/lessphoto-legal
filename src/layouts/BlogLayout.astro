@@ -44,3 +44,19 @@ const { title, description, locale, path, category, date } = Astro.props;
     </article>
   </ContentFrame>
 </BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".blog-table-vs[data-vs-column]").forEach((table) => {
+    const column = Number.parseInt(table.dataset.vsColumn ?? "", 10);
+    if (!Number.isInteger(column) || column < 1) return;
+
+    table.querySelectorAll("tr").forEach((row) => {
+      Array.from(row.children).forEach((cell, index) => {
+        const position = index + 1;
+        cell.classList.toggle("blog-table-vs__left", position < column);
+        cell.classList.toggle("blog-table-vs__column", position === column);
+        cell.classList.toggle("blog-table-vs__right", position > column);
+      });
+    });
+  });
+</script>

@@ -1960,30 +1960,50 @@ html:lang(zh-Hant) .feature-landing-hero__copy h1 {
   font-weight: 650;
 }
 
-.blog-content table:not(:first-of-type) th:nth-child(-n + 2) {
+.blog-check {
+  color: #00a651;
+  font-weight: 750;
+}
+
+/*
+ * Blog table styles — keep both variants:
+ * 1. Default tables use the shared style above with a slightly darker first column.
+ * 2. VS tables use `.blog-table-vs`; the yellow comparison column is configured
+ *    with `data-vs-column` and separates the blue and purple sides.
+ * Do not remove or merge either variant unless explicitly requested.
+ */
+.blog-content th:first-child {
+  background: #afd1fa;
+}
+
+.blog-content td:first-child {
+  background: #e1efff;
+  font-weight: 600;
+}
+
+.blog-content .blog-table-vs th.blog-table-vs__left {
   background: #cfe3ff;
 }
 
-.blog-content table:not(:first-of-type) td:nth-child(-n + 2) {
+.blog-content .blog-table-vs td.blog-table-vs__left {
   background: #f1f7ff;
 }
 
-.blog-content table:not(:first-of-type) th:nth-child(3),
-.blog-content table:not(:first-of-type) td:nth-child(3) {
+.blog-content .blog-table-vs th.blog-table-vs__right {
+  background: #eadfff;
+}
+
+.blog-content .blog-table-vs td.blog-table-vs__right {
+  background: #faf7ff;
+}
+
+.blog-content .blog-table-vs .blog-table-vs__column {
   background: #f4f4f7;
   text-align: center;
 }
 
-.blog-content table:not(:first-of-type) th:nth-child(3) {
+.blog-content .blog-table-vs th.blog-table-vs__column {
   background: #ffd36b;
-}
-
-.blog-content table:not(:first-of-type) th:nth-child(n + 4) {
-  background: #eadfff;
-}
-
-.blog-content table:not(:first-of-type) td:nth-child(n + 4) {
-  background: #faf7ff;
 }
 
 .blog-content tr:last-child td {
