@@ -1,6 +1,7 @@
 {
   "shareCampaignEnabled": true,
   "shareCampaignVersion": 1,
+  "regularPromptTrigger": "first_exit",
   "rewardLikeThresholds": {
     "monthly": 8,
     "yearly": 50,
