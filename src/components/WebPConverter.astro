@@ -294,7 +294,7 @@ const themeStyle = Object.entries({
     let conversionScheduled = false;
     let conversionTimer: number | undefined;
     let reconvertAll = true;
-    const MAX_FILES = 20;
+    const MAX_FILES = 50;
     const CONVERSION_DEBOUNCE_MS = 180;
     const MIN_PROGRESS_DURATION_MS = 500;
     let limitReached = false;
@@ -541,28 +541,32 @@ const themeStyle = Object.entries({
 
     const addFiles = (fileListToAdd: FileList | File[]) => {
       const skipped: string[] = [];
-      let hitFileLimit = false;
       const existing = new Set(selectedFiles.map((file) => `${file.name}:${file.size}:${file.lastModified}`));
+      const filesToAdd: File[] = [];
       Array.from(fileListToAdd).forEach((file) => {
         const extension = extensionFor(file.name);
         const key = `${file.name}:${file.size}:${file.lastModified}`;
         if (!supportedExtensions.has(extension)) {
           skipped.push(file.name);
         } else if (!existing.has(key)) {
-          if (selectedFiles.length >= MAX_FILES) {
-            hitFileLimit = true;
-            return;
-          }
-          selectedFiles.push(file);
-          taskSettings.set(file, { format: outputFormat.value, quality: Number(quality.value) / 100, scale: currentScale() });
+          filesToAdd.push(file);
           existing.add(key);
         }
       });
-      limitReached = hitFileLimit;
+
+      if (selectedFiles.length + filesToAdd.length > MAX_FILES) {
+        limitReached = true;
+        setStatus(formatMessage(messages.maxFilesReached || "You can process up to {count} images per batch. No images from this selection were added.", { count: MAX_FILES }), "warning");
+        return;
+      }
+
+      filesToAdd.forEach((file) => {
+        selectedFiles.push(file);
+        taskSettings.set(file, { format: outputFormat.value, quality: Number(quality.value) / 100, scale: currentScale() });
+      });
+      limitReached = false;
       renderFiles();
-      if (hitFileLimit) {
-        setStatus(formatMessage(messages.maxFilesReached || "Limit reached: {count} images per batch. Clear the list before adding more.", { count: MAX_FILES }), "warning");
-      } else if (skipped.length > 0) {
+      if (skipped.length > 0) {
         setStatus(formatMessage(messages.unsupportedFile || "{name} is not supported.", { name: skipped[0] }), "warning");
       } else if (selectedFiles.length > 0 && !isConverting) {
         setStatus(formatMessage(messages.filesAdded || "{count} files ready", { count: selectedFiles.length }), "success");
@@ -923,7 +927,7 @@ const themeStyle = Object.entries({
       results = results.filter((result) => selectedFiles.includes(result.file));
       const convertedCount = results.filter((result) => result.blob).length;
       if (limitReached) {
-        setStatus(formatMessage(messages.maxFilesReached || "Limit reached: {count} images per batch. Clear the list before adding more.", { count: MAX_FILES }), "warning");
+        setStatus(formatMessage(messages.maxFilesReached || "You can process up to {count} images per batch. No images from this selection were added.", { count: MAX_FILES }), "warning");
       } else {
         setStatus(formatMessage(messages.converted || "{count} files converted.", { count: convertedCount }), convertedCount ? "success" : "error");
       }
